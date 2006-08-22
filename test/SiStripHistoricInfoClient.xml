@@ -27,7 +27,7 @@
                   </properties>
                 </xc:Application>
 
-                <xc:Module>/afs/cern.ch/user/d/dkcira/analysis/2006_08_20_historic/CMSSW_2006-08-20/lib/slc3_ia32_gcc323/libDQMSiStripHistoricInfoClient.so</xc:Module>
+                <xc:Module>/afs/cern.ch/user/d/dkcira/analysis/2006_08_22_historic/CMSSW_2006-08-22/lib/slc3_ia32_gcc323/libDQMSiStripHistoricInfoClient.so</xc:Module>
 
          </xc:Context>
 
