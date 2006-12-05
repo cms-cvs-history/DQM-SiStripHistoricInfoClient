@@ -33,4 +33,8 @@
 	<xp:Module>${XDAQ_ROOT}/lib/linux/x86/libhyperdaq.so</xp:Module>
 	
 
+	<!-- TStore -->
+	<xp:Application class="TStore" id="6"  service="tstore" group="" network="local"/>
+	<xp:Module>${XDAQ_ROOT}/lib/linux/x86/libtstore.so</xp:Module>
+	
 </xp:Profile>

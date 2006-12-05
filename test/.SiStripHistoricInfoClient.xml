@@ -4,40 +4,28 @@
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
    xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/">
- 
   <SOAP-ENV:Header>
-
   </SOAP-ENV:Header>
-
   <SOAP-ENV:Body>
 
     <xdaq:Configure xmlns:xdaq="urn:xdaq-soap:3.0">
-
       <xc:Partition 
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
        xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" 
        xmlns:xc="http://xdaq.web.cern.ch/xdaq/xsd/2004/XMLConfiguration-30">
-	
     	 <xc:Context url="http://.host:.portn">
 	    
                 <xc:Application class="SiStripHistoricInfoClient" id="15" instance="0" network="local">
                   <properties xmlns="urn:xdaq-application:SiStripHistoricInfoClient" xsi:type="soapenc:Struct">
-                    <serverHost xsi:type="xsd:string">lxplus018.cern.ch</serverHost>
+                    <serverHost xsi:type="xsd:string">lxcmse2.cern.ch</serverHost>
                     <serverPort xsi:type="xsd:unsignedLong">9090</serverPort>
                   </properties>
                 </xc:Application>
-
                 <xc:Module>.libpath</xc:Module>
 
          </xc:Context>
-
-        <xc:Context url="http://lxcmse2.cern.ch:1972">
-            <xc:Application class="TStore" id="120" instance="0" network="local"></xc:Application>
-        </xc:Context>
-
       </xc:Partition>
     </xdaq:Configure>
-
 
   </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>
