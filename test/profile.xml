@@ -15,7 +15,7 @@
 	<xp:Application class="PeerTransportHTTP" id="1" group="startup" network="local">
 		 <properties xmlns="urn:xdaq-application:PeerTransportHTTP" xsi:type="soapenc:Struct">
                         <aliasName xsi:type="xsd:string">temporary</aliasName>
-                        <aliasPath xsi:type="xsd:string">/afs/cern.ch/user/d/dkcira/scratch0/Analysis/2006_12_05_historic/CMSSW_1_2_0_pre9/src/DQM/SiStripHistoricInfoClient/test</aliasPath>
+                        <aliasPath xsi:type="xsd:string">/afs/cern.ch/user/d/dkcira/scratch0/Analysis/2006_12_05_dqm/CMSSW_2006-12-05/src/DQM/SiStripHistoricInfoClient/test</aliasPath>
                 </properties>
 	</xp:Application>
 

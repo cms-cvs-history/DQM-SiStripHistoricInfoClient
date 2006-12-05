@@ -21,7 +21,7 @@
                     <serverPort xsi:type="xsd:unsignedLong">9090</serverPort>
                   </properties>
                 </xc:Application>
-                <xc:Module>/afs/cern.ch/user/d/dkcira/scratch0/Analysis/2006_12_05_historic/CMSSW_1_2_0_pre9/lib/slc3_ia32_gcc323/libDQMSiStripHistoricInfoClient.so</xc:Module>
+                <xc:Module>/afs/cern.ch/user/d/dkcira/scratch0/Analysis/2006_12_05_dqm/CMSSW_2006-12-05/lib/slc3_ia32_gcc323/libDQMSiStripHistoricInfoClient.so</xc:Module>
 
          </xc:Context>
       </xc:Partition>
