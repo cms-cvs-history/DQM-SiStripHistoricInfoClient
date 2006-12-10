@@ -15,13 +15,24 @@
        xmlns:xc="http://xdaq.web.cern.ch/xdaq/xsd/2004/XMLConfiguration-30">
     	 <xc:Context url="http://.host:.portn">
 	    
-                <xc:Application class="SiStripHistoricInfoClient" id="15" instance="0" network="local">
+              <!-- SiStripHistoricInfoClient -->
+              <xc:Application class="SiStripHistoricInfoClient" id="15" instance="0" network="local">
                   <properties xmlns="urn:xdaq-application:SiStripHistoricInfoClient" xsi:type="soapenc:Struct">
                     <serverHost xsi:type="xsd:string">lxcmse2.cern.ch</serverHost>
                     <serverPort xsi:type="xsd:unsignedLong">9090</serverPort>
                   </properties>
-                </xc:Application>
-                <xc:Module>.libpath</xc:Module>
+              </xc:Application>
+              <xc:Module>.libpath</xc:Module>
+
+              <!-- TStore -->
+              <xc:Application class="TStore" id="120" instance="0" network="local" group="database">
+              <properties xmlns="urn:xdaq-application:TStore" xsi:type="soapenc:Struct">
+                      <views xsi:type="soapenc:Array" soapenc:arrayType="xsd:ur-type[3]">
+                      <item xsi:type="xsd:string" soapenc:position="[0]">sqlview.xml</item>
+              </views>
+              </properties>
+              </xc:Application>
+              <xc:Module>${XDAQ_ROOT}/daq/tstore/lib/linux/x86/libtstore.so</xc:Module>
 
          </xc:Context>
       </xc:Partition>
