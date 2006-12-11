@@ -10,27 +10,27 @@
                 </properties>
 	</xp:Application>
 
-	<xp:Module>${XDAQ_ROOT}/lib/linux/x86/libexecutive.so</xp:Module>
+	<xp:Module>${XDAQ_ROOT}/lib/libexecutive.so</xp:Module>
 	
 	<xp:Application class="PeerTransportHTTP" id="1" group="startup" network="local">
 		 <properties xmlns="urn:xdaq-application:PeerTransportHTTP" xsi:type="soapenc:Struct">
                         <aliasName xsi:type="xsd:string">temporary</aliasName>
-                        <aliasPath xsi:type="xsd:string">/afs/cern.ch/user/d/dkcira/analysis/2006_12_08_client/CMSSW_2006-12-07/src/DQM/SiStripHistoricInfoClient/test</aliasPath>
+                        <aliasPath xsi:type="xsd:string">/afs/cern.ch/user/d/dkcira/analysis/2006_12_11_historic/CMSSW_1_2_0_pre9/src/DQM/SiStripHistoricInfoClient/test</aliasPath>
                 </properties>
 	</xp:Application>
 
-	<xp:Module> ${XDAQ_ROOT}/lib/linux/x86/libpthttp.so </xp:Module>
+	<xp:Module> ${XDAQ_ROOT}/lib/libpthttp.so </xp:Module>
 
 	<xp:Application class="PeerTransportFifo" id="8" group="startup"  network="local"/>
-	<xp:Module>${XDAQ_ROOT}/lib/linux/x86/libptfifo.so</xp:Module>
+	<xp:Module>${XDAQ_ROOT}/lib/libptfifo.so</xp:Module>
 	
 	<!-- XRelay -->
 	<xp:Application class="XRelay" id="4"  service="xrelay" group="startup" network="local"/>
-	<xp:Module>${XDAQ_ROOT}/lib/linux/x86/libxr.so</xp:Module>
+	<xp:Module>${XDAQ_ROOT}/lib/libxr.so</xp:Module>
 	
 	<!-- HyperDAQ -->
 	<xp:Application class="HyperDAQ" id="3"  service="hyperdaq" group="startup" network="local"/>
-	<xp:Module>${XDAQ_ROOT}/lib/linux/x86/libhyperdaq.so</xp:Module>
+	<xp:Module>${XDAQ_ROOT}/lib/libhyperdaq.so</xp:Module>
 	
 
 </xp:Profile>

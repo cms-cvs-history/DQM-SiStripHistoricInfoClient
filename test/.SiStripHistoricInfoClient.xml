@@ -28,11 +28,12 @@
               <xc:Application class="TStore" id="120" instance="0" network="local" group="database">
               <properties xmlns="urn:xdaq-application:TStore" xsi:type="soapenc:Struct">
                       <views xsi:type="soapenc:Array" soapenc:arrayType="xsd:ur-type[3]">
-                      <item xsi:type="xsd:string" soapenc:position="[0]">sqlview.xml</item>
+                      <item xsi:type="xsd:string" soapenc:position="[0]">nestedview.xml</item>
               </views>
               </properties>
               </xc:Application>
-              <xc:Module>${XDAQ_ROOT}/daq/tstore/lib/linux/x86/libtstore.so</xc:Module>
+              <xc:Module>${XDAQ_ROOT}/lib/libtstore.so</xc:Module>
+              <xc:Module>${XDAQ_ROOT}/lib/libTStore.so</xc:Module>
 
          </xc:Context>
       </xc:Partition>
