@@ -29,6 +29,7 @@
               <properties xmlns="urn:xdaq-application:TStore" xsi:type="soapenc:Struct">
                       <views xsi:type="soapenc:Array" soapenc:arrayType="xsd:ur-type[3]">
                       <item xsi:type="xsd:string" soapenc:position="[0]">nestedview.xml</item>
+                      <item xsi:type="xsd:string" soapenc:position="[1]">sqlview.xml</item>
               </views>
               </properties>
               </xc:Application>
