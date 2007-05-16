@@ -1,0 +1,8 @@
+ <connection name="sqlite_file:save_historic.db">
+   <parameter name="user" value="me" />
+   <parameter name="password" value="me" />
+ </connection>
+ <connection name="oracle://devdb10/CMS_TRACKER_GBRUNO">
+   <parameter name="user" value="CMS_TRACKER_GBRUNO"/>
+   <parameter name="password" value="client4histoplot"/>
+ </connection>
