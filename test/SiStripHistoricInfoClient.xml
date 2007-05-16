@@ -13,16 +13,16 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
        xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" 
        xmlns:xc="http://xdaq.web.cern.ch/xdaq/xsd/2004/XMLConfiguration-30">
-    	 <xc:Context url="http://lxcmse2.cern.ch:1972">
+    	 <xc:Context url="http://lxplus211.cern.ch:1972">
 	    
               <!-- SiStripHistoricInfoClient -->
               <xc:Application class="SiStripHistoricInfoClient" id="15" instance="0" network="local">
                   <properties xmlns="urn:xdaq-application:SiStripHistoricInfoClient" xsi:type="soapenc:Struct">
-                    <serverHost xsi:type="xsd:string">lxcmse2.cern.ch</serverHost>
+                    <serverHost xsi:type="xsd:string">lxplus205.cern.ch</serverHost>
                     <serverPort xsi:type="xsd:unsignedLong">9090</serverPort>
                   </properties>
               </xc:Application>
-              <xc:Module>/afs/cern.ch/cms/Releases/CMSSW/prerelease/2007-02-16/lib/slc3_ia32_gcc323/libDQMSiStripHistoricInfoClient.so</xc:Module>
+              <xc:Module>/afs/cern.ch/user/d/dkcira/analysis/2007_04_25_historic/CMSSW_1_3_0/lib/slc4_ia32_gcc345/libDQMSiStripHistoricInfoClient.so</xc:Module>
 
          </xc:Context>
       </xc:Partition>
