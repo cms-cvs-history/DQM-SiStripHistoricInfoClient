@@ -1,0 +1,16 @@
+<use name=FWCore/Framework>
+<use name=CondCore/DBCommon>
+<use name=CondCore/IOVService>
+<use name=CondCore/MetaDataService>
+
+<use name=CondFormats/SiStripObjects>
+<use name=boost>
+<use name=boost_program_options>    
+
+<use name=CondCore/Utilities>
+<use name=rootrflx>
+
+<library name=testSiStripHistoricDQM file="">
+</library>
+
+
