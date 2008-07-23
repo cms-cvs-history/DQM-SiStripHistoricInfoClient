@@ -73,7 +73,6 @@ template <class T> void readDetIds(CondCachedIter<T>* Iterator, unsigned int det
     const T* reference;
     reference = Iterator->next();
     whatToPlot.find("mean");
-    std::string strRMS = whatToPlot.replace(whatToPlot.find("mean"),4,"rms");
     
     while(reference) 
     { 
