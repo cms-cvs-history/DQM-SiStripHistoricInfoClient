@@ -201,7 +201,7 @@ class AnalysisClass{
  //====== Histo ======//
   Stat_t doHisto(Char_t*,Char_t*);
   Double_t *getHistoPar() {return pPar;} 
-  //Stat_t doGlobalHisto(Char_t*, Char_t*);
+  Stat_t doGlobalHisto(Char_t*);
   //====== Fit ======//
   Stat_t doFit(Int_t, Char_t*, Char_t* );
   Stat_t doNoiseFit(Int_t, Char_t*, Char_t*);
@@ -211,7 +211,6 @@ class AnalysisClass{
   Double_t* getNoiseParErr() {return epGausS;}
   Double_t getFitChi() {return chi2GausS;}
   Int_t getFitnDof() {return nDofGausS;}
-  //  Int_t getRun(){return fRun;}
 
  private:
   Int_t fRun;
@@ -226,7 +225,7 @@ class AnalysisClass{
   TF1 *gausFit;
   TH1 *h; 
   TDirectoryFile*  d1;
-
+  TDirectoryFile*  dir;
 };
 
 AnalysisClass::AnalysisClass(const char* RootFileName, Int_t r) : fRun(r) {
@@ -238,11 +237,15 @@ AnalysisClass::AnalysisClass(const char* RootFileName, Int_t r) : fRun(r) {
   sprintf(RootFileName_,RootFileName);
   fName=new TFile(RootFileName_);
   if(fName) cout << "File open" << fName->GetPath() << endl;
-  Char_t DirName[10];
+  Char_t DirName[100];
   sprintf(DirName,"DQMData/Run %s/SiStrip/Run summary/MechanicalView", RunName);  
   d1 = (TDirectoryFile * )((TDirectoryFile *)fName->Get(DirName)); 
-  if(d1) cout << "TDir a posto " << d1->GetPath() << endl; 
-  pPar=new Double_t[2];
+  Char_t TrackDir[100];
+  sprintf(TrackDir,"DQMData/Run %s/SiStrip/Run summary/Tracks", RunName);
+  dir = (TDirectoryFile * )((TDirectoryFile *)fName->Get(TrackDir)); 
+  if(!d1) cout << "Directory " << DirName << " not found!" << endl;
+  if(!dir) cout << "Directory " << TrackDir << " not found!" << endl;
+  pPar=new Double_t[3];
   pLanGausS=new Double_t[4];
   pGausS=new Double_t[3];
   epGausS=new Double_t[3];
@@ -264,9 +267,9 @@ AnalysisClass::~AnalysisClass(){
   if ( langausFit!=0 ) delete langausFit;
   if ( gausFit!=0 ) delete gausFit;
   if ( d1 ) delete d1;
+  if ( dir ) delete dir;
 }
 
-// Noise section
 Stat_t AnalysisClass::doHisto(Char_t * Variable, Char_t *SubDetName){
   TH1 *hHisto=0; 
   if(debug)  cout << d1->GetTitle() << " " << Variable << " " << SubDetName << endl;
@@ -289,6 +292,7 @@ Stat_t AnalysisClass::doHisto(Char_t * Variable, Char_t *SubDetName){
 	      if(hHisto->GetEntries()!=0) {
 		pPar[0]=hHisto->GetMean();
 		pPar[1]=hHisto->GetRMS();  
+		pPar[2]=hHisto->GetEntries()-hHisto->GetBinContent(1);
 		if (debug) cout << "Histo Title " << hHisto->GetTitle() << " mean: " << hHisto->GetMean() << " rms: " << hHisto->GetRMS() << " " << hHisto->GetEntries() << endl;
 	      }
 	      else{
@@ -302,6 +306,37 @@ Stat_t AnalysisClass::doHisto(Char_t * Variable, Char_t *SubDetName){
     }
   return hHisto->GetEntries();
   
+}
+
+Stat_t AnalysisClass::doGlobalHisto(Char_t * Variable){
+
+  pPar[0]=0; pPar[1]=0; pPar[2]=0;
+  TH1 *h=0; 
+  if(debug)  cout << d1->GetTitle() << " " << Variable << endl;
+  pPar[0]=0; pPar[1]=0;
+  TIter it(dir->GetListOfKeys());
+  TObject * o;
+  while ( (o = it()))  
+    {
+      TObject * d =  dir->Get(o->GetName());
+      if(d->IsA()->InheritsFrom("TH1") && strstr(d->GetName(),Variable) && !strstr(d->GetName(),"Trend")){
+	if(debug) cout << "Found " << d->GetName() << endl;
+	if(d){
+	  h= (TH1*) d;
+	  if(h->GetEntries()!=0) {
+	    pPar[0]=h->GetMean();
+	    pPar[1]=h->GetRMS(); 
+	    pPar[2]=h->GetEntries()-h->GetBinContent(1);  
+	    if (debug) cout << "Histo Title " << h->GetTitle() << " mean: " << h->GetMean() << " non zero entries: " << pPar[2] << endl;
+	  }
+	  else{
+	    cout<<"Empty Histogram "<< h->GetTitle() << endl;
+	    pPar[0]=-10; pPar[1]=-10; pPar[2]=-10;
+	  }
+	}
+      }
+    }
+  return h->GetEntries();
 }
 
 Stat_t AnalysisClass::doFit(Int_t RunNumber,Char_t *Variable, Char_t *SubDetName){
@@ -508,6 +543,7 @@ struct HistoValues_t {
   Stat_t entries;
   Double_t mean; 
   Double_t rms;
+  Double_t nonzero;
 }; 
 
 struct LanGausValues_t { 
@@ -548,7 +584,12 @@ struct FinalSummary_t {
   TotSummary_t Noise;
   TotSummary_t Width;
   TotSummary_t nClusters;
+};
 
+struct ClusAndTracks_t {
+  HistoValues_t nTracks;
+  HistoValues_t OnClus;
+  HistoValues_t OffClus;
 };
 
 //============== > MAIN < ================//
@@ -581,7 +622,9 @@ void SubDetTree(string fileNameList, char* outputFile) {
   // tree leaves
   RunInfo_t theRun;
   FinalSummary_t* sdsDet[4];
-  
+  ClusAndTracks_t *ClusAndTracks;
+  ClusAndTracks = new ClusAndTracks_t;
+ 
   for(Int_t iDet=0; iDet<4;iDet++) {
     sdsDet[iDet]=new FinalSummary_t;
   }
@@ -592,6 +635,7 @@ void SubDetTree(string fileNameList, char* outputFile) {
   TFile *f=new TFile(outputFile,"RECREATE");
   TTree *tree=new TTree("DataTree","Summary Tree for Global Run data");
   tree->Branch("Run", &theRun,"number/I");
+  tree->Branch("TrAndClus.","ClusAndTracks_t",&ClusAndTracks, 32000, 1);
   tree->Branch("TIB.", "FinalSummary_t",&(sdsDet[0]), 32000, 2);
   tree->Branch("TOB.", "FinalSummary_t",&(sdsDet[1]), 32000, 2);
   tree->Branch("TID.", "FinalSummary_t",&(sdsDet[2]), 32000, 2);
@@ -621,12 +665,31 @@ void SubDetTree(string fileNameList, char* outputFile) {
     theRun.number=nRun;
     cout << "=================> RUN NUMBER: " << theRun.number <<endl;
     
+      //========== Tracks anc Clusters HISTO======//
+    ClusAndTracks->nTracks.entries=aRun->doGlobalHisto("NumberOfTracks_CosmicTk");
+    cout << "Number of Processed Events in Run " << theRun.number << ": " << ClusAndTracks->nTracks.entries << endl;
+    ClusAndTracks->nTracks.mean=(aRun->getHistoPar())[0];
+    ClusAndTracks->nTracks.nonzero=(aRun->getHistoPar())[2];
+    
+    ClusAndTracks->OnClus.entries=aRun->doGlobalHisto("OnTrack_NumberOfClusters");
+    ClusAndTracks->OnClus.mean=(aRun->getHistoPar())[0];
+    ClusAndTracks->OnClus.nonzero=(aRun->getHistoPar())[2];
+    
+    ClusAndTracks->OffClus.entries=aRun->doGlobalHisto("OffTrack_NumberOfClusters");
+    ClusAndTracks->OffClus.mean=(aRun->getHistoPar())[0];
+    ClusAndTracks->OffClus.nonzero=(aRun->getHistoPar())[2];    
+    
     for(Int_t iDet=0; iDet<3;++iDet) {
       if(debug)
         cout<<"LOOP on Det"<<endl;
-      // =========SIGNAL==========//
-      
-      //HISTO
+
+      sdsDet[iDet]->nClusters.On.HistoPar.entries=aRun->doHisto("Summary_NumberOfClusters_OnTrack_in",DetList[iDet]);
+      sdsDet[iDet]->nClusters.On.HistoPar.mean=(aRun->getHistoPar())[0];
+      sdsDet[iDet]->nClusters.On.HistoPar.nonzero=(aRun->getHistoPar())[2];
+
+      sdsDet[iDet]->nClusters.Off.HistoPar.entries=aRun->doHisto("Summary_NumberOfClusters_OffTrack_in",DetList[iDet]);
+      sdsDet[iDet]->nClusters.Off.HistoPar.mean=(aRun->getHistoPar())[0];
+      sdsDet[iDet]->nClusters.Off.HistoPar.nonzero=(aRun->getHistoPar())[2];
       
       //==========NOISE===========//
       sdsDet[iDet]->Noise.On.FitNoisePar.entries=aRun->doNoiseFit(theRun.number,"Summary_cNoise_OnTrack_in",DetList[iDet]);
@@ -719,7 +782,7 @@ void SubDetTree(string fileNameList, char* outputFile) {
       sdsDet[iDet]->StoNCorr.On.FitPar.earea=(aRun->getFitParErr())[2];
       sdsDet[iDet]->StoNCorr.On.FitPar.egsigma=(aRun->getFitParErr())[3];      
     }
-      tree->Fill();
+    tree->Fill();
       
   }
   f->Write();

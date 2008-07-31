@@ -14,7 +14,7 @@
     export k
     export output=$basePath/output.txt
     export List=$dataPath/FileList.txt
-    export outFile=$basePath/SubDet.root
+    export outFile=$basePath/SubDetTree.root
     export outFinal=$basePath/SubDetTrendPlots.root
 
     cd ${basePath}/../CMSSW_2_0_10/src
@@ -24,7 +24,6 @@
     echo "...Running"
     rootFileList=(`ls -ltr ${dataPath} |  awk '{print $9}' | grep ".root"`)
     k=0
-    #let "ListSize=${#rootFileList[*]}+1"
     ListSize=${#rootFileList[*]}
     echo "size " $ListSize 
     while [ "$k" -lt "$ListSize" ]
@@ -40,6 +39,10 @@
       if [ ! -e $basePath/Fits/Run_${runNumberList[$k]}/TID ]; then 
 	  mkdir -p $basePath/Fits/Run_${runNumberList[$k]}/TID
       fi
+      if [ ! -e $basePath/Fits/Run_${runNumberList[$k]}/TEC ]; then 
+	  mkdir -p $basePath/Fits/Run_${runNumberList[$k]}/TEC
+      fi
+
 
       echo ${runNumberList[$k]} $dataPath/${rootFileList[$k]} >> $List
       let "k+=1"

@@ -38,7 +38,9 @@
       if [ ! -e $basePath/Fits/Run_${runNumberList[$k]}/TID ]; then 
 	  mkdir -p $basePath/Fits/Run_${runNumberList[$k]}/TID
       fi
-
+      if [ ! -e $basePath/Fits/Run_${runNumberList[$k]}/TEC ]; then 
+	  mkdir -p $basePath/Fits/Run_${runNumberList[$k]}/TEC
+      fi
       echo ${runNumberList[$k]} $dataPath/${rootFileList[$k]} >> $List
       let "k+=1"
     done

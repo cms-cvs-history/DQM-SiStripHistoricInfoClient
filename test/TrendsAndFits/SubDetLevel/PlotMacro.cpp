@@ -94,6 +94,46 @@ void PlotMacro(char *inputFile, char *outputFile){
   DrawSame(0,t,errx,"Run.number:TIB.Width.Off.HistoPar.mean","",3,23,legend7,"TIB");
   DrawSame(0,t,errx,"Run.number:TID.Width.Off.HistoPar.mean","",4,24,legend7,"TID");
 
+  //=== Number of Events 
+  TCanvas *C8= new TCanvas("nEvents","nEvents",10,10,600,400);
+  DetList.Add(C8);
+  C8->cd();
+  TLegend *legend8 = new TLegend(0.851008,0.437882,0.995954,1.00035); 
+  DrawClus(0,t,errx,"Run.number:TrAndClus.nTracks.entries","",1,22,"Number of processed Events","Run Number", "# Events",legend8,"",40000,1000000);
+
+  //=== Number of Events with at least one track
+  TCanvas *C9= new TCanvas("nTracks","nTracks",10,10,600,400);
+  DetList.Add(C9);
+  C9->cd();
+  TLegend *legend9 = new TLegend(0.851008,0.437882,0.995954,1.00035); 
+  DrawClus(0,t,errx,"Run.number:(TrAndClus.nTracks.nonzero/TrAndClus.nTracks.entries)","",1,22,"Fraction of Events with at least one track","Run Number", "# Events",legend9,"",0,1);
+
+  //=== Number of clusters on track
+  TCanvas *C10= new TCanvas("nClusOn","nClusOn",10,10,600,400);
+  DetList.Add(C10);
+  C10->cd();
+  TLegend *legend10 = new TLegend(0.851008,0.437882,0.995954,1.00035); 
+  DrawClus(0,t,errx,"Run.number:(TIB.nClusters.On.HistoPar.nonzero/TrAndClus.nTracks.nonzero)","",2,22,"Fraction of clusters associated to a track","Run Number", "Fraction of Cluster On Track",legend10,"TIB",0,1);
+  DrawSame(0,t,errx,"Run.number:(TOB.nClusters.On.HistoPar.nonzero/TrAndClus.nTracks.nonzero)","",3,23,legend10,"TOB");
+  DrawSame(0,t,errx,"Run.number:(TID.nClusters.On.HistoPar.nonzero/TrAndClus.nTracks.nonzero)","",4,24,legend10,"TID");
+
+  //=== Mean number of clusters off track
+  TCanvas *C12= new TCanvas("nClusOff","nClusOff",10,10,600,400);
+  DetList.Add(C12);
+  C12->cd();
+  TLegend *legend12 = new TLegend(0.851008,0.437882,0.995954,1.00035); 
+  DrawClus(0,t,errx,"Run.number:TrAndClus.OffClus.mean","",1,21,"Mean number of clusters off track","Run Number", "# Cluster Off Track",legend12,"TOT",0,25);
+  DrawSame(0,t,errx,"Run.number:TIB.nClusters.Off.HistoPar.mean","",2,22,legend12,"TIB");
+  DrawSame(0,t,errx,"Run.number:TOB.nClusters.Off.HistoPar.mean","",3,23,legend12,"TOB");
+  DrawSame(0,t,errx,"Run.number:TID.nClusters.Off.HistoPar.mean","",4,24,legend12,"TID");
+
+  //=== Mean Number of Tracks
+  TCanvas *C11= new TCanvas("MeanTracks","MeanTracks",10,10,600,400);
+  DetList.Add(C11);
+  C11->cd();
+  TLegend *legend11 = new TLegend(0.851008,0.437882,0.995954,1.00035); 
+  DrawClus(0,t,errx,"Run.number:TrAndClus.nTracks.mean","",1,22,"Mean number of tracks per event","Run Number", "# Tracks",legend11,"",0.4,0.7);
+
   out->cd();
   DetList.Write();
   f->cd();

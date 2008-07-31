@@ -127,7 +127,7 @@ void PlotMacro(char* input, char* output){
   DetList.Add(C9);
   C9->cd();
   TLegend *legend9 = new TLegend(0.851008,0.437882,0.995954,1.00035); 
-  DrawClus(0,t,errx,"Run.number:TOB.cNoise.L1.Off.HistoPar.mean","",1,20,"TOB, Mean noise of the clusters off track","Run Number","Mean noise [ADC]",legend9,"L1",0,8);
+  DrawClus(0,t,errx,"Run.number:TOB.cNoise.L1.Off.HistoPar.mean","",1,20,"TOB, Mean noise of the clusters off track","Run Number","Noise Mean [ADC]",legend9,"L1",0,8);
   DrawSame(0,t,errx,"Run.number:TOB.cNoise.L2.Off.HistoPar.mean","",2,21,legend9,"L2");
   DrawSame(0,t,errx,"Run.number:TOB.cNoise.L3.Off.HistoPar.mean","",3,22,legend9,"L3");
   DrawSame(0,t,errx,"Run.number:TOB.cNoise.L4.Off.HistoPar.mean","",4,23,legend9,"L4");
@@ -139,10 +139,33 @@ void PlotMacro(char* input, char* output){
   DetList.Add(C10);
   C10->cd();
   TLegend *legend10 = new TLegend(0.851008,0.437882,0.995954,1.00035); 
-  DrawClus(0,t,errx,"Run.number:TIB.cNoise.L1.Off.HistoPar.mean","",1,20,"TIB, Noise of the clusters off track - Mean","Run Number","Mean Noise [ADC]",legend10,"L1",3,6);
+  DrawClus(0,t,errx,"Run.number:TIB.cNoise.L1.Off.HistoPar.mean","",1,20,"TIB, Noise of the clusters off track - Mean","Run Number","Noise Mean [ADC]",legend10,"L1",3,6);
   DrawSame(0,t,errx,"Run.number:TIB.cNoise.L2.Off.HistoPar.mean","",2,21,legend10,"L2");
   DrawSame(0,t,errx,"Run.number:TIB.cNoise.L3.Off.HistoPar.mean","",3,22,legend10,"L3");
   DrawSame(0,t,errx,"Run.number:TIB.cNoise.L4.Off.HistoPar.mean","",4,23,legend10,"L4");
+
+  //=== Noise off Track RMS
+  //TOB
+  TCanvas *C15=new TCanvas("TOB_NoiseOff_Rms","TOB_NoiseOff_Rms",10,10,600,400); 
+  DetList.Add(C15);
+  C15->cd();
+  TLegend *legend15 = new TLegend(0.851008,0.437882,0.995954,1.00035); 
+  DrawClus(0,t,errx,"Run.number:TOB.cNoise.L1.Off.HistoPar.rms","",1,20,"TOB, Noise of the clusters off track - RMS","Run Number","Noise RMS [ADC]",legend15,"L1",0,4);
+  DrawSame(0,t,errx,"Run.number:TOB.cNoise.L2.Off.HistoPar.rms","",2,21,legend15,"L2");
+  DrawSame(0,t,errx,"Run.number:TOB.cNoise.L3.Off.HistoPar.rms","",3,22,legend15,"L3");
+  DrawSame(0,t,errx,"Run.number:TOB.cNoise.L4.Off.HistoPar.rms","",4,23,legend15,"L4");
+  DrawSame(0,t,errx,"Run.number:TOB.cNoise.L5.Off.HistoPar.rms","",1,24,legend15,"L5");
+  DrawSame(0,t,errx,"Run.number:TOB.cNoise.L6.Off.HistoPar.rms","",6,29,legend15,"L6");
+
+  //TIB
+  TCanvas *C16=new TCanvas("TIB_NoiseOff_Rms","TIB_NoiseOff_Rms",10,10,600,400); 
+  DetList.Add(C16);
+  C16->cd();
+  TLegend *legend16 = new TLegend(0.851008,0.437882,0.995954,1.00035); 
+  DrawClus(0,t,errx,"Run.number:TIB.cNoise.L1.Off.HistoPar.rms","",1,20,"TIB, Noise of the clusters off track - RMS","Run Number","Noise RMS [ADC]",legend16,"L1",0,4);
+  DrawSame(0,t,errx,"Run.number:TIB.cNoise.L2.Off.HistoPar.rms","",2,21,legend16,"L2");
+  DrawSame(0,t,errx,"Run.number:TIB.cNoise.L3.Off.HistoPar.rms","",3,22,legend16,"L3");
+  DrawSame(0,t,errx,"Run.number:TIB.cNoise.L4.Off.HistoPar.rms","",4,23,legend16,"L4");
 
   //=== Width on Track mean
   //TOB
@@ -167,6 +190,29 @@ void PlotMacro(char* input, char* output){
   DrawSame(0,t,errx,"Run.number:TIB.cWidth.L3.On.HistoPar.mean","",3,22,legend12,"L3");
   DrawSame(0,t,errx,"Run.number:TIB.cWidth.L4.On.HistoPar.mean","",4,23,legend12,"L4");
 
+ //=== Width on Track rms
+  //TOB
+  TCanvas *C17=new TCanvas("TOB_WidthOn_Rms","TOB_WidthOn_Rms",10,10,600,400); 
+  DetList.Add(C17);
+  C17->cd();
+  TLegend *legend17 = new TLegend(0.851008,0.437882,0.995954,1.00035); 
+  DrawClus(0,t,errx,"Run.number:TOB.cWidth.L1.On.HistoPar.rms","",1,20,"TOB, Rms width of the clusters on track","Run Number","Rms width [#strips]",legend17,"L1",1,4);
+  DrawSame(0,t,errx,"Run.number:TOB.cWidth.L2.On.HistoPar.rms","",2,21,legend17,"L2");
+  DrawSame(0,t,errx,"Run.number:TOB.cWidth.L3.On.HistoPar.rms","",3,22,legend17,"L3");
+  DrawSame(0,t,errx,"Run.number:TOB.cWidth.L4.On.HistoPar.rms","",4,23,legend17,"L4");
+  DrawSame(0,t,errx,"Run.number:TOB.cWidth.L5.On.HistoPar.rms","",1,24,legend17,"L5");
+  DrawSame(0,t,errx,"Run.number:TOB.cWidth.L6.On.HistoPar.rms","",6,29,legend17,"L6");
+
+  //TIB
+  TCanvas *C18=new TCanvas("TIB_WidthOn_Rms","TIB_WidthOn_Rms",10,10,600,400); 
+  DetList.Add(C18);
+  C18->cd();
+  TLegend *legend18 = new TLegend(0.851008,0.437882,0.995954,1.00035); 
+  DrawClus(0,t,errx,"Run.number:TIB.cWidth.L1.On.HistoPar.rms","",1,20,"TIB, Rms width of the clusters on track","Run Number","Rms width [#strips]",legend18,"L1",0,5);
+  DrawSame(0,t,errx,"Run.number:TIB.cWidth.L2.On.HistoPar.rms","",2,21,legend18,"L2");
+  DrawSame(0,t,errx,"Run.number:TIB.cWidth.L3.On.HistoPar.rms","",3,22,legend18,"L3");
+  DrawSame(0,t,errx,"Run.number:TIB.cWidth.L4.On.HistoPar.rms","",4,23,legend18,"L4");
+
   //=== Width off Track mean
   //TOB
   TCanvas *C13=new TCanvas("TOB_WidthOff","TOB_WidthOff",10,10,600,400); 
@@ -189,6 +235,30 @@ void PlotMacro(char* input, char* output){
   DrawSame(0,t,errx,"Run.number:TIB.cWidth.L2.Off.HistoPar.mean","",2,21,legend14,"L2");
   DrawSame(0,t,errx,"Run.number:TIB.cWidth.L3.Off.HistoPar.mean","",3,22,legend14,"L3");
   DrawSame(0,t,errx,"Run.number:TIB.cWidth.L4.Off.HistoPar.mean","",4,23,legend14,"L4");
+
+  //=== Width off Track rms
+  //TOB
+  TCanvas *C20=new TCanvas("TOB_WidthOff_Rms","TOB_WidthOff_Rms",10,10,600,400); 
+  DetList.Add(C20);
+  C20->cd();
+  TLegend *legend20 = new TLegend(0.851008,0.437882,0.995954,1.00035); 
+  DrawClus(0,t,errx,"Run.number:TOB.cWidth.L1.Off.HistoPar.rms","",1,20,"TOB, Rms width of the clusters off track","Run Number","Rms width [#strips]",legend20,"L1",0,7);
+  DrawSame(0,t,errx,"Run.number:TOB.cWidth.L2.Off.HistoPar.rms","",2,21,legend20,"L2");
+  DrawSame(0,t,errx,"Run.number:TOB.cWidth.L3.Off.HistoPar.rms","",3,22,legend20,"L3");
+  DrawSame(0,t,errx,"Run.number:TOB.cWidth.L4.Off.HistoPar.rms","",4,23,legend20,"L4");
+  DrawSame(0,t,errx,"Run.number:TOB.cWidth.L5.Off.HistoPar.rms","",1,24,legend20,"L5");
+  DrawSame(0,t,errx,"Run.number:TOB.cWidth.L6.Off.HistoPar.rms","",6,29,legend20,"L6");
+
+  //TIB
+  TCanvas *C21=new TCanvas("TIB_WidthOff_Rms","TIB_WidthOff_Rms",10,10,600,400); 
+  DetList.Add(C21);
+  C21->cd();
+  TLegend *legend21 = new TLegend(0.851008,0.437882,0.995954,1.00035); 
+  DrawClus(0,t,errx,"Run.number:TIB.cWidth.L1.Off.HistoPar.rms","",1,20,"TIB, Rms width of the clusters off track","Run Number","Rms width [#strips]",legend21,"L1",0,7);
+  DrawSame(0,t,errx,"Run.number:TIB.cWidth.L2.Off.HistoPar.rms","",2,21,legend21,"L2");
+  DrawSame(0,t,errx,"Run.number:TIB.cWidth.L3.Off.HistoPar.rms","",3,22,legend21,"L3");
+  DrawSame(0,t,errx,"Run.number:TIB.cWidth.L4.Off.HistoPar.rms","",4,23,legend21,"L4");
+
 
   out->cd();
   DetList.Write();
