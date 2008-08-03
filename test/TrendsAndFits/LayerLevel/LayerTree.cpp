@@ -659,21 +659,21 @@ void LayerTree(string fileNameList, char* outputFile) {
       //========= Charge OFFTrack=============//
       
       //=======HISTO=======//
-      sdsDet[iDet]->cCharge.L1.Off.HistoPar.entries=aRun->doHisto("Summary_cCharge_",DetList[iDet],"layer_1","OffTrack");
+      sdsDet[iDet]->cCharge.L1.Off.HistoPar.entries=aRun->doHisto("Summary_ClusterCharge_",DetList[iDet],"layer_1","OffTrack");
       sdsDet[iDet]->cCharge.L1.Off.HistoPar.mean=(aRun->getHistoPar())[0];
       sdsDet[iDet]->cCharge.L1.Off.HistoPar.rms=(aRun->getHistoPar())[1];
       
-      sdsDet[iDet]->cCharge.L2.Off.HistoPar.entries=aRun->doHisto("Summary_cCharge_",DetList[iDet],"layer_2","OffTrack");
+      sdsDet[iDet]->cCharge.L2.Off.HistoPar.entries=aRun->doHisto("Summary_ClusterCharge_",DetList[iDet],"layer_2","OffTrack");
       sdsDet[iDet]->cCharge.L2.Off.HistoPar.mean=(aRun->getHistoPar())[0];
       sdsDet[iDet]->cCharge.L2.Off.HistoPar.rms=(aRun->getHistoPar())[1];
       
-      sdsDet[iDet]->cCharge.L3.Off.HistoPar.entries=aRun->doHisto("Summary_cCharge_",DetList[iDet],"layer_3","OffTrack");
+      sdsDet[iDet]->cCharge.L3.Off.HistoPar.entries=aRun->doHisto("Summary_ClusterCharge_",DetList[iDet],"layer_3","OffTrack");
       sdsDet[iDet]->cCharge.L3.Off.HistoPar.mean=(aRun->getHistoPar())[0];
       sdsDet[iDet]->cCharge.L3.Off.HistoPar.rms=(aRun->getHistoPar())[1];
       
       //===========FIT===============//
       
-      sdsDet[iDet]->cChargeCorr.L1.On.FitPar.entries=aRun->doFit(theRun.number,"Summary_cChargeCorr_",DetList[iDet],"layer_1","OnTrack");
+      sdsDet[iDet]->cChargeCorr.L1.On.FitPar.entries=aRun->doFit(theRun.number,"Summary_ClusterChargeCorr_",DetList[iDet],"layer_1","OnTrack");
       sdsDet[iDet]->cChargeCorr.L1.On.FitPar.width=(aRun->getFitPar())[0];
       sdsDet[iDet]->cChargeCorr.L1.On.FitPar.mp=(aRun->getFitPar())[1];
       sdsDet[iDet]->cChargeCorr.L1.On.FitPar.area=(aRun->getFitPar())[2];
@@ -688,7 +688,7 @@ void LayerTree(string fileNameList, char* outputFile) {
       sdsDet[iDet]->cChargeCorr.L1.On.FitPar.earea=(aRun->getFitParErr())[2];
       sdsDet[iDet]->cChargeCorr.L1.On.FitPar.egsigma=(aRun->getFitParErr())[3];
       
-      sdsDet[iDet]->cChargeCorr.L2.On.FitPar.entries=aRun->doFit(theRun.number,"Summary_cChargeCorr_",DetList[iDet],"layer_2","OnTrack");
+      sdsDet[iDet]->cChargeCorr.L2.On.FitPar.entries=aRun->doFit(theRun.number,"Summary_ClusterChargeCorr_",DetList[iDet],"layer_2","OnTrack");
       sdsDet[iDet]->cChargeCorr.L2.On.FitPar.width=(aRun->getFitPar())[0];
       sdsDet[iDet]->cChargeCorr.L2.On.FitPar.mp=(aRun->getFitPar())[1];
       sdsDet[iDet]->cChargeCorr.L2.On.FitPar.area=(aRun->getFitPar())[2];
@@ -703,7 +703,7 @@ void LayerTree(string fileNameList, char* outputFile) {
       sdsDet[iDet]->cChargeCorr.L2.On.FitPar.earea=(aRun->getFitParErr())[2];
       sdsDet[iDet]->cChargeCorr.L2.On.FitPar.egsigma=(aRun->getFitParErr())[3];
       
-      sdsDet[iDet]->cChargeCorr.L3.On.FitPar.entries=aRun->doFit(theRun.number,"Summary_cChargeCorr_",DetList[iDet],"layer_3","OnTrack");
+      sdsDet[iDet]->cChargeCorr.L3.On.FitPar.entries=aRun->doFit(theRun.number,"Summary_ClusterChargeCorr_",DetList[iDet],"layer_3","OnTrack");
       sdsDet[iDet]->cChargeCorr.L3.On.FitPar.width=(aRun->getFitPar())[0];
       sdsDet[iDet]->cChargeCorr.L3.On.FitPar.mp=(aRun->getFitPar())[1];
       sdsDet[iDet]->cChargeCorr.L3.On.FitPar.area=(aRun->getFitPar())[2];
@@ -721,7 +721,7 @@ void LayerTree(string fileNameList, char* outputFile) {
       //========Corrected StoN=============//
       //====================FIT==============//
       
-      sdsDet[iDet]->cStoNCorr.L1.On.FitPar.entries=aRun->doFit(theRun.number,"Summary_cStoNCorr_",DetList[iDet],"layer_1","OnTrack");
+      sdsDet[iDet]->cStoNCorr.L1.On.FitPar.entries=aRun->doFit(theRun.number,"Summary_ClusterStoNCorr_",DetList[iDet],"layer_1","OnTrack");
       sdsDet[iDet]->cStoNCorr.L1.On.FitPar.width=(aRun->getFitPar())[0];
       sdsDet[iDet]->cStoNCorr.L1.On.FitPar.mp=(aRun->getFitPar())[1];
       sdsDet[iDet]->cStoNCorr.L1.On.FitPar.area=(aRun->getFitPar())[2];
@@ -736,7 +736,7 @@ void LayerTree(string fileNameList, char* outputFile) {
       sdsDet[iDet]->cStoNCorr.L1.On.FitPar.earea=(aRun->getFitParErr())[2];
       sdsDet[iDet]->cStoNCorr.L1.On.FitPar.egsigma=(aRun->getFitParErr())[3];
       
-      sdsDet[iDet]->cStoNCorr.L2.On.FitPar.entries=aRun->doFit(theRun.number,"Summary_cStoNCorr_",DetList[iDet],"layer_2","OnTrack");
+      sdsDet[iDet]->cStoNCorr.L2.On.FitPar.entries=aRun->doFit(theRun.number,"Summary_ClusterStoNCorr_",DetList[iDet],"layer_2","OnTrack");
       sdsDet[iDet]->cStoNCorr.L2.On.FitPar.width=(aRun->getFitPar())[0];
       sdsDet[iDet]->cStoNCorr.L2.On.FitPar.mp=(aRun->getFitPar())[1];
       sdsDet[iDet]->cStoNCorr.L2.On.FitPar.area=(aRun->getFitPar())[2];
@@ -751,7 +751,7 @@ void LayerTree(string fileNameList, char* outputFile) {
       sdsDet[iDet]->cStoNCorr.L2.On.FitPar.earea=(aRun->getFitParErr())[2];
       sdsDet[iDet]->cStoNCorr.L2.On.FitPar.egsigma=(aRun->getFitParErr())[3];
       
-      sdsDet[iDet]->cStoNCorr.L3.On.FitPar.entries=aRun->doFit(theRun.number,"Summary_cStoNCorr_",DetList[iDet],"layer_3","OnTrack");
+      sdsDet[iDet]->cStoNCorr.L3.On.FitPar.entries=aRun->doFit(theRun.number,"Summary_ClusterStoNCorr_",DetList[iDet],"layer_3","OnTrack");
       sdsDet[iDet]->cStoNCorr.L3.On.FitPar.width=(aRun->getFitPar())[0];
       sdsDet[iDet]->cStoNCorr.L3.On.FitPar.mp=(aRun->getFitPar())[1];
       sdsDet[iDet]->cStoNCorr.L3.On.FitPar.area=(aRun->getFitPar())[2];
@@ -767,11 +767,11 @@ void LayerTree(string fileNameList, char* outputFile) {
       sdsDet[iDet]->cStoNCorr.L3.On.FitPar.egsigma=(aRun->getFitParErr())[3];
       
       //===========Noise==============//
-      sdsDet[iDet]->cNoise.L1.Off.HistoPar.entries=aRun->doHisto("Summary_cNoise_",DetList[iDet],"layer_1","OffTrack");
+      sdsDet[iDet]->cNoise.L1.Off.HistoPar.entries=aRun->doHisto("Summary_ClusterNoise_",DetList[iDet],"layer_1","OffTrack");
       sdsDet[iDet]->cNoise.L1.Off.HistoPar.mean=(aRun->getHistoPar())[0];
       sdsDet[iDet]->cNoise.L1.Off.HistoPar.rms=(aRun->getHistoPar())[1];
       
-      sdsDet[iDet]->cNoise.L1.On.FitNoisePar.entries=aRun->doNoiseFit(theRun.number,"Summary_cNoise_",DetList[iDet],"layer_1","OnTrack");
+      sdsDet[iDet]->cNoise.L1.On.FitNoisePar.entries=aRun->doNoiseFit(theRun.number,"Summary_ClusterNoise_",DetList[iDet],"layer_1","OnTrack");
       sdsDet[iDet]->cNoise.L1.On.FitNoisePar.garea=(aRun->getNoisePar())[0];
       sdsDet[iDet]->cNoise.L1.On.FitNoisePar.fitmean=(aRun->getNoisePar())[1];
       sdsDet[iDet]->cNoise.L1.On.FitNoisePar.fitrms=(aRun->getNoisePar())[2];
@@ -780,11 +780,11 @@ void LayerTree(string fileNameList, char* outputFile) {
       sdsDet[iDet]->cNoise.L1.On.FitNoisePar.efitmean=(aRun->getNoiseParErr())[1];
       sdsDet[iDet]->cNoise.L1.On.FitNoisePar.efitrms=(aRun->getNoiseParErr())[2];
       
-      sdsDet[iDet]->cNoise.L2.Off.HistoPar.entries=aRun->doHisto("Summary_cNoise_",DetList[iDet],"layer_2","OffTrack");
+      sdsDet[iDet]->cNoise.L2.Off.HistoPar.entries=aRun->doHisto("Summary_ClusterNoise_",DetList[iDet],"layer_2","OffTrack");
       sdsDet[iDet]->cNoise.L2.Off.HistoPar.mean=(aRun->getHistoPar())[0];
       sdsDet[iDet]->cNoise.L2.Off.HistoPar.rms=(aRun->getHistoPar())[1];
       
-      sdsDet[iDet]->cNoise.L2.On.FitNoisePar.entries=aRun->doNoiseFit(theRun.number,"Summary_cNoise_",DetList[iDet],"layer_2","OnTrack");        
+      sdsDet[iDet]->cNoise.L2.On.FitNoisePar.entries=aRun->doNoiseFit(theRun.number,"Summary_ClusterNoise_",DetList[iDet],"layer_2","OnTrack");        
       sdsDet[iDet]->cNoise.L2.On.FitNoisePar.garea=(aRun->getNoisePar())[0];
       sdsDet[iDet]->cNoise.L2.On.FitNoisePar.fitmean=(aRun->getNoisePar())[1];
       sdsDet[iDet]->cNoise.L2.On.FitNoisePar.fitrms=(aRun->getNoisePar())[2];
@@ -793,11 +793,11 @@ void LayerTree(string fileNameList, char* outputFile) {
       sdsDet[iDet]->cNoise.L2.On.FitNoisePar.efitmean=(aRun->getNoiseParErr())[1];
       sdsDet[iDet]->cNoise.L2.On.FitNoisePar.efitrms=(aRun->getNoiseParErr())[2];
       
-      sdsDet[iDet]->cNoise.L3.Off.HistoPar.entries=aRun->doHisto("Summary_cNoise_",DetList[iDet],"layer_3","OffTrack");
+      sdsDet[iDet]->cNoise.L3.Off.HistoPar.entries=aRun->doHisto("Summary_ClusterNoise_",DetList[iDet],"layer_3","OffTrack");
       sdsDet[iDet]->cNoise.L3.Off.HistoPar.mean=(aRun->getHistoPar())[0];
       sdsDet[iDet]->cNoise.L3.Off.HistoPar.rms=(aRun->getHistoPar())[1];
       
-      sdsDet[iDet]->cNoise.L3.On.FitNoisePar.entries=aRun->doNoiseFit(theRun.number,"Summary_cNoise_",DetList[iDet],"layer_3","OnTrack");
+      sdsDet[iDet]->cNoise.L3.On.FitNoisePar.entries=aRun->doNoiseFit(theRun.number,"Summary_ClusterNoise_",DetList[iDet],"layer_3","OnTrack");
       sdsDet[iDet]->cNoise.L3.On.FitNoisePar.garea=(aRun->getNoisePar())[0];        
       sdsDet[iDet]->cNoise.L3.On.FitNoisePar.fitmean=(aRun->getNoisePar())[1];
       sdsDet[iDet]->cNoise.L3.On.FitNoisePar.fitrms=(aRun->getNoisePar())[2];
@@ -820,34 +820,34 @@ void LayerTree(string fileNameList, char* outputFile) {
       //         sdsDet[iDet]->cStoN.L3.HistoPar.rms=(aRun->getHistoPar())[1];
       
       //============Width================//
-      sdsDet[iDet]->cWidth.L1.On.HistoPar.entries=aRun->doHisto("Summary_cWidth_",DetList[iDet],"layer_1","OnTrack");
+      sdsDet[iDet]->cWidth.L1.On.HistoPar.entries=aRun->doHisto("Summary_ClusterWidth_",DetList[iDet],"layer_1","OnTrack");
       sdsDet[iDet]->cWidth.L1.On.HistoPar.mean=(aRun->getHistoPar())[0];
       sdsDet[iDet]->cWidth.L1.On.HistoPar.rms=(aRun->getHistoPar())[1];
       
-      sdsDet[iDet]->cWidth.L2.On.HistoPar.entries=aRun->doHisto("Summary_cWidth_",DetList[iDet],"layer_2","OnTrack");
+      sdsDet[iDet]->cWidth.L2.On.HistoPar.entries=aRun->doHisto("Summary_ClusterWidth_",DetList[iDet],"layer_2","OnTrack");
       sdsDet[iDet]->cWidth.L2.On.HistoPar.mean=(aRun->getHistoPar())[0];
       sdsDet[iDet]->cWidth.L2.On.HistoPar.rms=(aRun->getHistoPar())[1];
       
-      sdsDet[iDet]->cWidth.L3.On.HistoPar.entries=aRun->doHisto("Summary_cWidth_",DetList[iDet],"layer_3","OnTrack");
+      sdsDet[iDet]->cWidth.L3.On.HistoPar.entries=aRun->doHisto("Summary_ClusterWidth_",DetList[iDet],"layer_3","OnTrack");
       sdsDet[iDet]->cWidth.L3.On.HistoPar.mean=(aRun->getHistoPar())[0];
       sdsDet[iDet]->cWidth.L3.On.HistoPar.rms=(aRun->getHistoPar())[1];
       
       //============Width================//
-      sdsDet[iDet]->cWidth.L1.Off.HistoPar.entries=aRun->doHisto("Summary_cWidth_",DetList[iDet],"layer_1","OffTrack");
+      sdsDet[iDet]->cWidth.L1.Off.HistoPar.entries=aRun->doHisto("Summary_ClusterWidth_",DetList[iDet],"layer_1","OffTrack");
       sdsDet[iDet]->cWidth.L1.Off.HistoPar.mean=(aRun->getHistoPar())[0];
       sdsDet[iDet]->cWidth.L1.Off.HistoPar.rms=(aRun->getHistoPar())[1];
       
-      sdsDet[iDet]->cWidth.L2.Off.HistoPar.entries=aRun->doHisto("Summary_cWidth_",DetList[iDet],"layer_2","OffTrack");
+      sdsDet[iDet]->cWidth.L2.Off.HistoPar.entries=aRun->doHisto("Summary_ClusterWidth_",DetList[iDet],"layer_2","OffTrack");
       sdsDet[iDet]->cWidth.L2.Off.HistoPar.mean=(aRun->getHistoPar())[0];
       sdsDet[iDet]->cWidth.L2.Off.HistoPar.rms=(aRun->getHistoPar())[1];
       
-      sdsDet[iDet]->cWidth.L3.Off.HistoPar.entries=aRun->doHisto("Summary_cWidth_",DetList[iDet],"layer_3","OffTrack");
+      sdsDet[iDet]->cWidth.L3.Off.HistoPar.entries=aRun->doHisto("Summary_ClusterWidth_",DetList[iDet],"layer_3","OffTrack");
       sdsDet[iDet]->cWidth.L3.Off.HistoPar.mean=(aRun->getHistoPar())[0];
       sdsDet[iDet]->cWidth.L3.Off.HistoPar.rms=(aRun->getHistoPar())[1];
       
       if (iDet !=2) {        
 	//ChargeCorrected
-	sdsDet[iDet]->cChargeCorr.L4.On.FitPar.entries=aRun->doFit(theRun.number,"Summary_cChargeCorr_",DetList[iDet],"layer_4","OnTrack");
+	sdsDet[iDet]->cChargeCorr.L4.On.FitPar.entries=aRun->doFit(theRun.number,"Summary_ClusterChargeCorr_",DetList[iDet],"layer_4","OnTrack");
 	sdsDet[iDet]->cChargeCorr.L4.On.FitPar.width=(aRun->getFitPar())[0];
 	sdsDet[iDet]->cChargeCorr.L4.On.FitPar.mp=(aRun->getFitPar())[1];
 	sdsDet[iDet]->cChargeCorr.L4.On.FitPar.area=(aRun->getFitPar())[2];
@@ -862,11 +862,11 @@ void LayerTree(string fileNameList, char* outputFile) {
 	sdsDet[iDet]->cChargeCorr.L4.On.FitPar.earea=(aRun->getFitParErr())[2];
 	sdsDet[iDet]->cChargeCorr.L4.On.FitPar.egsigma=(aRun->getFitParErr())[3];
 	//Noise ON & OFF TRACK L4
-	sdsDet[iDet]->cNoise.L4.Off.HistoPar.entries=aRun->doHisto("Summary_cNoise_",DetList[iDet],"layer_4","OffTrack");
+	sdsDet[iDet]->cNoise.L4.Off.HistoPar.entries=aRun->doHisto("Summary_ClusterNoise_",DetList[iDet],"layer_4","OffTrack");
 	sdsDet[iDet]->cNoise.L4.Off.HistoPar.mean=(aRun->getHistoPar())[0];
 	sdsDet[iDet]->cNoise.L4.Off.HistoPar.rms=(aRun->getHistoPar())[1];
 	
-	sdsDet[iDet]->cNoise.L4.On.FitNoisePar.entries=aRun->doNoiseFit(theRun.number,"Summary_cNoise_",DetList[iDet],"layer_4","OnTrack");
+	sdsDet[iDet]->cNoise.L4.On.FitNoisePar.entries=aRun->doNoiseFit(theRun.number,"Summary_ClusterNoise_",DetList[iDet],"layer_4","OnTrack");
 	sdsDet[iDet]->cNoise.L4.On.FitNoisePar.garea=(aRun->getNoiseParErr())[0];
 	sdsDet[iDet]->cNoise.L4.On.FitNoisePar.fitmean=(aRun->getNoisePar())[1];
 	sdsDet[iDet]->cNoise.L4.On.FitNoisePar.fitrms=(aRun->getNoisePar())[2];
@@ -879,7 +879,7 @@ void LayerTree(string fileNameList, char* outputFile) {
 	//           sdsDet[iDet]->cStoN.L4.HistoPar.mean=(aRun->getHistoPar())[0];
 	//           sdsDet[iDet]->cStoN.L4.HistoPar.rms=(aRun->getHistoPar())[1];
 	//===============FIT=============//
-	sdsDet[iDet]->cStoNCorr.L4.On.FitPar.entries=aRun->doFit(theRun.number,"Summary_cStoNCorr_",DetList[iDet],"layer_4","OnTrack");
+	sdsDet[iDet]->cStoNCorr.L4.On.FitPar.entries=aRun->doFit(theRun.number,"Summary_ClusterStoNCorr_",DetList[iDet],"layer_4","OnTrack");
 	sdsDet[iDet]->cStoNCorr.L4.On.FitPar.width=(aRun->getFitPar())[0];
 	sdsDet[iDet]->cStoNCorr.L4.On.FitPar.mp=(aRun->getFitPar())[1];
 	sdsDet[iDet]->cStoNCorr.L4.On.FitPar.area=(aRun->getFitPar())[2];
@@ -894,15 +894,15 @@ void LayerTree(string fileNameList, char* outputFile) {
 	sdsDet[iDet]->cStoNCorr.L4.On.FitPar.earea=(aRun->getFitParErr())[2];
 	sdsDet[iDet]->cStoNCorr.L4.On.FitPar.egsigma=(aRun->getFitParErr())[3];
 	//Charge OFF TRACK L4       
-	sdsDet[iDet]->cCharge.L4.Off.HistoPar.entries=aRun->doHisto("Summary_cCharge_",DetList[iDet],"layer_4","OffTrack");
+	sdsDet[iDet]->cCharge.L4.Off.HistoPar.entries=aRun->doHisto("Summary_ClusterCharge_",DetList[iDet],"layer_4","OffTrack");
 	sdsDet[iDet]->cCharge.L4.Off.HistoPar.mean=(aRun->getHistoPar())[0];
 	sdsDet[iDet]->cCharge.L4.Off.HistoPar.rms=(aRun->getHistoPar())[1];
 	//Width ON & OFF TRACK L4
-	sdsDet[iDet]->cWidth.L4.On.HistoPar.entries=aRun->doHisto("Summary_cWidth_",DetList[iDet],"layer_4","OnTrack");
+	sdsDet[iDet]->cWidth.L4.On.HistoPar.entries=aRun->doHisto("Summary_ClusterWidth_",DetList[iDet],"layer_4","OnTrack");
 	sdsDet[iDet]->cWidth.L4.On.HistoPar.mean=(aRun->getHistoPar())[0];
 	sdsDet[iDet]->cWidth.L4.On.HistoPar.rms=(aRun->getHistoPar())[1];
 	
-	sdsDet[iDet]->cWidth.L4.Off.HistoPar.entries=aRun->doHisto("Summary_cWidth_",DetList[iDet],"layer_4","OffTrack");
+	sdsDet[iDet]->cWidth.L4.Off.HistoPar.entries=aRun->doHisto("Summary_ClusterWidth_",DetList[iDet],"layer_4","OffTrack");
 	sdsDet[iDet]->cWidth.L4.Off.HistoPar.mean=(aRun->getHistoPar())[0];
 	sdsDet[iDet]->cWidth.L4.Off.HistoPar.rms=(aRun->getHistoPar())[1];
 	
@@ -910,7 +910,7 @@ void LayerTree(string fileNameList, char* outputFile) {
 
       if (iDet==1) {
 	//ChargeCorrected
-	sdsDet[iDet]->cChargeCorr.L5.On.FitPar.entries=aRun->doFit(theRun.number,"Summary_cChargeCorr_",DetList[iDet],"layer_5","OnTrack");
+	sdsDet[iDet]->cChargeCorr.L5.On.FitPar.entries=aRun->doFit(theRun.number,"Summary_ClusterChargeCorr_",DetList[iDet],"layer_5","OnTrack");
 	sdsDet[iDet]->cChargeCorr.L5.On.FitPar.width=(aRun->getFitPar())[0];
 	sdsDet[iDet]->cChargeCorr.L5.On.FitPar.mp=(aRun->getFitPar())[1];
 	sdsDet[iDet]->cChargeCorr.L5.On.FitPar.area=(aRun->getFitPar())[2];
@@ -925,7 +925,7 @@ void LayerTree(string fileNameList, char* outputFile) {
 	sdsDet[iDet]->cChargeCorr.L5.On.FitPar.earea=(aRun->getFitParErr())[2];
 	sdsDet[iDet]->cChargeCorr.L5.On.FitPar.egsigma=(aRun->getFitParErr())[3];
 	
-	sdsDet[iDet]->cChargeCorr.L6.On.FitPar.entries=aRun->doFit(theRun.number,"Summary_cChargeCorr_",DetList[iDet],"layer_6","OnTrack");
+	sdsDet[iDet]->cChargeCorr.L6.On.FitPar.entries=aRun->doFit(theRun.number,"Summary_ClusterChargeCorr_",DetList[iDet],"layer_6","OnTrack");
 	sdsDet[iDet]->cChargeCorr.L6.On.FitPar.width=(aRun->getFitPar())[0];
 	sdsDet[iDet]->cChargeCorr.L6.On.FitPar.mp=(aRun->getFitPar())[1];
 	sdsDet[iDet]->cChargeCorr.L6.On.FitPar.area=(aRun->getFitPar())[2];
@@ -941,7 +941,7 @@ void LayerTree(string fileNameList, char* outputFile) {
 	sdsDet[iDet]->cChargeCorr.L6.On.FitPar.egsigma=(aRun->getFitParErr())[3];
 	
 	//StoNCorrected L5/L6
-	sdsDet[iDet]->cStoNCorr.L5.On.FitPar.entries=aRun->doFit(theRun.number,"Summary_cStoNCorr_",DetList[iDet],"layer_5","OnTrack");
+	sdsDet[iDet]->cStoNCorr.L5.On.FitPar.entries=aRun->doFit(theRun.number,"Summary_ClusterStoNCorr_",DetList[iDet],"layer_5","OnTrack");
 	sdsDet[iDet]->cStoNCorr.L5.On.FitPar.width=(aRun->getFitPar())[0];
 	sdsDet[iDet]->cStoNCorr.L5.On.FitPar.mp=(aRun->getFitPar())[1];
 	sdsDet[iDet]->cStoNCorr.L5.On.FitPar.area=(aRun->getFitPar())[2];
@@ -956,7 +956,7 @@ void LayerTree(string fileNameList, char* outputFile) {
 	sdsDet[iDet]->cStoNCorr.L5.On.FitPar.earea=(aRun->getFitParErr())[2];
 	sdsDet[iDet]->cStoNCorr.L5.On.FitPar.egsigma=(aRun->getFitParErr())[3];
 	
-	sdsDet[iDet]->cStoNCorr.L6.On.FitPar.entries=aRun->doFit(theRun.number,"Summary_cStoNCorr_",DetList[iDet],"layer_6","OnTrack");
+	sdsDet[iDet]->cStoNCorr.L6.On.FitPar.entries=aRun->doFit(theRun.number,"Summary_ClusterStoNCorr_",DetList[iDet],"layer_6","OnTrack");
 	sdsDet[iDet]->cStoNCorr.L6.On.FitPar.width=(aRun->getFitPar())[0];
 	sdsDet[iDet]->cStoNCorr.L6.On.FitPar.mp=(aRun->getFitPar())[1];
 	sdsDet[iDet]->cStoNCorr.L6.On.FitPar.area=(aRun->getFitPar())[2];
@@ -971,11 +971,11 @@ void LayerTree(string fileNameList, char* outputFile) {
 	sdsDet[iDet]->cStoNCorr.L6.On.FitPar.earea=(aRun->getFitParErr())[2];
 	sdsDet[iDet]->cStoNCorr.L6.On.FitPar.egsigma=(aRun->getFitParErr())[3];
 	//Noise ON & OFF TRACK  L5/L6
-	sdsDet[iDet]->cNoise.L5.Off.HistoPar.entries=aRun->doHisto("Summary_cNoise_",DetList[iDet],"layer_5","OffTrack");
+	sdsDet[iDet]->cNoise.L5.Off.HistoPar.entries=aRun->doHisto("Summary_ClusterNoise_",DetList[iDet],"layer_5","OffTrack");
 	sdsDet[iDet]->cNoise.L5.Off.HistoPar.mean=(aRun->getHistoPar())[0];
 	sdsDet[iDet]->cNoise.L5.Off.HistoPar.rms=(aRun->getHistoPar())[1];
 	
-	sdsDet[iDet]->cNoise.L5.On.FitNoisePar.entries=aRun->doNoiseFit(theRun.number,"Summary_cNoise_",DetList[iDet],"layer_5","OnTrack");
+	sdsDet[iDet]->cNoise.L5.On.FitNoisePar.entries=aRun->doNoiseFit(theRun.number,"Summary_ClusterNoise_",DetList[iDet],"layer_5","OnTrack");
 	sdsDet[iDet]->cNoise.L5.On.FitNoisePar.garea=(aRun->getNoiseParErr())[0];
 	sdsDet[iDet]->cNoise.L5.On.FitNoisePar.fitmean=(aRun->getNoisePar())[1];
 	sdsDet[iDet]->cNoise.L5.On.FitNoisePar.fitrms=(aRun->getNoisePar())[2];
@@ -984,11 +984,11 @@ void LayerTree(string fileNameList, char* outputFile) {
 	sdsDet[iDet]->cNoise.L5.On.FitNoisePar.efitmean=(aRun->getNoiseParErr())[1];
 	sdsDet[iDet]->cNoise.L5.On.FitNoisePar.efitrms=(aRun->getNoiseParErr())[2];
 	
-	sdsDet[iDet]->cNoise.L6.Off.HistoPar.entries=aRun->doHisto("Summary_cNoise_",DetList[iDet],"layer_6","OffTrack");
+	sdsDet[iDet]->cNoise.L6.Off.HistoPar.entries=aRun->doHisto("Summary_ClusterNoise_",DetList[iDet],"layer_6","OffTrack");
 	sdsDet[iDet]->cNoise.L6.Off.HistoPar.mean=(aRun->getHistoPar())[0];
 	sdsDet[iDet]->cNoise.L6.Off.HistoPar.rms=(aRun->getHistoPar())[1];
 	
-	sdsDet[iDet]->cNoise.L6.On.FitNoisePar.entries=aRun->doNoiseFit(theRun.number,"Summary_cNoise_",DetList[iDet],"layer_6","OnTrack");
+	sdsDet[iDet]->cNoise.L6.On.FitNoisePar.entries=aRun->doNoiseFit(theRun.number,"Summary_ClusterNoise_",DetList[iDet],"layer_6","OnTrack");
 	sdsDet[iDet]->cNoise.L6.On.FitNoisePar.garea=(aRun->getNoiseParErr())[0];        
 	sdsDet[iDet]->cNoise.L6.On.FitNoisePar.fitmean=(aRun->getNoisePar())[1];
 	sdsDet[iDet]->cNoise.L6.On.FitNoisePar.fitrms=(aRun->getNoisePar())[2];
@@ -998,19 +998,19 @@ void LayerTree(string fileNameList, char* outputFile) {
 	sdsDet[iDet]->cNoise.L6.On.FitNoisePar.efitrms=(aRun->getNoiseParErr())[2];
 	
 	//Width ON & OFF TRACK L5/L6
-	sdsDet[iDet]->cWidth.L5.On.HistoPar.entries=aRun->doHisto("Summary_cWidth_",DetList[iDet],"layer_5","OnTrack");
+	sdsDet[iDet]->cWidth.L5.On.HistoPar.entries=aRun->doHisto("Summary_ClusterWidth_",DetList[iDet],"layer_5","OnTrack");
 	sdsDet[iDet]->cWidth.L5.On.HistoPar.mean=(aRun->getHistoPar())[0];
 	sdsDet[iDet]->cWidth.L5.On.HistoPar.rms=(aRun->getHistoPar())[1];
 	
-	sdsDet[iDet]->cWidth.L6.On.HistoPar.entries=aRun->doHisto("Summary_cWidth_",DetList[iDet],"layer_6","OnTrack");
+	sdsDet[iDet]->cWidth.L6.On.HistoPar.entries=aRun->doHisto("Summary_ClusterWidth_",DetList[iDet],"layer_6","OnTrack");
 	sdsDet[iDet]->cWidth.L6.On.HistoPar.mean=(aRun->getHistoPar())[0];
 	sdsDet[iDet]->cWidth.L6.On.HistoPar.rms=(aRun->getHistoPar())[1];
 	
-	sdsDet[iDet]->cWidth.L5.Off.HistoPar.entries=aRun->doHisto("Summary_cWidth_",DetList[iDet],"layer_5","OffTrack");
+	sdsDet[iDet]->cWidth.L5.Off.HistoPar.entries=aRun->doHisto("Summary_ClusterWidth_",DetList[iDet],"layer_5","OffTrack");
 	sdsDet[iDet]->cWidth.L5.Off.HistoPar.mean=(aRun->getHistoPar())[0];
 	sdsDet[iDet]->cWidth.L5.Off.HistoPar.rms=(aRun->getHistoPar())[1];
 	
-	sdsDet[iDet]->cWidth.L6.Off.HistoPar.entries=aRun->doHisto("Summary_cWidth_",DetList[iDet],"layer_6","OffTrack");
+	sdsDet[iDet]->cWidth.L6.Off.HistoPar.entries=aRun->doHisto("Summary_ClusterWidth_",DetList[iDet],"layer_6","OffTrack");
 	sdsDet[iDet]->cWidth.L6.Off.HistoPar.mean=(aRun->getHistoPar())[0];
 	sdsDet[iDet]->cWidth.L6.Off.HistoPar.rms=(aRun->getHistoPar())[1];
 	
@@ -1023,11 +1023,11 @@ void LayerTree(string fileNameList, char* outputFile) {
 	//           sdsDet[iDet]->cStoN.L6.HistoPar.mean=(aRun->getHistoPar())[0];
 	//           sdsDet[iDet]->cStoN.L6.HistoPar.rms=(aRun->getHistoPar())[1];
 	//Charge OFF TRACK  L5/L6
-	sdsDet[iDet]->cCharge.L5.Off.HistoPar.entries=aRun->doHisto("Summary_cCharge_",DetList[iDet],"layer_5","OffTrack");
+	sdsDet[iDet]->cCharge.L5.Off.HistoPar.entries=aRun->doHisto("Summary_ClusterCharge_",DetList[iDet],"layer_5","OffTrack");
 	sdsDet[iDet]->cCharge.L5.Off.HistoPar.mean=(aRun->getHistoPar())[0];
 	sdsDet[iDet]->cCharge.L5.Off.HistoPar.rms=(aRun->getHistoPar())[1];
 	
-	sdsDet[iDet]->cCharge.L6.Off.HistoPar.entries=aRun->doHisto("Summary_cCharge_",DetList[iDet],"layer_6","OffTrack");
+	sdsDet[iDet]->cCharge.L6.Off.HistoPar.entries=aRun->doHisto("Summary_ClusterCharge_",DetList[iDet],"layer_6","OffTrack");
 	sdsDet[iDet]->cCharge.L6.Off.HistoPar.mean=(aRun->getHistoPar())[0];
 	sdsDet[iDet]->cCharge.L6.Off.HistoPar.rms=(aRun->getHistoPar())[1];
       }

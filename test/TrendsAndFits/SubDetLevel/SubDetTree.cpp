@@ -692,28 +692,28 @@ void SubDetTree(string fileNameList, char* outputFile) {
       sdsDet[iDet]->nClusters.Off.HistoPar.nonzero=(aRun->getHistoPar())[2];
       
       //==========NOISE===========//
-      sdsDet[iDet]->Noise.On.FitNoisePar.entries=aRun->doNoiseFit(theRun.number,"Summary_cNoise_OnTrack_in",DetList[iDet]);
+      sdsDet[iDet]->Noise.On.FitNoisePar.entries=aRun->doNoiseFit(theRun.number,"Summary_ClusterNoise_OnTrack_in",DetList[iDet]);
       sdsDet[iDet]->Noise.On.FitNoisePar.fitmean=(aRun->getNoisePar())[1];
       sdsDet[iDet]->Noise.On.FitNoisePar.fitrms=(aRun->getNoisePar())[2];
       
       sdsDet[iDet]->Noise.On.FitNoisePar.efitmean=(aRun->getNoiseParErr())[1];
       sdsDet[iDet]->Noise.On.FitNoisePar.efitrms=(aRun->getNoiseParErr())[2];
       
-      sdsDet[iDet]->Noise.Off.HistoPar.entries=aRun->doHisto("Summary_cNoise_OffTrack_in",DetList[iDet]);
+      sdsDet[iDet]->Noise.Off.HistoPar.entries=aRun->doHisto("Summary_ClusterNoise_OffTrack_in",DetList[iDet]);
       sdsDet[iDet]->Noise.Off.HistoPar.mean=(aRun->getHistoPar())[0];
       sdsDet[iDet]->Noise.Off.HistoPar.rms=(aRun->getHistoPar())[1];
       
       //==========WIDTH===========//
-      sdsDet[iDet]->Width.On.HistoPar.entries=aRun->doHisto("Summary_cWidth_OnTrack_in",DetList[iDet]);
+      sdsDet[iDet]->Width.On.HistoPar.entries=aRun->doHisto("Summary_ClusterWidth_OnTrack_in",DetList[iDet]);
       sdsDet[iDet]->Width.On.HistoPar.mean=(aRun->getHistoPar())[0];
       sdsDet[iDet]->Width.On.HistoPar.rms=(aRun->getHistoPar())[1];
  
-      sdsDet[iDet]->Width.Off.HistoPar.entries=aRun->doHisto("Summary_cWidth_OffTrack_in",DetList[iDet]);
+      sdsDet[iDet]->Width.Off.HistoPar.entries=aRun->doHisto("Summary_ClusterWidth_OffTrack_in",DetList[iDet]);
       sdsDet[iDet]->Width.Off.HistoPar.mean=(aRun->getHistoPar())[0];
       sdsDet[iDet]->Width.Off.HistoPar.rms=(aRun->getHistoPar())[1];
 
       //==========CHARGE===========//
-      sdsDet[iDet]->Charge.On.FitPar.entries=aRun->doFit(theRun.number,"Summary_cCharge_OnTrack_in",DetList[iDet]);
+      sdsDet[iDet]->Charge.On.FitPar.entries=aRun->doFit(theRun.number,"Summary_ClusterCharge_OnTrack_in",DetList[iDet]);
       sdsDet[iDet]->Charge.On.FitPar.width=(aRun->getFitPar())[0];
       sdsDet[iDet]->Charge.On.FitPar.mp=(aRun->getFitPar())[1];
       sdsDet[iDet]->Charge.On.FitPar.area=(aRun->getFitPar())[2];
@@ -728,11 +728,11 @@ void SubDetTree(string fileNameList, char* outputFile) {
       sdsDet[iDet]->Charge.On.FitPar.earea=(aRun->getFitParErr())[2];
       sdsDet[iDet]->Charge.On.FitPar.egsigma=(aRun->getFitParErr())[3]; 
       
-      sdsDet[iDet]->Charge.Off.HistoPar.entries=aRun->doHisto("Summary_cCharge_OnTrack_in",DetList[iDet]);
+      sdsDet[iDet]->Charge.Off.HistoPar.entries=aRun->doHisto("Summary_ClusterCharge_OnTrack_in",DetList[iDet]);
       sdsDet[iDet]->Charge.Off.HistoPar.mean=(aRun->getHistoPar())[0];
       sdsDet[iDet]->Charge.Off.HistoPar.rms=(aRun->getHistoPar())[1];
      
-      sdsDet[iDet]->ChargeCorr.On.FitPar.entries=aRun->doFit(theRun.number,"Summary_cChargeCorr_OnTrack_in",DetList[iDet]);
+      sdsDet[iDet]->ChargeCorr.On.FitPar.entries=aRun->doFit(theRun.number,"Summary_ClusterChargeCorr_OnTrack_in",DetList[iDet]);
       sdsDet[iDet]->ChargeCorr.On.FitPar.width=(aRun->getFitPar())[0];
       sdsDet[iDet]->ChargeCorr.On.FitPar.mp=(aRun->getFitPar())[1];
       sdsDet[iDet]->ChargeCorr.On.FitPar.area=(aRun->getFitPar())[2];
@@ -748,7 +748,7 @@ void SubDetTree(string fileNameList, char* outputFile) {
       sdsDet[iDet]->ChargeCorr.On.FitPar.egsigma=(aRun->getFitParErr())[3]; 
   
       //==========S/N===========//
-      sdsDet[iDet]->StoN.On.FitPar.entries=aRun->doFit(theRun.number,"Summary_cStoN_OnTrack_in",DetList[iDet]);
+      sdsDet[iDet]->StoN.On.FitPar.entries=aRun->doFit(theRun.number,"Summary_ClusterStoN_OnTrack_in",DetList[iDet]);
       sdsDet[iDet]->StoN.On.FitPar.width=(aRun->getFitPar())[0];
       sdsDet[iDet]->StoN.On.FitPar.mp=(aRun->getFitPar())[1];
       sdsDet[iDet]->StoN.On.FitPar.area=(aRun->getFitPar())[2];
@@ -763,11 +763,11 @@ void SubDetTree(string fileNameList, char* outputFile) {
       sdsDet[iDet]->StoN.On.FitPar.earea=(aRun->getFitParErr())[2];
       sdsDet[iDet]->StoN.On.FitPar.egsigma=(aRun->getFitParErr())[3];   
 
-      sdsDet[iDet]->StoN.Off.HistoPar.entries=aRun->doHisto("Summary_cStoN_OnTrack_in",DetList[iDet]);
+      sdsDet[iDet]->StoN.Off.HistoPar.entries=aRun->doHisto("Summary_ClusterStoN_OnTrack_in",DetList[iDet]);
       sdsDet[iDet]->StoN.Off.HistoPar.mean=(aRun->getHistoPar())[0];
       sdsDet[iDet]->StoN.Off.HistoPar.rms=(aRun->getHistoPar())[1];
 
-      sdsDet[iDet]->StoNCorr.On.FitPar.entries=aRun->doFit(theRun.number,"Summary_cStoNCorr_OnTrack_in",DetList[iDet]);
+      sdsDet[iDet]->StoNCorr.On.FitPar.entries=aRun->doFit(theRun.number,"Summary_ClusterStoNCorr_OnTrack_in",DetList[iDet]);
       sdsDet[iDet]->StoNCorr.On.FitPar.width=(aRun->getFitPar())[0];
       sdsDet[iDet]->StoNCorr.On.FitPar.mp=(aRun->getFitPar())[1];
       sdsDet[iDet]->StoNCorr.On.FitPar.area=(aRun->getFitPar())[2];
