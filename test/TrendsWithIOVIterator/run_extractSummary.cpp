@@ -8,7 +8,7 @@
  //===============================================================================
  
  // Clusters in TIB
- condIter_accessDetIds("sqlite_file:historicDQM_rootFile.db", "testA", 1, "Summary_NumberOfClusters_OffTrack@mean",0);
+ condIter_accessDetIds("sqlite_file:historicDQM.db", "testA", 1, "Summary_NumberOfClusters_OffTrack@mean",0);
 /*
  condIter_accessDetIds("sqlite_file:historicDQM_rootFile.db", "test1_p", 1, "NumberOfClusters_OnTrack@mean");
  condIter_accessDetIds("sqlite_file:historicDQM_rootFile.db", "test1_p", 1, "NumberOfClusters_OnTrack@rms");

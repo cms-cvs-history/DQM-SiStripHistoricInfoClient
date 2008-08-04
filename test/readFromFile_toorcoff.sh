@@ -8,44 +8,40 @@
 #
 
 
+
 echo "=============================================================="
 echo " Run readFromFile.cfg over all root files located in " $1  ...
 echo "=============================================================="
 echo "  "
 
-rm historicDQM_rootfile.db
-echo " removed existing database historicDQM_rootfile.db"
+
+
 
 
 rootFileList=(`ls -ltr $1 |  awk '{print $9}' | grep ".root"`)
 k=0
 ListSize=${#rootFileList[*]}
-echo $ListSize
+echo ListSize $ListSize
 
+eval `scramv1 runtime -sh`
+export TNS_ADMIN=/afs/cern.ch/project/oracle/admin
+
+mkdir -p log
 while 
      [ "$k" -lt "$ListSize" ]
 do
      rootFile=${rootFileList[$k]}
      runNumberList[$k]=${rootFile:17:5}
-     
+     destinationFile=readFromFile_${runNumberList[$k]}.log
      echo "   processing " $1/$rootFile " for runNr " ${runNumberList[$k]}
      
-     sed s/"theRunNr"/${runNumberList[$k]}/g  DQM/SiStripHistoricInfoClient/test/readFromFile.cfg > temporary
-     mv temporary readFromFile.cfg
+     cat $CMSSW_BASE/src/DQM/SiStripHistoricInfoClient/test/readFromFile.cfg | sed -e "s@theRunNr@${runNumberList[$k]}@g" -e "s@theFileName@$rootFile@g" -e "s@theDirName@$1@" -e "s@destinationFile@$destinationFile@g" -e "s@connectString@oracle://cms_orcoff_int2r/CMS_COND_STRIP@" > log/readFromFile_${runNumberList[$k]}.cfg
      
-     sed s/"theFileName"/$rootFile/g  readFromFile.cfg > temporary
-     mv temporary readFromFile.cfg
-     
-     #sed s/"theDirName"/"toto/ll"/g  readFromFile.cfg > temporary
-     #mv temporary readFromFile.cfg
-     
-     cmsRun readFromFile.cfg
+     cmsRun log/readFromFile_${runNumberList[$k]}.cfg
      
      let "k+=1"
 
 done
-
-rm readFromFile.cfg
 
 echo "=============================================================="
 echo " Done ! historicDQM_rootfile.db is filled !                     "
