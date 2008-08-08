@@ -153,7 +153,7 @@ void condIter_accessDetIds(std::string DBName, std::string DBTag, unsigned int d
    start = clock();   
    
       CondCachedIter <SiStripSummary> *Iterator = new CondCachedIter <SiStripSummary>;
-      Iterator->create(DBName,DBTag);  
+      Iterator->create(DBName,DBTag,"cms_cond_strip","SSWDC3MCAI8HQHTC");  
     
    end = clock();
    std::cout <<"Time Creation link with Database = " <<  ((double) (end - start)) << " (a.u.)" <<std::endl;
