@@ -16,6 +16,7 @@
 #include "string.h"
 #include "TGraphErrors.h"
 #include "TCanvas.h"
+#include "TString.h"
 
 class HistoricInspector {
 
@@ -69,7 +70,8 @@ void HistoricInspector::style(){
   gStyle->SetPadColor(0);
   gStyle->SetLineWidth(2.);
   gStyle->SetPalette(1);
-
+  gStyle->SetMarkerStyle(20);
+  gStyle->SetMarkerColor(2);
 }
 
 void HistoricInspector::setDB(std::string DBName, std::string DBTag, std::string DBuser, std::string DBpasswd){
@@ -213,14 +215,18 @@ void HistoricInspector::createTrend(unsigned int detId, std::string ListItems, u
 
 void HistoricInspector::plot(unsigned int detId, std::vector<unsigned int>& vRun, std::vector<float>& vSummary, std::vector<std::string>& vlistItems){
   std::cout << "\n********\nplot\n*****\n"<< std::endl;
-  double *X, *Y, *EY;
+
+  style();
+
+  double *X, *Y, *EX, *EY;
   X=new double[vRun.size()];
   Y=new double[vRun.size()];
   EX=new double[vRun.size()]; 
   EY=new double[vRun.size()]; 
   size_t index;
   TCanvas *C;
-  
+  TGraphErrors *graph;
+
   for(size_t i=0;i<vlistItems.size();++i){
     std::cout << vlistItems[i] << std::endl;
 
@@ -229,6 +235,12 @@ void HistoricInspector::plot(unsigned int detId, std::vector<unsigned int>& vRun
     if(vlistItems[i].find("mean")!=string::npos){
       rms=true;
     }
+
+    char name[128];
+    sprintf(name,"%d",clock());
+    std::cout << name << " name ::" << endl;
+    C=new TCanvas(name,vlistItems[i].c_str());
+    //graph = new TGraphErrors((int) vRun.size());
     
     for(size_t j=0;j<vRun.size();++j){
       index=j*vlistItems.size()+i;
@@ -237,13 +249,16 @@ void HistoricInspector::plot(unsigned int detId, std::vector<unsigned int>& vRun
       Y[j]=vSummary[index];
       EY[j]=rms?vSummary[index+1]:sqrt(Y[j]);
       std::cout << i <<  " " << j  << " " << X[j]  << " " << Y[j] << " " << EY[j] << endl;
+      //      graph->SetPoint(j,X[j],Y[j]);
     }
 
-    C=new TCanvas(vlistItems[i].c_str(),vlistItems[i].c_str());
-    TGraphErrors graph(vRun.size(),X,Y,EX,EY);
-    graph.Draw();
-    C->Update();
-    C->Draw();
+    graph = new TGraphErrors((int) vRun.size(),X,Y,EX,EY);
+    graph->SetTitle(vlistItems[i].c_str());
+    graph->Draw("Alp");
+    //graph->Dump();
+    //C->Update();
+    //C->Draw();
+    //C->SaveAs("pippo.png");
     
     if(rms)
       i++;
