@@ -26,6 +26,7 @@ public:
     DBTag_(""),
     DBuser_(""),
     DBpasswd_(""),
+    DBBlob_(""),
     Iterator(0)
   {
     //VERY POOR WAY TO CREATE A STD VECTOR, BUT IT SEEMS THAT CINT DOESN'T ALLOW TO DO BETTER
@@ -37,7 +38,7 @@ public:
     delete Iterator;
   };
   
-  void setDB(std::string DBName, std::string DBTag, std::string DBuser="", std::string DBpasswd="");
+  void setDB(std::string DBName, std::string DBTag, std::string DBuser="", std::string DBpasswd="", std::string DBblob="");
   void createTrend(unsigned int detId, std::string ListItems, unsigned int firstRun=1, unsigned int lastRun=0xFFFFFFFE);
   
 private:
@@ -49,7 +50,7 @@ private:
   bool setRange(unsigned int& firstRun, unsigned int& lastRun);
   void setItems(std::string,std::vector<std::string>&);
   
-  std::string DBName_, DBTag_, DBuser_, DBpasswd_;
+  std::string DBName_, DBTag_, DBuser_, DBpasswd_, DBblob_;
   
   CondCachedIter<SiStripSummary>* Iterator; 
   
@@ -74,20 +75,22 @@ void HistoricInspector::style(){
   gStyle->SetMarkerColor(2);
 }
 
-void HistoricInspector::setDB(std::string DBName, std::string DBTag, std::string DBuser, std::string DBpasswd){
+void HistoricInspector::setDB(std::string DBName, std::string DBTag, std::string DBuser, std::string DBpasswd, std::string DBblob){
 
-  if( DBName_==DBName && DBTag_==DBTag && DBuser_==DBuser && DBpasswd_==DBpasswd )
+  if( DBName_==DBName && DBTag_==DBTag && DBuser_==DBuser && DBpasswd_==DBpasswd && DBblob_==DBblob)
     return;
 
   DBName_=DBName;
   DBTag_=DBTag;
   DBuser_=DBuser;
   DBpasswd_=DBpasswd;
-  
+  DBblob_=DBblob;
+
   std::cout << "Name of DB = "<< DBName << std::endl;
   std::cout << "DBTag = "<< DBTag << std::endl;
   std::cout << "DBuser = "<< DBuser << std::endl;
   std::cout << "DBpasswd = "<< DBpasswd<< std::endl;
+  std::cout << "DBblob = "<< DBblob<< std::endl;
   std::cout <<std::endl;
 
   accessDB();
@@ -102,7 +105,7 @@ void HistoricInspector::accessDB(){
      delete Iterator;
   
   Iterator = new CondCachedIter<SiStripSummary>();
-  Iterator->create(DBName_,DBTag_,DBuser_,DBpasswd_);  
+  Iterator->create(DBName_,DBTag_,DBuser_,DBpasswd_,DBblob_);  
 
   InitializeIOVList();
   end = clock();
