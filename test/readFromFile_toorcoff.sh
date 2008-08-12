@@ -15,8 +15,11 @@ echo "=============================================================="
 echo "  "
 
 
+[ "$1" == "" ] && echo "specify directory of input root file" && exit
 
-
+tag=SiStripSummary_test2
+connectString="oracle://devdb10/CMS_COND_STRIP"
+#connectString="oracle://cms_orcoff_int2r/CMS_COND_STRIP"
 
 rootFileList=(`ls -ltr $1 |  awk '{print $9}' | grep ".root"`)
 k=0
@@ -35,12 +38,12 @@ do
      destinationFile=readFromFile_${runNumberList[$k]}.log
      echo "   processing " $1/$rootFile " for runNr " ${runNumberList[$k]}
      
-     cat $CMSSW_BASE/src/DQM/SiStripHistoricInfoClient/test/readFromFile.cfg | sed -e "s@theRunNr@${runNumberList[$k]}@g" -e "s@theFileName@$rootFile@g" -e "s@theDirName@$1@" -e "s@destinationFile@$destinationFile@g" -e "s@connectString@oracle://cms_orcoff_int2r/CMS_COND_STRIP@" > log/readFromFile_${runNumberList[$k]}.cfg
+     cat $CMSSW_BASE/src/DQM/SiStripHistoricInfoClient/test/readFromFile.cfg | sed -e "s@theRunNr@${runNumberList[$k]}@g" -e "s@theFileName@$rootFile@g" -e "s@theDirName@$1@" -e "s@destinationFile@$destinationFile@g" -e "s@connectString@$connectString@" -e "s@insertTag@$tag@" > log/readFromFile_${runNumberList[$k]}.cfg
      
      cmsRun log/readFromFile_${runNumberList[$k]}.cfg
      
      let "k+=1"
-
+exit
 done
 
 echo "=============================================================="

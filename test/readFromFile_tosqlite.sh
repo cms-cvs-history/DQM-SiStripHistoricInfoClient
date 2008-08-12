@@ -14,9 +14,13 @@ echo " Run readFromFile.cfg over all root files located in " $1  ...
 echo "=============================================================="
 echo "  "
 
+[ "$1" == "" ] && echo "specify directory of input root file" && exit
 
 sqliteFile=historicDQM.db
 [ -e $sqliteFile ] && rm $sqliteFile && echo " removed existing database $sqliteFile"
+
+tag=SiStripSummary_test1
+
 
 
 path=$CMSSW_BASE/src/CondTools/SiStrip/scripts
@@ -47,11 +51,12 @@ do
      destinationFile=readFromFile_${runNumberList[$k]}.log
      echo "   processing " $1/$rootFile " for runNr " ${runNumberList[$k]}
      
-     cat $CMSSW_BASE/src/DQM/SiStripHistoricInfoClient/test/readFromFile.cfg | sed -e "s@theRunNr@${runNumberList[$k]}@g" -e "s@theFileName@$rootFile@g" -e "s@theDirName@$1@" -e "s@destinationFile@$destinationFile@g" -e "s@connectString@sqlite_file:$sqliteFile@" > log/readFromFile_${runNumberList[$k]}.cfg
+     cat $CMSSW_BASE/src/DQM/SiStripHistoricInfoClient/test/readFromFile.cfg | sed -e "s@theRunNr@${runNumberList[$k]}@g" -e "s@theFileName@$rootFile@g" -e "s@theDirName@$1@" -e "s@destinationFile@$destinationFile@g" -e "s@connectString@sqlite_file:$sqliteFile@" -e "s@insertTag@$tag@"> log/readFromFile_${runNumberList[$k]}.cfg
      
      cmsRun log/readFromFile_${runNumberList[$k]}.cfg
      
      let "k+=1"
+exit
 done
 
 echo "=============================================================="
