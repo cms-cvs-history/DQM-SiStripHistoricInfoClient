@@ -242,7 +242,9 @@ void HistoricInspector::plot(unsigned int detId, std::vector<unsigned int>& vRun
     char name[128];
     sprintf(name,"%d",clock());
     std::cout << name << " name ::" << endl;
-    C=new TCanvas(name,vlistItems[i].c_str());
+    std::stringstream ss;
+    ss << "TkRegion " << detId << " " << vlistItems[i];
+    C=new TCanvas(name,ss.str().c_str());
     //graph = new TGraphErrors((int) vRun.size());
     
     for(size_t j=0;j<vRun.size();++j){
@@ -256,7 +258,7 @@ void HistoricInspector::plot(unsigned int detId, std::vector<unsigned int>& vRun
     }
 
     graph = new TGraphErrors((int) vRun.size(),X,Y,EX,EY);
-    graph->SetTitle(vlistItems[i].c_str());
+    graph->SetTitle(ss.str().c_str());
     graph->Draw("Alp");
     //graph->Dump();
     //C->Update();
