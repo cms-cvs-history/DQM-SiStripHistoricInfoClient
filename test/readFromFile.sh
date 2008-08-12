@@ -31,6 +31,7 @@ echo "  "
 #### In case of sqlite file
 if [ `echo $connectString | grep -c sqlite` ]; then
     [ -e $sqliteFile ] && rm $sqliteFile && echo " removed existing database $sqliteFile"
+    rm log.db
 
     path=$CMSSW_BASE/src/CondTools/SiStrip/scripts
     if [ ! -e $path ] ;then
@@ -46,7 +47,7 @@ if [ `echo $connectString | grep -c sqlite` ]; then
 
 fi
 
-rootFileList=(`ls -tr $1 | grep ".root"`)
+rootFileList=(`ls  $1 | grep ".root" | sort`)
 k=0
 ListSize=${#rootFileList[*]}
 echo ListSize $ListSize
@@ -62,7 +63,7 @@ do
      destinationFile=readFromFile_${runNumberList[$k]}.log
      echo "   processing " $rootFile " for runNr " ${runNumberList[$k]}
      
-     cat $CMSSW_BASE/src/DQM/SiStripHistoricInfoClient/test/testHistoricDQMService.cfg | sed -e "s@theRunNr@${runNumberList[$k]}@g" -e "s@theFileName@$rootFile@g" -e "s@destinationFile@$destinationFile@g" -e "s@connectString@$connectString@" -e "s@insertTag@$tag@"> log/readFromFile_${runNumberList[$k]}.cfg
+     cat $CMSSW_BASE/src/DQM/SiStripHistoricInfoClient/test/template_HistoricDQMService.cfg | sed -e "s@theRunNr@${runNumberList[$k]}@g" -e "s@theFileName@$rootFile@g" -e "s@destinationFile@$destinationFile@g" -e "s@connectString@$connectString@" -e "s@insertTag@$tag@"> log/readFromFile_${runNumberList[$k]}.cfg
      
      cmsRun log/readFromFile_${runNumberList[$k]}.cfg
      
