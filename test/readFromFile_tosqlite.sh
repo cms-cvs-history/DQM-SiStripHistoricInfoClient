@@ -51,7 +51,7 @@ do
      destinationFile=readFromFile_${runNumberList[$k]}.log
      echo "   processing " $1/$rootFile " for runNr " ${runNumberList[$k]}
      
-     cat $CMSSW_BASE/src/DQM/SiStripHistoricInfoClient/test/readFromFile.cfg | sed -e "s@theRunNr@${runNumberList[$k]}@g" -e "s@theFileName@$rootFile@g" -e "s@theDirName@$1@" -e "s@destinationFile@$destinationFile@g" -e "s@connectString@sqlite_file:$sqliteFile@" -e "s@insertTag@$tag@"> log/readFromFile_${runNumberList[$k]}.cfg
+     cat $CMSSW_BASE/src/DQM/SiStripHistoricInfoClient/test/testHistoricDQMService.cfg | sed -e "s@theRunNr@${runNumberList[$k]}@g" -e "s@theFileName@$rootFile@g" -e "s@theDirName@$1@" -e "s@destinationFile@$destinationFile@g" -e "s@connectString@sqlite_file:$sqliteFile@" -e "s@insertTag@$tag@"> log/readFromFile_${runNumberList[$k]}.cfg
      
      cmsRun log/readFromFile_${runNumberList[$k]}.cfg
      
