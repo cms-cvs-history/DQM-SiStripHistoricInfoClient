@@ -183,13 +183,14 @@ void HistoricInspector::createTrend(unsigned int detId, std::string ListItems, u
        continue;
      
      vRun.push_back(reference->getRunNr());
+
      vtmp=reference->getSummaryObj(detId, vlistItems);
      
      //vSummary.insert(vSummary.end(),vtmp.begin(),vtmp.end());     //<<<<<<<<< THIS DOESN'T WORK IN ROOT INTERPRETED
      std::cout << ListItems  << " run " << vRun.back() << " values " ;
      for(size_t i=0;i<vtmp.size();++i){
        vSummary.push_back(vtmp[i]);
-       std::cout << vSummary.back() << " ";
+       std::cout << vlistItems[i] << " " << vSummary.back() << " ";
      }
      std::cout << "\n" << std::endl;
    }
@@ -230,33 +231,36 @@ void HistoricInspector::plot(unsigned int detId, std::vector<unsigned int>& vRun
     std::cout << vlistItems[i] << std::endl;
 
 
-    bool rms=false;
-    if(vlistItems[i].find("mean")!=string::npos){
-      rms=true;
-    }
-
     std::stringstream ss;
     ss << "TkRegion " << detId << " " << vlistItems[i];
 
     //graph = new TGraphErrors((int) vRun.size());
     
+    int addShift=0;
     for(size_t j=0;j<vRun.size();++j){
       index=j*vlistItems.size()+i;
       X[j]=vRun[j];
       EX[j]=0;
       Y[j]=vSummary[index];
-      EY[j]=rms?vSummary[index+1]:sqrt(Y[j]);
-      std::cout << i <<  " " << j  << " " << X[j]  << " " << Y[j] << " " << EY[j] << endl;
+
+      if(vlistItems[i].find("mean")!=string::npos){
+	EY[j]=vSummary[index+2]>0?vSummary[index+1]/sqrt(vSummary[index+2]):0;
+	addShift=2;
+      }else if (vlistItems[i].find("landauPeak")!=string::npos){
+	EY[j]=vSummary[index+1];
+	addShift=1;
+      }
+      std::cout << index-j*vlistItems.size() <<  " " << j  << " " << X[j]  << " " << Y[j] << " " << EY[j] << endl;
       //      graph->SetPoint(j,X[j],Y[j]);
     }
+
+    i+=addShift;
 
     C->cd(++padCount);
     graph = new TGraphErrors((int) vRun.size(),X,Y,EX,EY);
     graph->SetTitle(ss.str().c_str());
     graph->Draw("Alp");
     
-    if(rms)
-      i++;
   }
   //C->SaveAs("name.png");
 }
@@ -287,5 +291,11 @@ void HistoricInspector::setItems(std::string item,std::vector<std::string>&vlist
   if(item.find("mean")!=std::string::npos){
     vlistItems.push_back(item.replace(item.find("mean"),4,"rms")); 
     cout << "Found new item " << vlistItems.back() << endl;
- }
+    vlistItems.push_back(item.replace(item.find("rms"),3,"entries")); 
+    cout << "Found new item " << vlistItems.back() << endl;
+  }
+  else if(item.find("landauPeak")!=std::string::npos){
+    vlistItems.push_back(item.replace(item.find("landauPeak"),10,"landauPeakErr")); 
+    cout << "Found new item " << vlistItems.back() << endl;
+  }
 }
