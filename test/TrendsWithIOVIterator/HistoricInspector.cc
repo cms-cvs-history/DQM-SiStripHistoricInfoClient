@@ -45,11 +45,12 @@ public:
 private:
 
   void style();
-  void plot(unsigned int detId, std::vector<unsigned int>& vRun, std::vector<float>& vWhatToPlotSummary, std::vector<std::string>& vlistItems);
+  void plot(unsigned int detId, std::vector<unsigned int>& vRun, std::vector<float>& vWhatToPlotSummary, std::vector<std::string>& vlistItems,size_t& nPads);
   void accessDB();
   void InitializeIOVList();
   bool setRange(unsigned int& firstRun, unsigned int& lastRun);
   void setItems(std::string,std::vector<std::string>&);
+  size_t unpackItems(std::string& ListItems, std::vector<std::string>& vlistItems);
   
   std::string DBName_, DBTag_, DBuser_, DBpasswd_, DBblob_;
   
@@ -149,7 +150,8 @@ bool HistoricInspector::setRange(unsigned int& firstRun, unsigned int& lastRun){
   }
   
   firstRun=first;
-  lastRun=last;  
+  lastRun=last; 
+  std::cout << "setting Range firstRun (" << first << ") - lastRun ("<<last<< ")"<<std::endl; 
   Iterator->setRange(first,last);
   
   return true;
@@ -165,20 +167,7 @@ void HistoricInspector::createTrend(unsigned int detId, std::string ListItems, u
    std::vector<std::string> vlistItems;
    std::vector<float> vtmp;
 
-   string::size_type oldloc=0; 
-   string::size_type loc = ListItems.find( ",", oldloc );
-   int count=0;
-   while( loc != string::npos ) {
-     setItems(ListItems.substr(oldloc,loc-oldloc),vlistItems);
-     oldloc=loc+1;
-     loc=ListItems.find( ",", oldloc );
-   } 
-   //there is a single item
-   setItems(ListItems.substr(oldloc,loc-oldloc),vlistItems);
-    
-
-
-   std::cout << std::endl;
+   size_t nPads=unpackItems(ListItems,vlistItems);   
 
    double start = clock(); 
 
@@ -206,7 +195,7 @@ void HistoricInspector::createTrend(unsigned int detId, std::string ListItems, u
    }
 
    
-   plot(detId, vRun, vSummary, vlistItems);    
+   plot(detId, vRun, vSummary, vlistItems,nPads);    
    
    double end = clock();
    std::cout <<"Time plotvsRun = " <<  ((double) (end - start)) << " (a.u.)" <<std::endl; 
@@ -217,7 +206,7 @@ void HistoricInspector::createTrend(unsigned int detId, std::string ListItems, u
 
 }
 
-void HistoricInspector::plot(unsigned int detId, std::vector<unsigned int>& vRun, std::vector<float>& vSummary, std::vector<std::string>& vlistItems){
+void HistoricInspector::plot(unsigned int detId, std::vector<unsigned int>& vRun, std::vector<float>& vSummary, std::vector<std::string>& vlistItems,size_t& nPads){
   std::cout << "\n********\nplot\n*****\n"<< std::endl;
 
   style();
@@ -231,6 +220,12 @@ void HistoricInspector::plot(unsigned int detId, std::vector<unsigned int>& vRun
   TCanvas *C;
   TGraphErrors *graph;
 
+  char name[128];
+  sprintf(name,"%d",clock());
+  C=new TCanvas(name);
+  C->Divide(2,nPads/2+ (nPads%2?1:0));
+ 
+  int padCount=0;
   for(size_t i=0;i<vlistItems.size();++i){
     std::cout << vlistItems[i] << std::endl;
 
@@ -240,12 +235,9 @@ void HistoricInspector::plot(unsigned int detId, std::vector<unsigned int>& vRun
       rms=true;
     }
 
-    char name[128];
-    sprintf(name,"%d",clock());
-    std::cout << name << " name ::" << endl;
     std::stringstream ss;
     ss << "TkRegion " << detId << " " << vlistItems[i];
-    C=new TCanvas(name,ss.str().c_str());
+
     //graph = new TGraphErrors((int) vRun.size());
     
     for(size_t j=0;j<vRun.size();++j){
@@ -258,20 +250,34 @@ void HistoricInspector::plot(unsigned int detId, std::vector<unsigned int>& vRun
       //      graph->SetPoint(j,X[j],Y[j]);
     }
 
+    C->cd(++padCount);
     graph = new TGraphErrors((int) vRun.size(),X,Y,EX,EY);
     graph->SetTitle(ss.str().c_str());
     graph->Draw("Alp");
-    //graph->Dump();
-    //C->Update();
-    //C->Draw();
-    //C->SaveAs("pippo.png");
     
     if(rms)
       i++;
   }
-
+  //C->SaveAs("name.png");
 }
- 
+
+
+size_t HistoricInspector::unpackItems(std::string& ListItems, std::vector<std::string>& vlistItems){
+  string::size_type oldloc=0; 
+  string::size_type loc = ListItems.find( ",", oldloc );
+  size_t count=1;
+  while( loc != string::npos ) {
+     setItems(ListItems.substr(oldloc,loc-oldloc),vlistItems);
+     oldloc=loc+1;
+     loc=ListItems.find( ",", oldloc );
+     count++; 
+  } 
+   //there is a single item
+   setItems(ListItems.substr(oldloc,loc-oldloc),vlistItems);
+   std::cout << std::endl;
+   return count;
+}
+
 void HistoricInspector::setItems(std::string item,std::vector<std::string>&vlistItems){
 
   

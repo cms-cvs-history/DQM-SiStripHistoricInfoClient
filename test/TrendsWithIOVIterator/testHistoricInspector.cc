@@ -10,7 +10,7 @@ A.setDB("sqlite_file:historicDQM.db", "SiStripSummary_test1","cms_cond_strip","w
 
 
 //TIB
-A.createTrend(1, "Summary_NumberOfClusters_OnTrack@mean,Summary_NumberOfClusters_OffTrack@mean");
+A.createTrend(1, "Summary_NumberOfClusters_OnTrack@mean,Summary_NumberOfClusters_OffTrack@mean,Summary_cStoNCorr_OnTrack@mean,Summary_cStoNCorr_OnTrack@landauPeak");
 
 //TOB
 A.createTrend(2, "Summary_NumberOfClusters_OnTrack@mean,Summary_NumberOfClusters_OffTrack@mean,Summary_cStoNCorr_OnTrack@mean,Summary_cStoNCorr_OnTrack@landauPeak");
