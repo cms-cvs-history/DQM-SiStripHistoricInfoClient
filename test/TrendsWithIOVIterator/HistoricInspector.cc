@@ -242,6 +242,8 @@ void HistoricInspector::plot(unsigned int detId, std::vector<unsigned int>& vRun
       X[j]=vRun[j];
       EX[j]=0;
       Y[j]=vSummary[index];
+      if(Y[j]==-10 || Y[j]==-9999)
+	Y[j]=0;
 
       if(vlistItems[i].find("mean")!=string::npos){
 	EY[j]=vSummary[index+2]>0?vSummary[index+1]/sqrt(vSummary[index+2]):0;
