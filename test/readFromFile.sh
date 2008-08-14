@@ -27,6 +27,8 @@ dirname `echo $1 | awk '{print $1}'`
 echo "=============================================================="
 echo "  "
 
+eval `scramv1 runtime -sh`
+
 
 #### In case of sqlite file
 if [ `echo $connectString | grep -c sqlite` ]; then
@@ -52,16 +54,13 @@ k=0
 ListSize=${#rootFileList[*]}
 echo ListSize $ListSize
 
-eval `scramv1 runtime -sh`
-
 mkdir -p log
-while 
-     [ "$k" -lt "$ListSize" ]
-do
+while [ "$k" -lt "$ListSize" ]
+  do
      rootFile=${rootFileList[$k]}
      runNumberList[$k]=`echo ${rootFile} | awk -F "R00" '{print $2}' | awk -F"_" '{print int($1)}'` 
      destinationFile=readFromFile_${runNumberList[$k]}.log
-     echo "   processing " $rootFile " for runNr " ${runNumberList[$k]}
+     echo -e "\n\n\nprocessing " $rootFile " for runNr " ${runNumberList[$k]} "\n\n"
      
      cat $CMSSW_BASE/src/DQM/SiStripHistoricInfoClient/test/template_HistoricDQMService.cfg | sed -e "s@theRunNr@${runNumberList[$k]}@g" -e "s@theFileName@$rootFile@g" -e "s@destinationFile@$destinationFile@g" -e "s@connectString@$connectString@" -e "s@insertTag@$tag@"> log/readFromFile_${runNumberList[$k]}.cfg
      
