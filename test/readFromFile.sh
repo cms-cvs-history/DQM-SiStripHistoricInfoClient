@@ -11,9 +11,11 @@
 tag=SiStripSummary_test1
 sqliteFile=historicDQM.db
 
-#connectString="oracle://devdb10/CMS_COND_STRIP"
+connectString="oracle://devdb10/CMS_COND_STRIP"
 #connectString="oracle://cms_orcoff_int2r/CMS_COND_STRIP"
-connectString="sqlite_file:$sqliteFile"
+#connectString="sqlite_file:$sqliteFile"
+
+logDB=sqlite_file:log.db
 
 #############
 
@@ -32,9 +34,8 @@ eval `scramv1 runtime -sh`
 
 #### In case of sqlite file
 if [ `echo $connectString | grep -c sqlite` ]; then
-    [ -e $sqliteFile ] && rm $sqliteFile && echo " removed existing database $sqliteFile"
-    rm log.db
-
+    [ -e $sqliteFile ] && rm $sqliteFile $logDB && echo " removed existing database $sqliteFile"
+    
     path=$CMSSW_BASE/src/CondTools/SiStrip/scripts
     if [ ! -e $path ] ;then
 	path=$CMSSW_RELEASE_BASE/src/CondTools/SiStrip/scripts
@@ -62,10 +63,10 @@ while [ "$k" -lt "$ListSize" ]
      destinationFile=readFromFile_${runNumberList[$k]}.log
      echo -e "\n\n\nprocessing " $rootFile " for runNr " ${runNumberList[$k]} "\n\n"
      
-     cat $CMSSW_BASE/src/DQM/SiStripHistoricInfoClient/test/template_HistoricDQMService.cfg | sed -e "s@theRunNr@${runNumberList[$k]}@g" -e "s@theFileName@$rootFile@g" -e "s@destinationFile@$destinationFile@g" -e "s@connectString@$connectString@" -e "s@insertTag@$tag@"> log/readFromFile_${runNumberList[$k]}.cfg
+     cat $CMSSW_BASE/src/DQM/SiStripHistoricInfoClient/test/template_HistoricDQMService.cfg | sed -e "s@theRunNr@${runNumberList[$k]}@g" -e "s@theFileName@$rootFile@g" -e "s@destinationFile@$destinationFile@g" -e "s@connectString@$connectString@" -e "s@insertTag@$tag@" -e "s@insertLogDB@$logDB@" > log/readFromFile_${runNumberList[$k]}.cfg
      
      cmsRun log/readFromFile_${runNumberList[$k]}.cfg
-     
+     [ "$?" != "0" ] && echo -e "Problem found in the processing. please have a look at \nlog/readFromFile_${runNumberList[$k]}.log" && exit
      let "k+=1"
 done
 
