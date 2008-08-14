@@ -28,7 +28,8 @@ public:
     DBuser_(""),
     DBpasswd_(""),
     DBBlob_(""),
-    Iterator(0)
+    Iterator(0),
+    iDebug(0)
   {
     //VERY POOR WAY TO CREATE A STD VECTOR, BUT IT SEEMS THAT CINT DOESN'T ALLOW TO DO BETTER
     std::vector<unsigned int>* a = new std::vector<unsigned int>(0);
@@ -41,7 +42,8 @@ public:
   
   void setDB(std::string DBName, std::string DBTag, std::string DBuser="", std::string DBpasswd="", std::string DBblob="");
   void createTrend(unsigned int detId, std::string ListItems, unsigned int firstRun=1, unsigned int lastRun=0xFFFFFFFE);
-  
+  void setDebug(int i){iDebug=i;}
+
 private:
 
   void style();
@@ -57,6 +59,7 @@ private:
   CondCachedIter<SiStripSummary>* Iterator; 
   
   std::vector<unsigned int>* iovList;
+  int iDebug;
 };
 
 void HistoricInspector::style(){
@@ -111,7 +114,8 @@ void HistoricInspector::accessDB(){
 
   InitializeIOVList();
   end = clock();
-  std::cout <<"Time Creation link with Database = " <<  ((double) (end - start)) << " (a.u.)" <<std::endl; 
+  if(iDebug)
+    std::cout <<"Time Creation link with Database = " <<  ((double) (end - start)) << " (a.u.)" <<std::endl; 
 }
 
 
@@ -187,19 +191,23 @@ void HistoricInspector::createTrend(unsigned int detId, std::string ListItems, u
      vtmp=reference->getSummaryObj(detId, vlistItems);
      
      //vSummary.insert(vSummary.end(),vtmp.begin(),vtmp.end());     //<<<<<<<<< THIS DOESN'T WORK IN ROOT INTERPRETED
-     std::cout << ListItems  << " run " << vRun.back() << " values " ;
+     if(iDebug)
+       std::cout << ListItems  << " run " << vRun.back() << " values \n" ;
      for(size_t i=0;i<vtmp.size();++i){
        vSummary.push_back(vtmp[i]);
-       std::cout << vlistItems[i] << " " << vSummary.back() << " ";
+       if(iDebug)
+	 std::cout << "\t" << vlistItems[i] << " " << vSummary.back() << " \n";
      }
-     std::cout << "\n" << std::endl;
+     if(iDebug)
+       std::cout << "\n" << std::endl;
    }
 
    
    plot(detId, vRun, vSummary, vlistItems,nPads);    
    
    double end = clock();
-   std::cout <<"Time plotvsRun = " <<  ((double) (end - start)) << " (a.u.)" <<std::endl; 
+   if(iDebug)
+     std::cout <<"Time plotvsRun = " <<  ((double) (end - start)) << " (a.u.)" <<std::endl; 
    
    std::cout << "\n****** Ignore this error *****\n" << std::endl;
    Iterator->rewind();
@@ -288,16 +296,20 @@ void HistoricInspector::setItems(std::string item,std::vector<std::string>&vlist
 
   
   vlistItems.push_back(item);
-  cout << "Found new item " << vlistItems.back() << endl;
+  if(iDebug)
+    cout << "Found new item " << vlistItems.back() << endl;
 
   if(item.find("mean")!=std::string::npos){
     vlistItems.push_back(item.replace(item.find("mean"),4,"rms")); 
-    cout << "Found new item " << vlistItems.back() << endl;
+    if(iDebug)
+      cout << "Found new item " << vlistItems.back() << endl;
     vlistItems.push_back(item.replace(item.find("rms"),3,"entries")); 
-    cout << "Found new item " << vlistItems.back() << endl;
+    if(iDebug)
+      cout << "Found new item " << vlistItems.back() << endl;
   }
   else if(item.find("landauPeak")!=std::string::npos){
     vlistItems.push_back(item.replace(item.find("landauPeak"),10,"landauPeakErr")); 
-    cout << "Found new item " << vlistItems.back() << endl;
+    if(iDebug)
+      cout << "Found new item " << vlistItems.back() << endl;
   }
 }
