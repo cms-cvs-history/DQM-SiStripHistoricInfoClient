@@ -34,6 +34,8 @@ public:
     //VERY POOR WAY TO CREATE A STD VECTOR, BUT IT SEEMS THAT CINT DOESN'T ALLOW TO DO BETTER
     std::vector<unsigned int>* a = new std::vector<unsigned int>(0);
     iovList=a;
+    std::vector<unsigned int>* b = new std::vector<unsigned int>(0);
+    blackList=b;
   };
   
   ~HistoricInspector(){
@@ -41,44 +43,29 @@ public:
   };
   
   void setDB(std::string DBName, std::string DBTag, std::string DBuser="", std::string DBpasswd="", std::string DBblob="");
-  void createTrend(unsigned int detId, std::string ListItems, unsigned int firstRun=1, unsigned int lastRun=0xFFFFFFFE);
+  void createTrend(unsigned int detId, std::string ListItems, std::string CName="c.png", unsigned int firstRun=1, unsigned int lastRun=0xFFFFFFFE);
   void setDebug(int i){iDebug=i;}
-
+  void setBlackList(std::string& ListItems);
+  
 private:
 
-  void style();
-  void plot(unsigned int detId, std::vector<unsigned int>& vRun, std::vector<float>& vWhatToPlotSummary, std::vector<std::string>& vlistItems,size_t& nPads);
+  void plot(unsigned int detId, std::vector<unsigned int>& vRun, std::vector<float>& vWhatToPlotSummary,std::vector<std::string>& vlistItems,size_t& nPads, std::string CName);
   void accessDB();
   void InitializeIOVList();
   bool setRange(unsigned int& firstRun, unsigned int& lastRun);
   void setItems(std::string,std::vector<std::string>&);
   size_t unpackItems(std::string& ListItems, std::vector<std::string>& vlistItems);
+  bool isBlackListed(unsigned int run);
   
   std::string DBName_, DBTag_, DBuser_, DBpasswd_, DBblob_;
   
   CondCachedIter<SiStripSummary>* Iterator; 
   
   std::vector<unsigned int>* iovList;
+  std::vector<unsigned int>* blackList;
   int iDebug;
 };
 
-void HistoricInspector::style(){
-
-  gStyle->SetOptStat(0);
-  gROOT->SetStyle("Plain");
-  gStyle->SetOptStat(0);
-  gStyle->SetOptFit(111);
-  gStyle->SetStatFont(12);
-  gStyle->SetStatBorderSize(1);
-  gStyle->SetCanvasColor(0);
-  gStyle->SetCanvasBorderMode(0);
-  gStyle->SetPadBorderMode(0);
-  gStyle->SetPadColor(0);
-  gStyle->SetLineWidth(2.);
-  gStyle->SetPalette(1);
-  gStyle->SetMarkerStyle(20);
-  gStyle->SetMarkerColor(2);
-}
 
 void HistoricInspector::setDB(std::string DBName, std::string DBTag, std::string DBuser, std::string DBpasswd, std::string DBblob){
 
@@ -161,7 +148,30 @@ bool HistoricInspector::setRange(unsigned int& firstRun, unsigned int& lastRun){
   return true;
 }
 
-void HistoricInspector::createTrend(unsigned int detId, std::string ListItems, unsigned int firstRun, unsigned int lastRun)
+
+void  HistoricInspector::setBlackList(std::string& ListItems)
+{
+   std::vector<std::string> vlistItems;
+   size_t nBlack=unpackItems(ListItems,vlistItems);   
+   for(int i=0; i<nBlack; i++){
+     blackList->push_back(atoi(vlistItems.at(i).c_str()));}
+}
+
+
+bool  HistoricInspector::isBlackListed(unsigned int run)
+{ 
+   bool stop = false;
+   for(int i=0; i<blackList->size();i++){
+     if(run== blackList->at(i)){
+      stop = true;
+      if(iDebug) std::cout << "\n Run "<< run << " black listed \n" << std::endl;
+     }
+    }
+   return stop;
+}
+
+
+void HistoricInspector::createTrend(unsigned int detId, std::string ListItems, std::string CName, unsigned int firstRun, unsigned int lastRun)
 {   
   std::cout << "\n****************\nCreateTrend\n****************\n" << std::endl;
   std::cout << ListItems << std::endl;
@@ -183,9 +193,10 @@ void HistoricInspector::createTrend(unsigned int detId, std::string ListItems, u
    const SiStripSummary* reference;
    while(reference = Iterator->next()) { 
 
-     if(Iterator->getStartTime()<firstRun || Iterator->getStartTime()>lastRun)
+     if(Iterator->getStartTime()<firstRun || Iterator->getStartTime()>lastRun || isBlackListed(reference->getRunNr()))
        continue;
-     
+       
+        
      vRun.push_back(reference->getRunNr());
 
      vtmp=reference->getSummaryObj(detId, vlistItems);
@@ -203,7 +214,7 @@ void HistoricInspector::createTrend(unsigned int detId, std::string ListItems, u
    }
 
    
-   plot(detId, vRun, vSummary, vlistItems,nPads);    
+   plot(detId, vRun, vSummary, vlistItems,nPads,CName);    
    
    double end = clock();
    if(iDebug)
@@ -215,11 +226,31 @@ void HistoricInspector::createTrend(unsigned int detId, std::string ListItems, u
 
 }
 
-void HistoricInspector::plot(unsigned int detId, std::vector<unsigned int>& vRun, std::vector<float>& vSummary, std::vector<std::string>& vlistItems,size_t& nPads){
+void HistoricInspector::plot(unsigned int detId, std::vector<unsigned int>& vRun, std::vector<float>& vSummary, std::vector<std::string>& vlistItems,size_t& nPads,std::string CName){
+ 
   std::cout << "\n********\nplot\n*****\n"<< std::endl;
-
-  style();
-
+ 
+  gStyle->SetOptStat(0);
+  gROOT->SetStyle("Plain");
+  gStyle->SetOptStat(0);
+  gStyle->SetOptFit(111);
+  gStyle->SetStatFont(12);
+  gStyle->SetStatBorderSize(1);
+  gStyle->SetCanvasColor(0);
+  gStyle->SetCanvasBorderMode(0);
+  gStyle->SetPadBorderMode(0);
+  gStyle->SetPadColor(0);
+  gStyle->SetLineWidth(2.);
+  gStyle->SetPalette(1);
+  gStyle->SetMarkerStyle(20);
+  gStyle->SetMarkerColor(2);
+  gStyle->SetLabelSize(0.07,"y");
+  gStyle->SetLabelSize(0.04,"x");
+  gStyle->SetTitleFontSize(0.2);
+  gStyle->SetTitleW(0.9);
+  gStyle->SetPadLeftMargin(0.12);   
+  gStyle->SetPadTopMargin(0.3);   
+ 
   double *X, *Y, *EX, *EY;
   X=new double[vRun.size()];
   Y=new double[vRun.size()];
@@ -232,15 +263,23 @@ void HistoricInspector::plot(unsigned int detId, std::vector<unsigned int>& vRun
   char name[128];
   sprintf(name,"%d",clock());
   C=new TCanvas(name);
-  C->Divide(2,nPads/2+ (nPads%2?1:0));
+  std::cout <<"nPads "<<nPads << std::endl;
+  if (nPads>1)C->Divide(2,nPads/2+ (nPads%2?1:0));
  
   int padCount=0;
   for(size_t i=0;i<vlistItems.size();++i){
     std::cout << vlistItems[i] << std::endl;
 
-
+   // if(vlistItems[i].find("Summary")!= string::npos)
+    //vlistItems[i].erase(1,6);
+    
     std::stringstream ss;
-    ss << "TkRegion " << detId << " " << vlistItems[i];
+    if (detId == 0)  ss << vlistItems[i];
+    else if (detId == 1)  ss << "TIB " << vlistItems[i];
+    else if (detId == 2)  ss << "TOB " << vlistItems[i];
+    else if (detId == 3)  ss << "TID " << vlistItems[i];
+    else if (detId == 4)  ss << "TEC " << vlistItems[i];
+    else ss << "Id " << detId << " " << vlistItems[i];
 
     //graph = new TGraphErrors((int) vRun.size());
     
@@ -266,13 +305,18 @@ void HistoricInspector::plot(unsigned int detId, std::vector<unsigned int>& vRun
 
     i+=addShift;
 
-    C->cd(++padCount);
+    if (nPads>1) C->cd(++padCount);
     graph = new TGraphErrors((int) vRun.size(),X,Y,EX,EY);
     graph->SetTitle(ss.str().c_str());
-    graph->Draw("Alp");
+    graph->Draw("Alp");  
+    gPad->Modified();
     
   }
-  //C->SaveAs("name.png");
+  
+  std::stringstream sz;
+  sz << CName << "_TkRegion_" << detId << "_zoom.png" ;
+
+  C->SaveAs(sz.str().c_str());
 }
 
 
