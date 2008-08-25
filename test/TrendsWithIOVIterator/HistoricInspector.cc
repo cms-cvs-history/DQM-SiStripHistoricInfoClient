@@ -29,13 +29,18 @@ public:
     DBpasswd_(""),
     DBBlob_(""),
     Iterator(0),
-    iDebug(0)
+    iDebug(0),
+    minNbOfTracks(500)
   {
     //VERY POOR WAY TO CREATE A STD VECTOR, BUT IT SEEMS THAT CINT DOESN'T ALLOW TO DO BETTER
     std::vector<unsigned int>* a = new std::vector<unsigned int>(0);
     iovList=a;
     std::vector<unsigned int>* b = new std::vector<unsigned int>(0);
     blackList=b;
+    std::vector<unsigned int>* c = new std::vector<unsigned int>(0);
+    statList=c;
+    
+    TFile *target  = new TFile( "historicDQM.root","RECREATE" );
   };
   
   ~HistoricInspector(){
@@ -45,6 +50,7 @@ public:
   void setDB(std::string DBName, std::string DBTag, std::string DBuser="", std::string DBpasswd="", std::string DBblob="");
   void createTrend(unsigned int detId, std::string ListItems, std::string CName="c.png", unsigned int firstRun=1, unsigned int lastRun=0xFFFFFFFE);
   void setDebug(int i){iDebug=i;}
+  void setStat(int i){minNbOfTracks=i;}
   void setBlackList(std::string& ListItems);
   
 private:
@@ -55,15 +61,18 @@ private:
   bool setRange(unsigned int& firstRun, unsigned int& lastRun);
   void setItems(std::string,std::vector<std::string>&);
   size_t unpackItems(std::string& ListItems, std::vector<std::string>& vlistItems);
-  bool isBlackListed(unsigned int run);
+  bool isListed(unsigned int run, std::vector<unsigned int>* vList);
+  void setStatList();
   
   std::string DBName_, DBTag_, DBuser_, DBpasswd_, DBblob_;
   
   CondCachedIter<SiStripSummary>* Iterator; 
   
   std::vector<unsigned int>* iovList;
-  std::vector<unsigned int>* blackList;
+  std::vector<unsigned int>* blackList; // merge statList and BlackList ?
+  std::vector<unsigned int>* statList;
   int iDebug;
+  int minNbOfTracks;
 };
 
 
@@ -99,7 +108,8 @@ void HistoricInspector::accessDB(){
   Iterator = new CondCachedIter<SiStripSummary>();
   Iterator->create(DBName_,DBTag_,DBuser_,DBpasswd_,DBblob_);  
 
-  InitializeIOVList();
+  InitializeIOVList(); 
+  setStatList();
   end = clock();
   if(iDebug)
     std::cout <<"Time Creation link with Database = " <<  ((double) (end - start)) << " (a.u.)" <<std::endl; 
@@ -116,6 +126,28 @@ void HistoricInspector::InitializeIOVList(){
   } 
   Iterator->rewind();
 }
+
+
+void HistoricInspector::setStatList(){
+
+  const SiStripSummary* reference;
+  
+  std::vector <std::string> v;
+  v.push_back("Chi2_CKFTk@entries"); 
+  std::vector<float> vtmp;
+  std::cout <<std::endl;
+
+  while(reference = Iterator->next()) {
+    vtmp = reference->getSummaryObj(0, v);
+    if(vtmp[0] < minNbOfTracks) { 
+      statList->push_back(reference->getRunNr());
+      std::cout << "Run " << statList->back() <<" has  "<< vtmp[0] <<" CKF tracks, won't plot it ..."<< std::endl;}
+  } 
+  Iterator->rewind(); 
+  std::cout <<std::endl;
+
+}
+
 
 bool HistoricInspector::setRange(unsigned int& firstRun, unsigned int& lastRun){
   unsigned int first,last;
@@ -158,16 +190,16 @@ void  HistoricInspector::setBlackList(std::string& ListItems)
 }
 
 
-bool  HistoricInspector::isBlackListed(unsigned int run)
-{ 
-   bool stop = false;
-   for(int i=0; i<blackList->size();i++){
-     if(run== blackList->at(i)){
-      stop = true;
-      if(iDebug) std::cout << "\n Run "<< run << " black listed \n" << std::endl;
+bool  HistoricInspector::isListed(unsigned int run, std::vector<unsigned int>* vList)
+{
+   bool isListed = false;
+   for(int i=0; i<vList->size();i++){
+     if(run== vList->at(i)){ 
+      isListed = true;
+      //if(iDebug) std::cout << "\n Run "<< run << " is listed !!\n" << std::endl;
      }
     }
-   return stop;
+   return isListed;
 }
 
 
@@ -190,17 +222,19 @@ void HistoricInspector::createTrend(unsigned int detId, std::string ListItems, s
      Iterator->rewind();
      return;
    }
+  
    const SiStripSummary* reference;
    while(reference = Iterator->next()) { 
-
-     if(Iterator->getStartTime()<firstRun || Iterator->getStartTime()>lastRun || isBlackListed(reference->getRunNr()))
+ 
+     if(Iterator->getStartTime()<firstRun || Iterator->getStartTime()>lastRun || isListed(reference->getRunNr(), blackList))
        continue;
-       
-        
-     vRun.push_back(reference->getRunNr());
-
-     vtmp=reference->getSummaryObj(detId, vlistItems);
      
+     if (isListed(reference->getRunNr(), statList)) continue;
+      
+     vRun.push_back(reference->getRunNr());
+  
+     vtmp=reference->getSummaryObj(detId, vlistItems);
+      
      //vSummary.insert(vSummary.end(),vtmp.begin(),vtmp.end());     //<<<<<<<<< THIS DOESN'T WORK IN ROOT INTERPRETED
      if(iDebug)
        std::cout << ListItems  << " run " << vRun.back() << " values \n" ;
@@ -260,9 +294,14 @@ void HistoricInspector::plot(unsigned int detId, std::vector<unsigned int>& vRun
   TCanvas *C;
   TGraphErrors *graph;
 
-  char name[128];
-  sprintf(name,"%d",clock());
-  C=new TCanvas(name);
+  //char name[128];
+  //sprintf(name,"%d",clock());
+  //C=new TCanvas(name);
+  
+  std::stringstream sz;
+  sz << CName << "_TkRegion" << detId << ".png" ;
+  C=new TCanvas(sz.str().c_str());
+  
   std::cout <<"nPads "<<nPads << std::endl;
   if (nPads>1)C->Divide(2,nPads/2+ (nPads%2?1:0));
  
@@ -270,8 +309,7 @@ void HistoricInspector::plot(unsigned int detId, std::vector<unsigned int>& vRun
   for(size_t i=0;i<vlistItems.size();++i){
     std::cout << vlistItems[i] << std::endl;
 
-   // if(vlistItems[i].find("Summary")!= string::npos)
-    //vlistItems[i].erase(1,6);
+    if(vlistItems.at(i).find("Summary")!= string::npos) vlistItems.at(i).replace(vlistItems.at(i).find("Summary"),7,"");
     
     std::stringstream ss;
     if (detId == 0)  ss << vlistItems[i];
@@ -280,7 +318,7 @@ void HistoricInspector::plot(unsigned int detId, std::vector<unsigned int>& vRun
     else if (detId == 3)  ss << "TID " << vlistItems[i];
     else if (detId == 4)  ss << "TEC " << vlistItems[i];
     else ss << "Id " << detId << " " << vlistItems[i];
-
+    
     //graph = new TGraphErrors((int) vRun.size());
     
     int addShift=0;
@@ -310,13 +348,13 @@ void HistoricInspector::plot(unsigned int detId, std::vector<unsigned int>& vRun
     graph->SetTitle(ss.str().c_str());
     graph->Draw("Alp");  
     gPad->Modified();
+    //graph->SetName(ss.str().c_str());
+    //graph->Write();
     
   }
   
-  std::stringstream sz;
-  sz << CName << "_TkRegion_" << detId << "_zoom.png" ;
-
-  C->SaveAs(sz.str().c_str());
+  C->Write();
+  //C->SaveAs(sz.str().c_str());
 }
 
 
