@@ -121,24 +121,19 @@ bool HistoricInspector::setRange(unsigned int& firstRun, unsigned int& lastRun){
   return true;
 }
 
-void HistoricInspector::createTrend(unsigned int detId, std::string ListItems, std::string CanvasName, std::string Conditions, unsigned int firstRun, unsigned int lastRun){   
+void HistoricInspector::createTrend(std::string ListItems, std::string CanvasName, std::string Conditions, unsigned int firstRun, unsigned int lastRun){   
   std::cout << "\n****************\nCreateTrend\n****************\n" << std::endl;
   std::cout << "ListItems : " << ListItems << std::endl;
   std::cout << "Conditions : " << Conditions << std::endl;
   //
   std::vector<unsigned int> vRun;
   std::vector <float> vSummary;
-  std::vector<std::string> vlistItems;
-  std::vector<float> vtmp;
-  
-  std::vector<std::string> vConditions;
-  std::vector<float> vcond;
-  
 
+  std::vector<DetIdItemList> vDetIdItemList, vDetIdItemListCut;
 
-  size_t nPads=unpackItems(ListItems,vlistItems);   
+  size_t nPads=unpackItems(ListItems,vDetIdItemList);   
 
-  unpackConditions(Conditions,vConditions);
+  unpackConditions(Conditions,vDetIdItemListCut);
  
   //   double start = clock(); 
 
@@ -153,28 +148,33 @@ void HistoricInspector::createTrend(unsigned int detId, std::string ListItems, s
     if(Iterator->getStartTime()<firstRun || Iterator->getStartTime()>lastRun)
       continue;
 
-    if(vConditions.size()){
-      vcond=reference->getSummaryObj(detId, vConditions);
-   
-      if(!ApplyConditions(Conditions,vConditions,vcond))
+    if(vDetIdItemListCut.size()){
+      for(size_t ij=0;ij!=vDetIdItemListCut.size();++ij){
+	vDetIdItemListCut[ij].values=reference->getSummaryObj(vDetIdItemListCut[ij].detid, vDetIdItemListCut[ij].items);
+      }
+
+      if(!ApplyConditions(Conditions,vDetIdItemListCut))
 	continue;
     }
 
     vRun.push_back(reference->getRunNr());
 
-    vtmp=reference->getSummaryObj(detId, vlistItems);
+    for(size_t ij=0;ij!=vDetIdItemList.size();++ij){
+      vDetIdItemList[ij].values=reference->getSummaryObj(vDetIdItemList[ij].detid, vDetIdItemList[ij].items);
      
-    vSummary.insert(vSummary.end(),vtmp.begin(),vtmp.end());   
-    if(iDebug){
-      std::cout << ListItems  << " run " << vRun.back() << " values \n" ;
-      for(size_t i=0;i<vtmp.size();++i)
-	std::cout << "\t" << vlistItems[i] << " " << vSummary[(vRun.size()-1)*vlistItems.size()+i] << " \n";
-      std::cout << "\n" << std::endl;
+      vSummary.insert(vSummary.end(),vDetIdItemList[ij].values.begin(),vDetIdItemList[ij].values.end());   
+      if(iDebug){
+	std::cout << ListItems  << " run " << vRun.back() << " values \n" ;
+	DetIdItemList detiditemlist=vDetIdItemList[ij];
+	for(size_t i=0;i<detiditemlist.items.size();++i)
+	  std::cout << "\t" << detiditemlist.items[i] << " " << detiditemlist.values[i] << " \n";
+	std::cout << "\n" << std::endl;
+      }
     }
   }
 
   if(vRun.size())
-    plot(detId, vRun, vSummary, vlistItems,nPads, CanvasName);    
+    plot(vRun, vSummary, vDetIdItemList, nPads, CanvasName);    
    
   //   double end = clock();
   //if(iDebug)
@@ -186,7 +186,7 @@ void HistoricInspector::createTrend(unsigned int detId, std::string ListItems, s
 
 }
 
-void HistoricInspector::plot(unsigned int detId, std::vector<unsigned int>& vRun, std::vector<float>& vSummary, std::vector<std::string>& vlistItems,size_t& nPads, std::string CanvasName){
+void HistoricInspector::plot(std::vector<unsigned int>& vRun, std::vector<float>& vSummary, std::vector<DetIdItemList>& vDetIdItemList,size_t& nPads, std::string CanvasName){
   std::cout << "\n********\nplot\n*****\n"<< std::endl;
 
   style();
@@ -206,18 +206,23 @@ void HistoricInspector::plot(unsigned int detId, std::vector<unsigned int>& vRun
     CanvasName=std::string(name);
   }
   C=new TCanvas(CanvasName.c_str(),"");
-  C->Divide(2,nPads/2+ (nPads%2?1:0));
+  int ndiv=(int) sqrt(nPads);
+  C->Divide(ndiv,nPads/ndiv+ (nPads%ndiv?1:0));
  
   int padCount=0;
-  for(size_t i=0;i<vlistItems.size();++i){
-    std::cout << vlistItems[i] << std::endl;
+  std::vector<std::string> vlistItems;
+  std::vector<unsigned int> vdetId;
+  for(size_t ic=0;ic<vDetIdItemList.size();++ic){
+    vlistItems.insert(vlistItems.end(),vDetIdItemList[ic].items.begin(),vDetIdItemList[ic].items.end());
+    vdetId.insert(vdetId.end(),vDetIdItemList[ic].items.size(),vDetIdItemList[ic].detid);
+  }
 
+  for(size_t i=0;i<vlistItems.size();++i){
+    std::cout <<  "TkRegion " << vdetId[i] << " " << vlistItems[i] << std::endl;
 
     std::stringstream ss;
-    ss << "TkRegion " << detId << " " << vlistItems[i];
+    ss << "TkRegion " << vdetId[i] << " " << vlistItems[i];
 
-    //graph = new TGraphErrors((int) vRun.size());
-    
     int addShift=0;
     for(size_t j=0;j<vRun.size();++j){
       index=j*vlistItems.size()+i;
@@ -228,6 +233,7 @@ void HistoricInspector::plot(unsigned int detId, std::vector<unsigned int>& vRun
 	Y[j]=0;
 
       if(vlistItems[i].find("mean")!=std::string::npos){
+	//if the quantity requested is mean, the error is evaluated as the error on the mean=rms/sqrt(entries)
 	EY[j]=vSummary[index+2]>0?vSummary[index+1]/sqrt(vSummary[index+2]):0;
 	addShift=2;
       }else if (vlistItems[i].find("landauPeak")!=std::string::npos){
@@ -253,23 +259,23 @@ void HistoricInspector::plot(unsigned int detId, std::vector<unsigned int>& vRun
 }
 
 
-size_t HistoricInspector::unpackItems(std::string& ListItems, std::vector<std::string>& vlistItems){
+size_t HistoricInspector::unpackItems(std::string& ListItems, std::vector<DetIdItemList>& vDetIdItemList){
   std::string::size_type oldloc=0; 
   std::string::size_type loc = ListItems.find( ",", oldloc );
   size_t count=1;
   while( loc != std::string::npos ) {
-    setItems(ListItems.substr(oldloc,loc-oldloc),vlistItems);
+    setItems(ListItems.substr(oldloc,loc-oldloc),vDetIdItemList);
     oldloc=loc+1;
     loc=ListItems.find( ",", oldloc );
     count++; 
   } 
   //there is a single item
-  setItems(ListItems.substr(oldloc,loc-oldloc),vlistItems);
+  setItems(ListItems.substr(oldloc,loc-oldloc),vDetIdItemList);
   std::cout << std::endl;
   return count;
 }
 
-void HistoricInspector::unpackConditions( std::string& Conditions, std::vector<std::string>& vConditions){
+void HistoricInspector::unpackConditions( std::string& Conditions, std::vector<DetIdItemList>& vDetIdItemList){
   char * pch;
   char delimiters[128]="><=+-*/&|() ";
   char copyConditions[1024];
@@ -277,34 +283,46 @@ void HistoricInspector::unpackConditions( std::string& Conditions, std::vector<s
   pch = strtok (copyConditions,delimiters);
   while (pch != NULL){
     if(strstr(pch,"@")!=NULL){
-      vConditions.push_back(pch);
-      std::cout << "a Condition " << vConditions.back() << std::endl;
+      DetIdItemList detiditemlist;
+      std::string itemD(pch);
+      detiditemlist.detid=atol(itemD.substr(0,itemD.find("@")).c_str());
+      detiditemlist.items.push_back(itemD.substr(itemD.find("@")+1));
+      std::cout << "Found a Condition " << detiditemlist.items.back() << " for detId " << detiditemlist.detid << std::endl;
+      
+      if(vDetIdItemList.size())
+	if(vDetIdItemList.back().detid==detiditemlist.detid)
+	  vDetIdItemList.back().items.insert(vDetIdItemList.back().items.end(),detiditemlist.items.begin(),detiditemlist.items.end());
+	else
+	  vDetIdItemList.push_back(detiditemlist);
+      else
+	vDetIdItemList.push_back(detiditemlist); 
     }
     pch = strtok (NULL,delimiters);
   }
 }
 
 
-bool HistoricInspector::ApplyConditions(std::string& Conditions, std::vector<std::string>& vConditions, std::vector<float>& vcond){
-
+bool HistoricInspector::ApplyConditions(std::string& Conditions, std::vector<DetIdItemList>& vDetIdItemList){
   double resultdbl=1;
   char cConditions[1024];
   char singleCondition[1024];
   char condCVal[1024];   
 
   sprintf(cConditions,"%s",Conditions.c_str());
-  //std::cout << "Conditions " << cConditions << " len " << strlen(cConditions)<< std::endl;
-  for(size_t ic=0;ic<vConditions.size();++ic){
-    sprintf(condCVal,"%f",vcond[ic]);
+  std::cout << "Conditions " << cConditions << std::endl;
+  for(size_t ic=0;ic<vDetIdItemList.size();++ic)
+    for(size_t jc=0;jc<vDetIdItemList[ic].items.size();++jc){
+      sprintf(condCVal,"%g",vDetIdItemList[ic].values[jc]);
     
-    sprintf(singleCondition,"%s",vConditions[ic].c_str());
-    char* fpos = strstr(cConditions,singleCondition);
-    strncpy(fpos,condCVal,strlen(condCVal));
-    memset(fpos+strlen(condCVal),' ',strlen(singleCondition)-strlen(condCVal));
+      sprintf(singleCondition,"%d@%s",vDetIdItemList[ic].detid,vDetIdItemList[ic].items[jc].c_str());
+      char* fpos = strstr(cConditions,singleCondition);
+      strncpy(fpos,condCVal,strlen(condCVal));
+      memset(fpos+strlen(condCVal),' ',strlen(singleCondition)-strlen(condCVal));
     
-    //std::cout << "fpos " << fpos << " len condCVal " << strlen(condCVal) << " strlen(singleCondition) " << strlen(singleCondition) << " len cConditions " << strlen(cConditions)<<std::endl;
-    //std::cout << "Conditions Replace: Condition " << singleCondition << " string changed in " << cConditions << std::endl;
-  }
+      //std::cout << "fpos " << fpos << " len condCVal " << strlen(condCVal) << " strlen(singleCondition) " << strlen(singleCondition) << " len cConditions " << strlen(cConditions)<<std::endl;
+      //std::cout << "Conditions Replace: Condition " << singleCondition << " string changed in " << cConditions << std::endl;
+    }
+
   std::string stringToEvaluate;
   char * pch;
   pch = strtok (cConditions," ");
@@ -330,24 +348,36 @@ bool HistoricInspector::ApplyConditions(std::string& Conditions, std::vector<std
   return true;
 }
 
-void HistoricInspector::setItems(std::string item,std::vector<std::string>&vlistItems){
+void HistoricInspector::setItems(std::string itemD,std::vector<DetIdItemList>& vDetIdItemList){
 
-  
-  vlistItems.push_back(item);
+  DetIdItemList detiditemlist;
+  detiditemlist.detid=atol(itemD.substr(0,itemD.find("@")).c_str());
+
+  std::string item=itemD.substr(itemD.find("@")+1);
+  detiditemlist.items.push_back(item);
+
   if(iDebug)
-    std::cout << "Found new item " << vlistItems.back() << std::endl;
+    std::cout << "Found new item " << detiditemlist.items.back() << " for detid " << detiditemlist.detid << std::endl;
 
   if(item.find("mean")!=std::string::npos){
-    vlistItems.push_back(item.replace(item.find("mean"),4,"rms")); 
+    detiditemlist.items.push_back(item.replace(item.find("mean"),4,"rms")); 
     if(iDebug)
-      std::cout << "Found new item " << vlistItems.back() << std::endl;
-    vlistItems.push_back(item.replace(item.find("rms"),3,"entries")); 
+      std::cout << "Found new item " << detiditemlist.items.back() << std::endl;
+    detiditemlist.items.push_back(item.replace(item.find("rms"),3,"entries")); 
     if(iDebug)
-      std::cout << "Found new item " << vlistItems.back() << std::endl;
+      std::cout << "Found new item " << detiditemlist.items.back() << std::endl;
   }
   else if(item.find("landauPeak")!=std::string::npos){
-    vlistItems.push_back(item.replace(item.find("landauPeak"),10,"landauPeakErr")); 
+    detiditemlist.items.push_back(item.replace(item.find("landauPeak"),10,"landauPeakErr")); 
     if(iDebug)
-      std::cout << "Found new item " << vlistItems.back() << std::endl;
+      std::cout << "Found new item " << detiditemlist.items.back() << std::endl;
   }
+
+  if(vDetIdItemList.size())
+    if(vDetIdItemList.back().detid==detiditemlist.detid)
+      vDetIdItemList.back().items.insert(vDetIdItemList.back().items.end(),detiditemlist.items.begin(),detiditemlist.items.end());
+    else
+      vDetIdItemList.push_back(detiditemlist);
+  else
+    vDetIdItemList.push_back(detiditemlist);
 }

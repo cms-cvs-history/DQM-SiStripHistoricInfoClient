@@ -20,6 +20,12 @@
 
 class HistoricInspector {
 
+  struct DetIdItemList {
+    unsigned int detid;
+    std::vector<std::string> items;
+    std::vector<float> values;
+  };
+
 public:  
   HistoricInspector():
     DBName_(""),
@@ -36,20 +42,20 @@ public:
   };
   
   void setDB(std::string DBName, std::string DBTag, std::string DBuser="", std::string DBpasswd="", std::string DBblob="");
-  void createTrend(unsigned int detId, std::string ListItems, std::string CanvasName="", std::string Conditions="", unsigned int firstRun=1, unsigned int lastRun=0xFFFFFFFE);
+  void createTrend(std::string ListItems, std::string CanvasName="", std::string Conditions="", unsigned int firstRun=1, unsigned int lastRun=0xFFFFFFFE);
   void setDebug(int i){iDebug=i;}
 
 private:
 
   void style();
-  void plot(unsigned int detId, std::vector<unsigned int>& vRun, std::vector<float>& vWhatToPlotSummary, std::vector<std::string>& vlistItems,size_t& nPads, std::string CanvasName);
+  void plot(std::vector<unsigned int>& vRun, std::vector<float>& vWhatToPlotSummary, std::vector<DetIdItemList>& vDetIdItemList,size_t& nPads, std::string CanvasName);
   void accessDB();
   void InitializeIOVList();
   bool setRange(unsigned int& firstRun, unsigned int& lastRun);
-  void setItems(std::string,std::vector<std::string>&);
-  size_t unpackItems(std::string& , std::vector<std::string>& );
-  void unpackConditions(std::string& , std::vector<std::string>& );
-  bool ApplyConditions(std::string& , std::vector<std::string>&, std::vector<float>& );
+  void setItems(std::string,std::vector<DetIdItemList>&);
+  size_t unpackItems(std::string& , std::vector<DetIdItemList>&);
+  void unpackConditions(std::string& , std::vector<DetIdItemList>&);
+  bool ApplyConditions(std::string& , std::vector<DetIdItemList>& );
 
   std::string DBName_, DBTag_, DBuser_, DBpasswd_, DBblob_;
   
