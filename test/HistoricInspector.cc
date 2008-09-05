@@ -134,26 +134,12 @@ void HistoricInspector::createTrend(unsigned int detId, std::string ListItems, s
   std::vector<std::string> vConditions;
   std::vector<float> vcond;
   
-  double resultdbl=1;
-  char condCVal[1024];   
-  char cConditions[1024];
-  char singleCondition[1024];
+
 
   size_t nPads=unpackItems(ListItems,vlistItems);   
-  
-  char * pch;
-  char delimiters[128]="><=+-*/&| ";
-  char copyConditions[1024];
-  sprintf(copyConditions,"%s",Conditions.c_str());
-  pch = strtok (copyConditions,delimiters);
-  while (pch != NULL){
-    if(strstr(pch,"@")!=NULL){
-      vConditions.push_back(pch);
-      std::cout << "a Condition " << vConditions.back() << std::endl;
-    }
-    pch = strtok (NULL,delimiters);
-  }
 
+  unpackConditions(Conditions,vConditions);
+ 
   //   double start = clock(); 
 
   std::cout << "firstRun " << firstRun << " lastRun " << lastRun << std::endl;
@@ -167,23 +153,13 @@ void HistoricInspector::createTrend(unsigned int detId, std::string ListItems, s
     if(Iterator->getStartTime()<firstRun || Iterator->getStartTime()>lastRun)
       continue;
 
-    vcond=reference->getSummaryObj(detId, vConditions);
-     
-    sprintf(cConditions,"%s",Conditions.c_str());
-    std::cout << "Conditions " << cConditions << std::endl;
-    for(size_t ic=0;ic<vConditions.size();++ic){
-      sprintf(condCVal,"%f",vcond[ic]);
-
-      sprintf(singleCondition,"%s",vConditions[ic].c_str());
-      char* fpos = strstr(cConditions,singleCondition);
-      strncpy(fpos,condCVal,strlen(condCVal));
-      memset(fpos+strlen(condCVal),24,strlen(singleCondition)-strlen(condCVal));
-      std::cout << "Conditions Replace: Condition " << singleCondition << " string changed in " << cConditions << std::endl;
+    if(vConditions.size()){
+      vcond=reference->getSummaryObj(detId, vConditions);
+   
+      if(!ApplyConditions(Conditions,vConditions,vcond))
+	continue;
     }
-    ExpressionEvaluator::calculateDouble(cConditions, resultdbl);
-    if(!resultdbl)
-      continue;
-     
+
     vRun.push_back(reference->getRunNr());
 
     vtmp=reference->getSummaryObj(detId, vlistItems);
@@ -294,6 +270,56 @@ size_t HistoricInspector::unpackItems(std::string& ListItems, std::vector<std::s
   setItems(ListItems.substr(oldloc,loc-oldloc),vlistItems);
   std::cout << std::endl;
   return count;
+}
+
+void HistoricInspector::unpackConditions( std::string& Conditions, std::vector<std::string>& vConditions){
+  char * pch;
+  char delimiters[128]="><=+-*/&| ";
+  char copyConditions[1024];
+  sprintf(copyConditions,"%s",Conditions.c_str());
+  pch = strtok (copyConditions,delimiters);
+  while (pch != NULL){
+    if(strstr(pch,"@")!=NULL){
+      vConditions.push_back(pch);
+      std::cout << "a Condition " << vConditions.back() << std::endl;
+    }
+    pch = strtok (NULL,delimiters);
+  }
+}
+
+
+bool HistoricInspector::ApplyConditions(std::string& Conditions, std::vector<std::string>& vConditions, std::vector<float>& vcond){
+
+  double resultdbl=1;
+  char cConditions[1024];
+  char singleCondition[1024];
+  char condCVal[1024];   
+
+  sprintf(cConditions,"%s",Conditions.c_str());
+  //std::cout << "Conditions " << cConditions << " len " << strlen(cConditions)<< std::endl;
+  for(size_t ic=0;ic<vConditions.size();++ic){
+    sprintf(condCVal,"%f",vcond[ic]);
+    
+    sprintf(singleCondition,"%s",vConditions[ic].c_str());
+    char* fpos = strstr(cConditions,singleCondition);
+    strncpy(fpos,condCVal,strlen(condCVal));
+    memset(fpos+strlen(condCVal),' ',strlen(singleCondition)-strlen(condCVal));
+    
+    //std::cout << "fpos " << fpos << " len condCVal " << strlen(condCVal) << " strlen(singleCondition) " << strlen(singleCondition) << " len cConditions " << strlen(cConditions)<<std::endl;
+    //std::cout << "Conditions Replace: Condition " << singleCondition << " string changed in " << cConditions << std::endl;
+  }
+  if(iDebug)
+    std::cout << "Conditions After " << cConditions << " len " << strlen(cConditions)<< std::endl;
+  std::string tmp(cConditions);
+  int errcode=ExpressionEvaluator::calculateDouble(tmp, resultdbl);
+  if(errcode!=0){
+    
+    std::cout << "Problem in ExpressionEvaluator: errcode " << errcode << " Result " << resultdbl << std::endl;
+    throw 1;
+  }
+  if(!resultdbl)
+    return false;
+  return true;
 }
 
 void HistoricInspector::setItems(std::string item,std::vector<std::string>&vlistItems){

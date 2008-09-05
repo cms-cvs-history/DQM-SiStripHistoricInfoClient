@@ -51,8 +51,10 @@ private:
   void InitializeIOVList();
   bool setRange(unsigned int& firstRun, unsigned int& lastRun);
   void setItems(std::string,std::vector<std::string>&);
-  size_t unpackItems(std::string& ListItems, std::vector<std::string>& vlistItems);
-  
+  size_t unpackItems(std::string& , std::vector<std::string>& );
+  void unpackConditions(std::string& , std::vector<std::string>& );
+  bool ApplyConditions(std::string& , std::vector<std::string>&, std::vector<float>& );
+
   std::string DBName_, DBTag_, DBuser_, DBpasswd_, DBblob_;
   
   CondCachedIter<SiStripSummary>* Iterator; 

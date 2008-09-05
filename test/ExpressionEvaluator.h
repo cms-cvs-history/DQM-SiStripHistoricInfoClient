@@ -2,7 +2,6 @@
 #define EXPRESSION_EVALUATOR__INC__
 
 
-#pragma warning (disable:4786)
 #include <stack>
 #include <string>
 
