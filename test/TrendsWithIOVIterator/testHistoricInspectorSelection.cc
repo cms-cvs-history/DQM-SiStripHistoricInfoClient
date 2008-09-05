@@ -9,7 +9,7 @@ HistoricInspector A;
 //A.setDB("oracle://devdb10/CMS_COND_STRIP", "SiStripSummary_test2","cms_cond_strip","w3807dev","COND/Services/TBufferBlobStreamingService");
 A.setDB("sqlite_file:historicDQM.db", "SiStripSummary_test1","cms_cond_strip","w3807dev","");
 
-A.setDebug(0);
+A.setDebug(1);
 
 //A.createTrend(1, "Summary_NumberOfClusters_OffTrack@mean","CanvasName.eps", 51093);
 
@@ -18,11 +18,12 @@ A.setDebug(0);
 
 
 // //TK
-A.createTrend(0, "NumberOfTracks_CKFTk@mean", "CKFTk_trends.eps","NumberOfTracks_CKFTk@entries>0 && Summary_TotalNumberOfClusters_OffTrack@mean<2.3");
+A.createTrend(0, "NumberOfTracks_CKFTk@mean,NumberOfRecHitsPerTrack_CKFTk@mean,Chi2_CKFTk@mean", "CKFTk_trends.eps");
 
-// //TIB
-//A.createTrend(1, "Summary_TotalNumberOfClusters_OffTrack@mean,Summary_ClusterCharge_OffTrack@mean,Summary_ClusterNoise_OffTrack@mean,Summary_ClusterStoN_OffTrack@mean,Summary_ClusterWidth_OffTrack@mean","TIB_OffTrack.eps");
-//A.createTrend(1, "Summary_TotalNumberOfClusters_OnTrack@mean,Summary_ClusterChargeCorr_OnTrack@landauPeak,Summary_ClusterNoise_OnTrack@gaussMean,Summary_ClusterStoNCorr_OnTrack@landauPeak,Summary_ClusterWidth_OnTrack@mean","TIB_OnTrack.eps");
+A.createTrend(0, "NumberOfTracks_CKFTk@mean,NumberOfRecHitsPerTrack_CKFTk@mean,Chi2_CKFTk@mean", "CKFTk_trends_Ntrack.eps","NumberOfTracks_CKFTk@mean > 0");
+
+A.createTrend(0, "NumberOfTracks_CKFTk@mean,NumberOfRecHitsPerTrack_CKFTk@mean,Chi2_CKFTk@mean", "CKFTk_trends_Ntrack_rechit.eps","NumberOfTracks_CKFTk@mean>0 && NumberOfRecHitsPerTrack_CKFTk@mean>0");
+
 
 
 }
