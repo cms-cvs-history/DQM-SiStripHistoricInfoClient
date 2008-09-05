@@ -84,8 +84,8 @@ void HistoricInspector::InitializeIOVList(){
 
   const SiStripSummary* reference;
   while(reference = Iterator->next()) {
-    iovList->push_back(Iterator->getStartTime());
-    std::cout << "iovList " << iovList->back() << std::endl;
+    iovList.push_back(Iterator->getStartTime());
+    std::cout << "iovList " << iovList.back() << std::endl;
   } 
   Iterator->rewind();
 }
@@ -93,24 +93,24 @@ void HistoricInspector::InitializeIOVList(){
 bool HistoricInspector::setRange(unsigned int& firstRun, unsigned int& lastRun){
   unsigned int first,last;
 
-  for(size_t i=0;i<iovList->size();++i)
-    std::cout << iovList->at(i)<< std::endl;
+  for(size_t i=0;i<iovList.size();++i)
+    std::cout << iovList.at(i)<< std::endl;
 
   std::vector<unsigned int>::iterator iter;
 
-  iter=std::lower_bound(iovList->begin(),iovList->end(),firstRun);
-  if (iter!=iovList->end())
+  iter=std::lower_bound(iovList.begin(),iovList.end(),firstRun);
+  if (iter!=iovList.end())
     first=*iter;
   else{
-    std::cout << "firstRun (" << firstRun << ") > last iov ("<<iovList->back()<< ")"<<std::endl; 
+    std::cout << "firstRun (" << firstRun << ") > last iov ("<<iovList.back()<< ")"<<std::endl; 
     return false;
   }
 
-  iter=std::lower_bound(iovList->begin(),iovList->end(),lastRun);
-  if (iter!=iovList->end())
+  iter=std::lower_bound(iovList.begin(),iovList.end(),lastRun);
+  if (iter!=iovList.end())
     last=*iter;
   else{
-    last=iovList->back();
+    last=iovList.back();
   }
   
   firstRun=first;
@@ -164,16 +164,13 @@ void HistoricInspector::createTrend(unsigned int detId, std::string ListItems, s
 
     vtmp=reference->getSummaryObj(detId, vlistItems);
      
-    //vSummary.insert(vSummary.end(),vtmp.begin(),vtmp.end());     //<<<<<<<<< THIS DOESN'T WORK IN ROOT INTERPRETED
-    if(iDebug)
+    vSummary.insert(vSummary.end(),vtmp.begin(),vtmp.end());   
+    if(iDebug){
       std::cout << ListItems  << " run " << vRun.back() << " values \n" ;
-    for(size_t i=0;i<vtmp.size();++i){
-      vSummary.push_back(vtmp[i]);
-      if(iDebug)
-	std::cout << "\t" << vlistItems[i] << " " << vSummary.back() << " \n";
-    }
-    if(iDebug)
+      for(size_t i=0;i<vtmp.size();++i)
+	std::cout << "\t" << vlistItems[i] << " " << vSummary[(vRun.size()-1)*vlistItems.size()+i] << " \n";
       std::cout << "\n" << std::endl;
+    }
   }
 
   if(vRun.size())
@@ -205,7 +202,7 @@ void HistoricInspector::plot(unsigned int detId, std::vector<unsigned int>& vRun
 
   if(CanvasName==""){
     char name[128];
-    sprintf(name,"%d",clock());
+    sprintf(name,"%d",(int) clock());
     CanvasName=std::string(name);
   }
   C=new TCanvas(CanvasName.c_str(),"");
@@ -274,7 +271,7 @@ size_t HistoricInspector::unpackItems(std::string& ListItems, std::vector<std::s
 
 void HistoricInspector::unpackConditions( std::string& Conditions, std::vector<std::string>& vConditions){
   char * pch;
-  char delimiters[128]="><=+-*/&| ";
+  char delimiters[128]="><=+-*/&|() ";
   char copyConditions[1024];
   sprintf(copyConditions,"%s",Conditions.c_str());
   pch = strtok (copyConditions,delimiters);
@@ -308,15 +305,26 @@ bool HistoricInspector::ApplyConditions(std::string& Conditions, std::vector<std
     //std::cout << "fpos " << fpos << " len condCVal " << strlen(condCVal) << " strlen(singleCondition) " << strlen(singleCondition) << " len cConditions " << strlen(cConditions)<<std::endl;
     //std::cout << "Conditions Replace: Condition " << singleCondition << " string changed in " << cConditions << std::endl;
   }
+  std::string stringToEvaluate;
+  char * pch;
+  pch = strtok (cConditions," ");
+  while (pch != NULL){
+    stringToEvaluate.append(pch);
+    pch = strtok (NULL, " ");
+  } 
+  //for(size_t i=0;i<strlen(cConditions);++i)
+  // if(cConditions[i] != " ")
+  //  stringToEvaluate.push_back(cConditions[i]);
+
   if(iDebug)
-    std::cout << "Conditions After " << cConditions << " len " << strlen(cConditions)<< std::endl;
-  std::string tmp(cConditions);
-  int errcode=ExpressionEvaluator::calculateDouble(tmp, resultdbl);
-  if(errcode!=0){
-    
+    std::cout << "Conditions After SubStitution " << stringToEvaluate << std::endl;
+  int errcode=ExpressionEvaluator::calculateDouble(stringToEvaluate, resultdbl);
+  if(errcode!=0){    
     std::cout << "Problem in ExpressionEvaluator: errcode " << errcode << " Result " << resultdbl << std::endl;
     throw 1;
   }
+  if(iDebug)
+    std::cout << "Result " << resultdbl << std::endl;
   if(!resultdbl)
     return false;
   return true;

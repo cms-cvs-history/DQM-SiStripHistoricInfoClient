@@ -29,11 +29,7 @@ public:
     DBblob_(""),
     Iterator(0),
     iDebug(0)
-  {
-    //VERY POOR WAY TO CREATE A STD VECTOR, BUT IT SEEMS THAT CINT DOESN'T ALLOW TO DO BETTER
-    std::vector<unsigned int>* a = new std::vector<unsigned int>(0);
-    iovList=a;
-  };
+    {};
   
   ~HistoricInspector(){
     delete Iterator;
@@ -59,7 +55,7 @@ private:
   
   CondCachedIter<SiStripSummary>* Iterator; 
   
-  std::vector<unsigned int>* iovList;
+  std::vector<unsigned int> iovList;
   int iDebug;
 };
 

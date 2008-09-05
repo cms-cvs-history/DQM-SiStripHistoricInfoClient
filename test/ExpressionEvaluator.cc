@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "ExpressionEvaluator.h"
-
+#include "iostream"
 /*
   History
   ----------
@@ -104,8 +104,8 @@ namespace ExpressionEvaluator
     {operator_mod, 18},
     {operator_shl, 17}, {operator_shr, 17},
     {operator_sub, 16}, {operator_add, 16},
-    {operator_xor, 15}, {operator_band, 15}, {operator_bor, 15}, {operator_nor, 15}, 
-    {operator_land, 14}, {operator_lor, 14}, {operator_nand, 15},
+    {operator_xor, 12}, {operator_band, 12}, {operator_bor, 12}, {operator_nor, 12}, 
+    {operator_land, 11}, {operator_lor, 11}, {operator_nand, 11},
     {operator_iseq, 13}, {operator_lt, 13}, {operator_gt, 13},
     {operator_gte, 13}, {operator_ne, 13}, {operator_lte, 13}
   };
@@ -387,6 +387,7 @@ namespace ExpressionEvaluator
     {
       if ( (err = toRPN(expr, rpn)) != eval_ok)
         return err;
+      //std::cout << "RPN " << rpn << std::endl;
       err = evaluateRPN(rpn, r);
     }
     catch(...)
