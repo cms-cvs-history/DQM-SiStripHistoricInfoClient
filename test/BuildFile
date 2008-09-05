@@ -2,15 +2,20 @@
 <use name=CondCore/DBCommon>
 <use name=CondCore/IOVService>
 <use name=CondCore/MetaDataService>
+<use name=CondCore/Utilities>
 
 <use name=CondFormats/SiStripObjects>
-<use name=boost>
-<use name=boost_program_options>    
 
-<use name=CondCore/Utilities>
+<use name=root>
+<use name=rootgraphics>
 <use name=rootrflx>
+<use name=rootminuit>
+<use name=rootminuit2>
+<use name=rootcintex>
 
-<library name=testSiStripHistoricDQM file="">
+<use name=boost>
+
+<library name="testSiStripHistoricDQM" file="*.cc">
 </library>
 
 

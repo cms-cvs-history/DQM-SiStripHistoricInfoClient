@@ -4,15 +4,13 @@
 
 #include "CondCore/Utilities/interface/CondCachedIter.h"
 
-
-#include <iostream>
-
+#include "DQM/SiStripHistoricInfoClient/test/HistoricInspector.h"
 
 
+namespace { 
 
-namespace { namespace {
+  CondCachedIter<SiStripSummary> dummy13;
 
-CondCachedIter<SiStripSummary> dummy13;
-
-}}
+  HistoricInspector dummy1;
+}
 

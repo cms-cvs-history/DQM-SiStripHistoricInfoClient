@@ -2,5 +2,6 @@
 <!-- the class you need -->
  
   <class name="CondCachedIter<SiStripSummary>"/>
+  <class name="HistoricInspector"/>
 
 </lcgdict>   
