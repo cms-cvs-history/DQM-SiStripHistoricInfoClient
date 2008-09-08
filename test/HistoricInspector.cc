@@ -18,27 +18,29 @@
 #include "TCanvas.h"
 #include "TString.h"
 #include "TROOT.h"
+#include "TStyle.h"
 
 #include "ExpressionEvaluator.h"
 
 
 void HistoricInspector::style(){
-  /*
-  gStyle->SetOptStat(0);
-  gROOT->SetStyle("Plain");
-  gStyle->SetOptStat(0);
-  gStyle->SetOptFit(111);
-  gStyle->SetStatFont(12);
-  gStyle->SetStatBorderSize(1);
-  gStyle->SetCanvasColor(0);
-  gStyle->SetCanvasBorderMode(0);
-  gStyle->SetPadBorderMode(0);
-  gStyle->SetPadColor(0);
-  gStyle->SetLineWidth(2.);
-  gStyle->SetPalette(1);
-  gStyle->SetMarkerStyle(20);
-  gStyle->SetMarkerColor(2);
-  */
+  TStyle* theStyle= new TStyle();
+  theStyle->SetOptStat(0);
+  //gROOT->SetStyle("Plain");
+  theStyle->SetOptStat(0);
+  theStyle->SetOptFit(111);
+  theStyle->SetStatFont(12);
+  theStyle->SetStatBorderSize(1);
+  theStyle->SetCanvasColor(0);
+  theStyle->SetCanvasBorderMode(0);
+  theStyle->SetPadBorderMode(0);
+  theStyle->SetPadColor(0);
+  theStyle->SetLineWidth(.5);
+  theStyle->SetLineStyle(2.);
+  theStyle->SetPalette(1);
+  theStyle->SetMarkerStyle(20);
+  theStyle->SetMarkerColor(2);
+  theStyle->cd();
 }
 
 void HistoricInspector::setDB(std::string DBName, std::string DBTag, std::string DBuser, std::string DBpasswd, std::string DBblob){
