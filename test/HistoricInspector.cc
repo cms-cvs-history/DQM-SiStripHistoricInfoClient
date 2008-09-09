@@ -24,6 +24,7 @@
 
 
 void HistoricInspector::style(){
+
   TStyle* theStyle= new TStyle();
   theStyle->SetOptStat(0);
   //gROOT->SetStyle("Plain");
@@ -40,7 +41,14 @@ void HistoricInspector::style(){
   theStyle->SetPalette(1);
   theStyle->SetMarkerStyle(20);
   theStyle->SetMarkerColor(2);
+  theStyle->SetLabelSize(0.07,"y");
+  theStyle->SetLabelSize(0.04,"x");
+  theStyle->SetTitleFontSize(0.2);
+  theStyle->SetTitleW(0.9);
+  theStyle->SetPadLeftMargin(0.12);   
+  theStyle->SetPadTopMargin(0.3);
   theStyle->cd();
+
 }
 
 void HistoricInspector::setDB(std::string DBName, std::string DBTag, std::string DBuser, std::string DBpasswd, std::string DBblob){
@@ -79,6 +87,35 @@ void HistoricInspector::accessDB(){
   //  end = clock();
   //  if(iDebug)
   //std::cout <<"Time Creation link with Database = " <<  ((double) (end - start)) << " (a.u.)" <<std::endl; 
+}
+
+
+void  HistoricInspector::setBlackList(std::string& ListItems)
+{
+   std::string::size_type oldloc = 0; 
+   std::string::size_type loc = ListItems.find( ",", oldloc );
+   
+   while( loc != std::string::npos ) {
+     blackList.push_back(atoi((ListItems.substr(oldloc,loc-oldloc)).c_str()));
+     oldloc=loc+1;
+     loc=ListItems.find( ",", oldloc );
+     }
+   
+   blackList.push_back(atoi((ListItems.substr(oldloc,loc-oldloc)).c_str()));
+   std::cout << std::endl; 
+}
+
+
+bool  HistoricInspector::isListed(unsigned int run, std::vector<unsigned int>& vList)
+{
+   bool isListed = false;
+   for(unsigned int i=0; i<vList.size();i++){
+     if(run== vList.at(i)){ 
+      isListed = true;
+      if(iDebug) std::cout << "\n Run "<< run << " is black listed !!\n" << std::endl;
+     }
+    }
+   return isListed;
 }
 
 
@@ -147,7 +184,7 @@ void HistoricInspector::createTrend(std::string ListItems, std::string CanvasNam
   const SiStripSummary* reference;
   while(reference = Iterator->next()) { 
 
-    if(Iterator->getStartTime()<firstRun || Iterator->getStartTime()>lastRun)
+    if(Iterator->getStartTime()<firstRun || Iterator->getStartTime()>lastRun || isListed(reference->getRunNr(), blackList))
       continue;
 
     if(vDetIdItemListCut.size()){
@@ -207,7 +244,12 @@ void HistoricInspector::plot(std::vector<unsigned int>& vRun, std::vector<float>
     sprintf(name,"%d",(int) clock());
     CanvasName=std::string(name);
   }
-  C=new TCanvas(CanvasName.c_str(),"");
+  
+  
+  std::string rootCName = CanvasName;
+  rootCName.replace(rootCName.find("."),rootCName.size()-rootCName.find("."),"");
+ 
+  C=new TCanvas(rootCName.c_str(),"");
   int ndiv=(int) sqrt(nPads);
   C->Divide(ndiv,nPads/ndiv+ (nPads%ndiv?1:0));
  
@@ -222,8 +264,18 @@ void HistoricInspector::plot(std::vector<unsigned int>& vRun, std::vector<float>
   for(size_t i=0;i<vlistItems.size();++i){
     std::cout <<  "TkRegion " << vdetId[i] << " " << vlistItems[i] << std::endl;
 
+    if(vlistItems.at(i).find("Summary")!= std::string::npos) vlistItems.at(i).replace(vlistItems.at(i).find("Summary"),7,"");
+    if(vlistItems.at(i).find("@")!= std::string::npos) vlistItems.at(i).replace(vlistItems.at(i).find("@"),1,"_");
+    
+ 
     std::stringstream ss;
-    ss << "TkRegion " << vdetId[i] << " " << vlistItems[i];
+    if ( vdetId[i] == 0)  ss << vlistItems[i];
+    else if ( vdetId[i] == 1)  ss << "TIB" << vlistItems[i];
+    else if ( vdetId[i] == 2)  ss << "TOB" << vlistItems[i];
+    else if ( vdetId[i] == 3)  ss << "TID" << vlistItems[i];
+    else if ( vdetId[i] == 4)  ss << "TEC" << vlistItems[i];
+    else ss << "Id " << vdetId[i]<< " " << vlistItems[i];
+   
 
     int addShift=0;
     for(size_t j=0;j<vRun.size();++j){
@@ -255,9 +307,14 @@ void HistoricInspector::plot(std::vector<unsigned int>& vRun, std::vector<float>
     graph = new TGraphErrors((int) vRun.size(),X,Y,EX,EY);
     graph->SetTitle(ss.str().c_str());
     graph->Draw("Alp");
+    graph->SetName(ss.str().c_str());
+    graph->Write();
+   
     
   }
+  C->Write();
   C->SaveAs(CanvasName.c_str());
+  C->SaveAs(CanvasName.replace(CanvasName.find("."),CanvasName.size()-CanvasName.find("."),".C").c_str());//savewith .C
 }
 
 

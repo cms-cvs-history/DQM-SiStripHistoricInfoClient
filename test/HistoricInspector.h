@@ -17,6 +17,7 @@
 #include "cmath"
 #include "CondCore/Utilities/interface/CondCachedIter.h"
 #include "CondFormats/SiStripObjects/interface/SiStripSummary.h"
+#include "TFile.h" 
 
 class HistoricInspector {
 
@@ -35,7 +36,7 @@ public:
     DBblob_(""),
     Iterator(0),
     iDebug(0)
-    {};
+    {TFile *target  = new TFile( "historicDQM.root","RECREATE" );};
   
   ~HistoricInspector(){
     delete Iterator;
@@ -44,6 +45,7 @@ public:
   void setDB(std::string DBName, std::string DBTag, std::string DBuser="", std::string DBpasswd="", std::string DBblob="");
   void createTrend(std::string ListItems, std::string CanvasName="", std::string Conditions="", unsigned int firstRun=1, unsigned int lastRun=0xFFFFFFFE);
   void setDebug(int i){iDebug=i;}
+  void setBlackList(std::string& ListItems);
 
 private:
 
@@ -56,12 +58,16 @@ private:
   size_t unpackItems(std::string& , std::vector<DetIdItemList>&);
   void unpackConditions(std::string& , std::vector<DetIdItemList>&);
   bool ApplyConditions(std::string& , std::vector<DetIdItemList>& );
+  bool isListed(unsigned int run, std::vector<unsigned int>& vList);
+
 
   std::string DBName_, DBTag_, DBuser_, DBpasswd_, DBblob_;
   
   CondCachedIter<SiStripSummary>* Iterator; 
   
   std::vector<unsigned int> iovList;
+  std::vector<unsigned int> blackList;
   int iDebug;
+  
 };
 
