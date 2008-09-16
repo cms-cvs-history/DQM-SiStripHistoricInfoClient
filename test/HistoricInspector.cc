@@ -371,8 +371,9 @@ bool HistoricInspector::ApplyConditions(std::string& Conditions, std::vector<Det
   std::cout << "Conditions " << cConditions << std::endl;
   for(size_t ic=0;ic<vDetIdItemList.size();++ic)
     for(size_t jc=0;jc<vDetIdItemList[ic].items.size();++jc){
-      sprintf(condCVal,"%g",vDetIdItemList[ic].values[jc]);
-    
+      //scientific precision doesn't work in ExpressionEvaluator...
+      //sprintf(condCVal,"%g",vDetIdItemList[ic].values[jc]);
+      sprintf(condCVal,"%f",vDetIdItemList[ic].values[jc]);
       sprintf(singleCondition,"%d@%s",vDetIdItemList[ic].detid,vDetIdItemList[ic].items[jc].c_str());
       char* fpos = strstr(cConditions,singleCondition);
       strncpy(fpos,condCVal,strlen(condCVal));
