@@ -3,5 +3,6 @@
  
   <class name="CondCachedIter<SiStripSummary>"/>
   <class name="HistoricInspector"/>
+  <class name="GraphAnalysis"/>
 
 </lcgdict>   

@@ -226,6 +226,10 @@ void HistoricInspector::createTrend(std::string ListItems, std::string CanvasNam
 }
 
 void HistoricInspector::plot(std::vector<unsigned int>& vRun, std::vector<float>& vSummary, std::vector<DetIdItemList>& vDetIdItemList,size_t& nPads, std::string CanvasName){
+ 
+  
+  TFile *target  = new TFile( "historicDQM.root","RECREATE" );
+  
   std::cout << "\n********\nplot\n*****\n"<< std::endl;
 
   style();

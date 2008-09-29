@@ -36,7 +36,7 @@ public:
     DBblob_(""),
     Iterator(0),
     iDebug(0)
-    {TFile *target  = new TFile( "historicDQM.root","RECREATE" );};
+    {};
   
   ~HistoricInspector(){
     delete Iterator;
