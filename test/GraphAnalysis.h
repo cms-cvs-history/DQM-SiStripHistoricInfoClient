@@ -21,14 +21,15 @@ class GraphAnalysis {
 
 public:   
   
-   GraphAnalysis():_quantity(""){};
-   GraphAnalysis(TString quantity){ _quantity = quantity;};
+   GraphAnalysis():_quantity("",false){};
+   GraphAnalysis(TString quantity, bool reverse_order){ _quantity = quantity; _reverse_order = reverse_order;};
    ~GraphAnalysis(){};
    void plotGraphAnalysis(std::string& ListItems);
   
 private:
  
    std::string _quantity;
+   bool _reverse_order;
    double findGraphMax(TGraphErrors* g);
    double findGraphMin(TGraphErrors* g);
 

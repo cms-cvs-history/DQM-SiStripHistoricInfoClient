@@ -64,13 +64,16 @@ void GraphAnalysis::plotGraphAnalysis(std::string& ListItems)
   //
   for (size_t i=0; i<vString.size(); i++)
   {  
-     TGraphErrors *g = (TGraphErrors*)f->Get((vString.at(i)+"_"+_quantity).c_str());
+     TGraphErrors *g = 0;
+     if (!_reverse_order) g = (TGraphErrors*)f->Get((vString.at(i)+"_"+_quantity).c_str());
+     else                 g = (TGraphErrors*)f->Get((_quantity+"_"+vString.at(i)).c_str());
      if (g!=0) {
         vGraph.push_back(g);
         vGraph.back()->SetMarkerColor(2+i); 
         legendE->AddEntry(vGraph.back(),(vString.at(i)).c_str(),"P");}
-     else std::cout << "No graph found called " << vString.at(i)<<"_"<<_quantity << std::endl;
-	
+     else {
+        if (!_reverse_order) std::cout << "No graph found called " << vString.at(i)<<"_"<<_quantity << std::endl;
+        else std::cout << "No graph found called " << _quantity <<"_"<< vString.at(i)<< std::endl;}
      }
     
      
