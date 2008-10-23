@@ -100,7 +100,7 @@ void GraphAnalysis::plotGraphAnalysis(std::string& ListItems)
   if (vGraph.size()>0) 
   {
    TCanvas *C = new TCanvas("","");
-   std::string CanvasName = _quantity+"_superimposed.eps";
+   std::string CanvasName = _quantity+"_superimposed.gif";
    
    vGraph.at(0)->SetMaximum((*max));
    vGraph.at(0)->SetMinimum((*min));

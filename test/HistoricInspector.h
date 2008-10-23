@@ -44,6 +44,7 @@ public:
   
   void setDB(std::string DBName, std::string DBTag, std::string DBuser="", std::string DBpasswd="", std::string DBblob="");
   void createTrend(std::string ListItems, std::string CanvasName="", std::string Conditions="", unsigned int firstRun=1, unsigned int lastRun=0xFFFFFFFE);
+  void createTrendLastRuns(std::string ListItems, std::string CanvasName="", std::string Conditions="", unsigned int nRuns=10); 
   void setDebug(int i){iDebug=i;}
   void setBlackList(std::string& ListItems);
 

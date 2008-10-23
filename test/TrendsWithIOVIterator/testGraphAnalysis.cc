@@ -48,4 +48,8 @@ GraphAnalysis A12("NumberOfRecHitsPerTrack",true);
 A12.plotGraphAnalysis("CKFTk_mean,CosmicTk_mean,RSTk_mean");
 
 
+//
+
+gSystem->Exec("kill -9 "+TString(Form("%d", gSystem->GetPid())));
+
 }

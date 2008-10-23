@@ -71,7 +71,7 @@ void HistoricInspector::setDB(std::string DBName, std::string DBTag, std::string
 
   accessDB();
   
-  TFile *target  = new TFile( "historicDQM.root","RECREATE" );
+  TFile *target = new TFile( "historicDQM.root","RECREATE" );
 }
 
 void HistoricInspector::accessDB(){
@@ -161,6 +161,26 @@ bool HistoricInspector::setRange(unsigned int& firstRun, unsigned int& lastRun){
   return true;
 }
 
+void HistoricInspector::createTrendLastRuns(std::string ListItems, std::string CanvasName, std::string Conditions, unsigned int nRuns){   
+
+unsigned int first,last;
+unsigned int iovListSize = iovList.size();
+
+if (iovListSize>0) 
+{ 
+  last = iovList.back();
+  
+  if (iovListSize>=nRuns) first = iovList.at(iovListSize-nRuns); 
+  else first = *iovList.begin();
+  }
+  else return;
+  
+createTrend(ListItems,CanvasName,Conditions,first,last);
+
+
+}
+
+
 void HistoricInspector::createTrend(std::string ListItems, std::string CanvasName, std::string Conditions, unsigned int firstRun, unsigned int lastRun){   
   std::cout << "\n****************\nCreateTrend\n****************\n" << std::endl;
   std::cout << "ListItems : " << ListItems << std::endl;
@@ -228,9 +248,7 @@ void HistoricInspector::createTrend(std::string ListItems, std::string CanvasNam
 
 void HistoricInspector::plot(std::vector<unsigned int>& vRun, std::vector<float>& vSummary, std::vector<DetIdItemList>& vDetIdItemList,size_t& nPads, std::string CanvasName){
  
-  
- // TFile *target  = new TFile( "historicDQM.root","RECREATE" );
-  
+    
   std::cout << "\n********\nplot\n*****\n"<< std::endl;
 
   style();
