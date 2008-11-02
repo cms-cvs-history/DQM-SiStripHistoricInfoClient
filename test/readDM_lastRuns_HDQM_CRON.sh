@@ -38,10 +38,12 @@ echo " Extract the infos from the DB & do the trend plots for the last $1 runs  
 echo "=========================================================================="
 
 pwd
-cat $baseDir/DQM/SiStripHistoricInfoClient/test/TrendsWithIOVIterator/template_testHistoricInspectorSelection.cc | sed -e "s@nRuns@$1@g" > $baseDir/testHistoricInspectorSelection.cc
-ls $baseDir
-root -l -b -q $baseDir/DQM/SiStripHistoricInfoClient/test/TrendsWithIOVIterator/rootlogon.C
-root -l -b -q $baseDir/testHistoricInspectorSelection.cc
+cat
+$baseDir/DQM/SiStripHistoricInfoClient/test/TrendsWithIOVIterator/template_historicInspectorSelection_intervalOfRuns.cc | sed -e "s@nRuns@$1@g" > $baseDir/testHistoricInspectorSelection_intervalOfRuns.cc
+cp $baseDir/DQM/SiStripHistoricInfoClient/test/TrendsWithIOVIterator/rootlogon.C $baseDir/.
+
+root -l -b -q $baseDir/rootlogon.C
+root -l -b -q $baseDir/testHistoricInspectorSelection_intervalOfRuns.cc
 
 if [ `ls historicDQM.root` ]; then
 root -l -b -q DQM/SiStripHistoricInfoClient/test/TrendsWithIOVIterator/testGraphAnalysis.cc
@@ -64,10 +66,9 @@ cd CRAFT_last_$1_runs
 ./diow.pl
 cp $baseDir/DQM/SiStripHistoricInfoClient/test/index.html .
 
-cp $baseDir/DQM/SiStripHistoricInfoClient/test/index.html .
 
 cd ..
-rm -f testHistoricInspectorSelection.cc
+rm -f testHistoricInspectorSelection_intervalOfRuns.cc
 rm -f $lockFile
 
 echo "=========================================================================="
