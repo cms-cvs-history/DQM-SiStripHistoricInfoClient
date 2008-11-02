@@ -293,10 +293,27 @@ void HistoricInspector::plot(std::vector<unsigned int>& vRun, std::vector<float>
  
     std::stringstream ss;
     if ( vdetId[i] == 0)  ss << vlistItems[i];
-    else if ( vdetId[i] == 1)  ss << "TIB" << vlistItems[i];
-    else if ( vdetId[i] == 2)  ss << "TOB" << vlistItems[i];
-    else if ( vdetId[i] == 3)  ss << "TID" << vlistItems[i];
-    else if ( vdetId[i] == 4)  ss << "TEC" << vlistItems[i];
+    else if ( vdetId[i] == 1)   ss << "TIB" << vlistItems[i];
+    else if ( vdetId[i] == 2)   ss << "TOB" << vlistItems[i];
+    else if ( vdetId[i] == 3)   ss << "TID" << vlistItems[i];
+    else if ( vdetId[i] == 4)   ss << "TEC" << vlistItems[i];
+    else if ( vdetId[i] == 11)  ss << "TIB_Layer1" << vlistItems[i];
+    else if ( vdetId[i] == 12)  ss << "TIB_Layer2" << vlistItems[i];
+    else if ( vdetId[i] == 13)  ss << "TIB_Layer3" << vlistItems[i];
+    else if ( vdetId[i] == 14)  ss << "TIB_Layer4" << vlistItems[i];
+    else if ( vdetId[i] == 21)  ss << "TOB_Layer1" << vlistItems[i];
+    else if ( vdetId[i] == 22)  ss << "TOB_Layer2" << vlistItems[i];
+    else if ( vdetId[i] == 23)  ss << "TOB_Layer3" << vlistItems[i];
+    else if ( vdetId[i] == 24)  ss << "TOB_Layer4" << vlistItems[i];
+    else if ( vdetId[i] == 25)  ss << "TOB_Layer5" << vlistItems[i];
+    else if ( vdetId[i] == 26)  ss << "TOB_Layer6" << vlistItems[i];
+    else if ( vdetId[i] == 311) ss << "TID_Side1_Layer1" << vlistItems[i];
+    else if ( vdetId[i] == 312) ss << "TID_Side1_Layer2" << vlistItems[i];
+    else if ( vdetId[i] == 313) ss << "TID_Side1_Layer3" << vlistItems[i];
+    else if ( vdetId[i] == 321) ss << "TID_Side2_Layer1" << vlistItems[i];
+    else if ( vdetId[i] == 322) ss << "TID_Side2_Layer2" << vlistItems[i];
+    else if ( vdetId[i] == 323) ss << "TIB_Side2_Layer3" << vlistItems[i];
+    
     else ss << "Id " << vdetId[i]<< " " << vlistItems[i];
     
     bool itemForIntegration = false;
