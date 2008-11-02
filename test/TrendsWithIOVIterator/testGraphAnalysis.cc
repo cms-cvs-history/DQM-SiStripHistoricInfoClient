@@ -15,7 +15,7 @@ A3.plotGraphAnalysis("TIB,TOB,TID,TEC");
 GraphAnalysis A4("ClusterStoNCorr_OnTrack_landauPeak",false);
 A4.plotGraphAnalysis("TIB,TOB,TID,TEC");
 
-GraphAnalysis A5("ClusterWidth_OnTrack_landauPeak",false);
+GraphAnalysis A5("ClusterWidth_OnTrack_mean",false);
 A5.plotGraphAnalysis("TIB,TOB,TID,TEC");
 
 

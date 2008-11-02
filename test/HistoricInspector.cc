@@ -19,6 +19,7 @@
 #include "TString.h"
 #include "TROOT.h"
 #include "TStyle.h"
+#include "TAxis.h"
 
 #include "ExpressionEvaluator.h"
 
@@ -41,12 +42,12 @@ void HistoricInspector::style(){
   theStyle->SetPalette(1);
   theStyle->SetMarkerStyle(20);
   theStyle->SetMarkerColor(2);
-  theStyle->SetLabelSize(0.07,"y");
+  theStyle->SetLabelSize(0.09,"y");
   theStyle->SetLabelSize(0.04,"x");
   theStyle->SetTitleFontSize(0.2);
   theStyle->SetTitleW(0.9);
   theStyle->SetPadLeftMargin(0.12);   
-  theStyle->SetPadTopMargin(0.3);
+  theStyle->SetPadTopMargin(0.34);
   theStyle->cd();
 
 }
@@ -161,7 +162,7 @@ bool HistoricInspector::setRange(unsigned int& firstRun, unsigned int& lastRun){
   return true;
 }
 
-void HistoricInspector::createTrendLastRuns(std::string ListItems, std::string CanvasName, std::string Conditions, unsigned int nRuns){   
+void HistoricInspector::createTrendLastRuns(std::string ListItems, std::string CanvasName, int logy, std::string Conditions, unsigned int nRuns){   
 
 unsigned int first,last;
 unsigned int iovListSize = iovList.size();
@@ -175,13 +176,13 @@ if (iovListSize>0)
   }
   else return;
   
-createTrend(ListItems,CanvasName,Conditions,first,last);
+createTrend(ListItems,CanvasName,logy,Conditions,first,last);
 
 
 }
 
 
-void HistoricInspector::createTrend(std::string ListItems, std::string CanvasName, std::string Conditions, unsigned int firstRun, unsigned int lastRun){   
+void HistoricInspector::createTrend(std::string ListItems, std::string CanvasName, int logy, std::string Conditions, unsigned int firstRun, unsigned int lastRun){   
   std::cout << "\n****************\nCreateTrend\n****************\n" << std::endl;
   std::cout << "ListItems : " << ListItems << std::endl;
   std::cout << "Conditions : " << Conditions << std::endl;
@@ -234,30 +235,29 @@ void HistoricInspector::createTrend(std::string ListItems, std::string CanvasNam
   }
 
   if(vRun.size())
-    plot(vRun, vSummary, vDetIdItemList, nPads, CanvasName);    
+    plot(vRun, vSummary, vDetIdItemList, nPads, CanvasName, logy);    
    
-  //   double end = clock();
-  //if(iDebug)
-  //std::cout <<"Time plotvsRun = " <<  ((double) (end - start)) << " (a.u.)" <<std::endl; 
-   
+     
   std::cout << "\n****** Ignore this error *****\n" << std::endl;
   Iterator->rewind();
   std::cout << "\n******************************\n" << std::endl;
 
 }
 
-void HistoricInspector::plot(std::vector<unsigned int>& vRun, std::vector<float>& vSummary, std::vector<DetIdItemList>& vDetIdItemList,size_t& nPads, std::string CanvasName){
+void HistoricInspector::plot(std::vector<unsigned int>& vRun, std::vector<float>& vSummary, std::vector<DetIdItemList>& vDetIdItemList, size_t& nPads, std::string CanvasName, int logy){
  
     
   std::cout << "\n********\nplot\n*****\n"<< std::endl;
 
   style();
 
-  double *X, *Y, *EX, *EY;
+  double *X, *Y, *EX, *EY, *YCumul;
   X=new double[vRun.size()];
   Y=new double[vRun.size()];
   EX=new double[vRun.size()]; 
-  EY=new double[vRun.size()]; 
+  EY=new double[vRun.size()];  
+  YCumul=new double[vRun.size()];
+  
   size_t index;
   TCanvas *C;
   TGraphErrors *graph;
@@ -298,6 +298,8 @@ void HistoricInspector::plot(std::vector<unsigned int>& vRun, std::vector<float>
     else if ( vdetId[i] == 3)  ss << "TID" << vlistItems[i];
     else if ( vdetId[i] == 4)  ss << "TEC" << vlistItems[i];
     else ss << "Id " << vdetId[i]<< " " << vlistItems[i];
+    
+    bool itemForIntegration = false;
    
 
     int addShift=0;
@@ -308,7 +310,8 @@ void HistoricInspector::plot(std::vector<unsigned int>& vRun, std::vector<float>
       Y[j]=vSummary[index];
       if(Y[j]==-10 || Y[j]==-9999)
 	Y[j]=0;
-
+ 
+    
       if(vlistItems[i].find("mean")!=std::string::npos){
 	//if the quantity requested is mean, the error is evaluated as the error on the mean=rms/sqrt(entries)
 	EY[j]=vSummary[index+2]>0?vSummary[index+1]/sqrt(vSummary[index+2]):0;
@@ -316,22 +319,74 @@ void HistoricInspector::plot(std::vector<unsigned int>& vRun, std::vector<float>
       }else if (vlistItems[i].find("landauPeak")!=std::string::npos){
 	EY[j]=vSummary[index+1];
 	addShift=1;
-      }else{
+      }
+      else if (vlistItems[i].find("gaussMean")!=std::string::npos){
+	EY[j]=vSummary[index+1];
+	addShift=1;
+      }
+      else{
 	EY[j]=sqrt(Y[j]);
       }
+     
+      // calculate integarted number of events / tracks ... 
+      //  
+      if ( iDoStat && vlistItems[i].find("entries")!=std::string::npos  && 
+          ( vlistItems[i].find("NumberOfTracks_CKFTk")!=std::string::npos ||
+	    vlistItems[i].find("Chi2_RSTk") !=std::string::npos     || 
+	    vlistItems[i].find("Chi2_CosmicTk")!=std::string::npos    ||
+	    vlistItems[i].find("Chi2_CKFTk")!=std::string::npos    ))
+      { 
+          if (j == 0 ) YCumul[j] = Y[j]; 
+          else         YCumul[j] = Y[j] + YCumul[j-1];
+          itemForIntegration = true; }
+      
+      
       if(iDebug)
 	std::cout << index-j*vlistItems.size() <<  " " << j  << " " << X[j]  << " " << Y[j] << " " << EY[j] << std::endl;
-      //      graph->SetPoint(j,X[j],Y[j]);
+     
     }
 
     i+=addShift;
 
     C->cd(++padCount);
+    gPad->SetLogy(logy);
+    
     graph = new TGraphErrors((int) vRun.size(),X,Y,EX,EY);
     graph->SetTitle(ss.str().c_str());
     graph->Draw("Alp");
     graph->SetName(ss.str().c_str());
+    graph->GetXaxis()->SetTitle("Run number");
     graph->Write();
+    
+    
+    if (iDoStat && itemForIntegration) 
+    {  
+      std::stringstream ss2; std::stringstream ss3; 
+     
+      if(vlistItems.at(i).find("_entries")!= std::string::npos)   vlistItems.at(i).replace(vlistItems.at(i).find("_entries"),8,"");
+      if(vlistItems.at(i).find("Chi2_")!= std::string::npos)    vlistItems.at(i).replace(vlistItems.at(i).find("Chi2_"),5,"");
+      
+      if (vlistItems[i] == "NumberOfTracks_CKFTk") 
+       {  ss2 << "Integrated number of events";
+          ss3 << "number_of_events_integrated.gif";      }
+      
+      else                                         
+       {  ss2 << "Integrated number of "<< vlistItems[i]; 
+          ss3 << vlistItems[i]<< "_integrated.gif";      }
+      
+     
+      TCanvas* C2 = new TCanvas(ss2.str().c_str(),"");
+      TGraphErrors* graph2 = new TGraphErrors((int) vRun.size(),X,YCumul,EX,EX);
+      graph2->SetTitle(ss2.str().c_str());
+      graph2->SetMarkerColor(1);
+      graph2->Draw("Alp");
+      graph2->SetName(ss2.str().c_str());
+      graph2->GetXaxis()->SetTitle("Run number");
+      graph2->Write();
+      C2->Write();
+      C2->SaveAs(ss3.str().c_str());
+      C2->SaveAs(ss3.str().replace(ss3.str().find("."),ss3.str().size()-ss3.str().find("."),".C").c_str());
+      }
    
     
   }
@@ -455,6 +510,12 @@ void HistoricInspector::setItems(std::string itemD,std::vector<DetIdItemList>& v
     if(iDebug)
       std::cout << "Found new item " << detiditemlist.items.back() << std::endl;
   }
+  else if(item.find("gaussMean")!=std::string::npos){
+    detiditemlist.items.push_back(item.replace(item.find("gaussMean"),9,"gaussSigma")); 
+    if(iDebug)
+      std::cout << "Found new item " << detiditemlist.items.back() << std::endl;
+  }
+  
 
   if(vDetIdItemList.size())
     if(vDetIdItemList.back().detid==detiditemlist.detid)

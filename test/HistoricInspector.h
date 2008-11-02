@@ -35,7 +35,8 @@ public:
     DBpasswd_(""),
     DBblob_(""),
     Iterator(0),
-    iDebug(0)
+    iDebug(0),
+    iDoStat(0)
     {};
   
   ~HistoricInspector(){
@@ -43,15 +44,16 @@ public:
   };
   
   void setDB(std::string DBName, std::string DBTag, std::string DBuser="", std::string DBpasswd="", std::string DBblob="");
-  void createTrend(std::string ListItems, std::string CanvasName="", std::string Conditions="", unsigned int firstRun=1, unsigned int lastRun=0xFFFFFFFE);
-  void createTrendLastRuns(std::string ListItems, std::string CanvasName="", std::string Conditions="", unsigned int nRuns=10); 
+  void createTrend(std::string ListItems, std::string CanvasName="", int logy=0,std::string Conditions="", unsigned int firstRun=1, unsigned int lastRun=0xFFFFFFFE);
+  void createTrendLastRuns(std::string ListItems, std::string CanvasName="", int logy=0, std::string Conditions="", unsigned int nRuns=10); 
   void setDebug(int i){iDebug=i;}
+  void setDoStat(int i){iDoStat=i;}
   void setBlackList(std::string& ListItems);
 
 private:
 
   void style();
-  void plot(std::vector<unsigned int>& vRun, std::vector<float>& vWhatToPlotSummary, std::vector<DetIdItemList>& vDetIdItemList,size_t& nPads, std::string CanvasName);
+  void plot(std::vector<unsigned int>& vRun, std::vector<float>& vWhatToPlotSummary, std::vector<DetIdItemList>& vDetIdItemList,size_t& nPads, std::string CanvasName, int logy=0);
   void accessDB();
   void InitializeIOVList();
   bool setRange(unsigned int& firstRun, unsigned int& lastRun);
@@ -69,6 +71,7 @@ private:
   std::vector<unsigned int> iovList;
   std::vector<unsigned int> blackList;
   int iDebug;
+  int iDoStat;
   
 };
 

@@ -70,7 +70,9 @@ void GraphAnalysis::plotGraphAnalysis(std::string& ListItems)
      if (g!=0) {
         vGraph.push_back(g);
         vGraph.back()->SetMarkerColor(2+i); 
-        legendE->AddEntry(vGraph.back(),(vString.at(i)).c_str(),"P");}
+        legendE->AddEntry(vGraph.back(),(vString.at(i)).c_str(),"P");
+	vGraph.back()->SetTitle(_quantity.c_str());
+	}
      else {
         if (!_reverse_order) std::cout << "No graph found called " << vString.at(i)<<"_"<<_quantity << std::endl;
         else std::cout << "No graph found called " << _quantity <<"_"<< vString.at(i)<< std::endl;}
@@ -102,9 +104,16 @@ void GraphAnalysis::plotGraphAnalysis(std::string& ListItems)
    TCanvas *C = new TCanvas("","");
    std::string CanvasName = _quantity+"_superimposed.gif";
    
-   vGraph.at(0)->SetMaximum((*max));
-   vGraph.at(0)->SetMinimum((*min));
+   
+   float max_graph = 0.;
+   max_graph = (*max)+((*max)-(*min))/10.;
+   float min_graph = 0.;
+   min_graph = (*min)-((*max)-(*min))/10.;
+   
+   vGraph.at(0)->SetMaximum(max_graph);
+   vGraph.at(0)->SetMinimum(min_graph);
    vGraph.at(0)->Draw("alp");
+   
    
    for (size_t i=1; i<vGraph.size(); i++) vGraph.at(i)->Draw("lp");
    legendE->Draw();
