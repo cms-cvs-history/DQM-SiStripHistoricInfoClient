@@ -1,12 +1,12 @@
-baseDir=/afs/cern.ch/user/a/alebihan/CMSSW_2_1_9/src
+baseDir=/afs/cern.ch/user/c/cctrack/historicDQM/CMSSW_2_1_9/src/
 lockFile=$baseDir/lockFile
 
 
 
 if [ ! $1 ] ;
     then echo "please provide the number of the week you are considering, the first run number, the last run number"
-         echo "./readDB_intervalOfRuns_HDQM.sh 42 65941 66746 "
-       # echo "./readDB_intervalOfRuns_HDQM.sh 43 66748 67647 "
+         echo "./readDB_intervalOfRuns_HDQM_cctrack.sh 42 65941 66746 "
+       # echo "./readDB_intervalOfRuns_HDQM_cctrack.sh 43 66748 67647 "
     exit 1
 fi	
 

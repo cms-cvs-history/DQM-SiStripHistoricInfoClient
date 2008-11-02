@@ -40,7 +40,7 @@ echo "==========================================================================
 pwd
 cat $baseDir/DQM/SiStripHistoricInfoClient/test/TrendsWithIOVIterator/template_testHistoricInspectorSelection.cc | sed -e "s@nRuns@$1@g" > $baseDir/testHistoricInspectorSelection.cc
 ls $baseDir
-root -l -b -q $baseDir/rootlogon.C
+root -l -b -q $baseDir/DQM/SiStripHistoricInfoClient/test/TrendsWithIOVIterator/rootlogon.C
 root -l -b -q $baseDir/testHistoricInspectorSelection.cc
 
 if [ `ls historicDQM.root` ]; then
@@ -58,7 +58,6 @@ mv CRAFT_last_$1_runs/details/mean_number_of_tracks_per_event.gif CRAFT_last_$1_
 mv CRAFT_last_$1_runs/details/*integrated*gif CRAFT_last_$1_runs/
 mv *.C CRAFT_last_$1_runs/details/.
 mv historicDQM.root CRAFT_last_$1_runs/details/.
-mv CRAFT_last_$1_runs/rootlogon.C ./
 
 cp $baseDir/DQM/SiStripHistoricInfoClient/test/diow.pl CRAFT_last_$1_runs/.
 cd CRAFT_last_$1_runs

@@ -4,7 +4,7 @@
 
 if [ ! $1 ] ;
     then echo "Please specify the castor path to the file you would like to process : "
-    echo "./fillDB_HDQM_shift.sh /castor/cern.ch/cms/store/unmerged/dqm/DQMHarvest-DQM-OfflineDQM-1219283753/DQMHarvest-DQM-OfflineDQM-1219283753-57539"
+    echo "./fillDB_HDQM_shift_cctrack.sh /castor/cern.ch/cms/store/unmerged/dqm/DQMHarvest-DQM-OfflineDQM-1219283753/DQMHarvest-DQM-OfflineDQM-1219283753-57539"
     exit 1
 fi
 
@@ -14,9 +14,9 @@ fi
 ################
 
 castorDir=$1
-onDiskDir=/afs/cern.ch/user/a/alebihan/scratch0
+onDiskDir=/afs/cern.ch/user/c/cctrack/historicDQM
 
-tag=historicFromT0_test1
+tag=historicFromT0_shift
 sqliteFile=historicDQM.db
 
 connectString="oracle://devdb10/CMS_COND_STRIP"
@@ -24,7 +24,7 @@ connectString="oracle://devdb10/CMS_COND_STRIP"
 #connectString="sqlite_file:$sqliteFile"
 logDB=sqlite_file:log.db
 
-baseDir=/afs/cern.ch/user/a/alebihan/CMSSW_2_1_9/src
+baseDir=/afs/cern.ch/user/c/cctrack/historicDQM/CMSSW_2_1_9/src
 logDir=$baseDir/log
 lockFile=$baseDir/lockFile
 
