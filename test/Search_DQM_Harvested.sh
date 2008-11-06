@@ -3,10 +3,15 @@ if [ [ ! $1 ] || [ ! $2 ] ];
     then echo "Please specify a run number and a trigger and run the command like: ./Search_DQM_Harvested.sh 67810 Cosmics-Commissioning08-PromptReco-v2-RECO-DQMHarvest-OfflineDQM"
     exit 1
 fi
-rm *root
+rm $onDiskDir/`*root`
 numb=OfflineDQM-$1
 pathToLast=/castor/cern.ch/cms/store/unmerged/dqm/
 onDiskDir=~/HDQM/
+baseDir=/afs/cern.ch/user/a/alebihan/CMSSW_2_1_9/src
+
+cd $baseDir
+eval `scramv1 runtime -sh`
+cd -
 
 for dir1 in `nsls /castor/cern.ch/cms/store/unmerged/dqm/ `;
 do 
@@ -31,6 +36,8 @@ rfcp $pathToLast $onDiskDir/$rootFileName
 cat template_getEvents.C | sed -e "s@DQM.root@$rootFileName@g" -e "s@xxxx@$1@g" > getEvents.C
 
 
-if [ `ls DQM*.root` ]; then
+if [ `ls $onDiskDir/DQM*.root` ]; then
 root -l -b -q getEvents.C
 fi
+
+rm getEvents.C

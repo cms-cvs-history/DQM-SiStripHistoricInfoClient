@@ -11,9 +11,9 @@ onDiskDir=/afs/cern.ch/user/a/alebihan/HDQM
 tag=historicFromT0_shift
 sqliteFile=historicDQM.db
 
-#connectString="oracle://devdb10/CMS_COND_STRIP"
+connectString="oracle://devdb10/CMS_COND_STRIP"
 #connectString="oracle://cms_orcoff_int2r/CMS_COND_STRIP"
-connectString="sqlite_file:$sqliteFile"
+#connectString="sqlite_file:$sqliteFile"
 logDB=sqlite_file:log.db
 
 baseDir=/afs/cern.ch/user/a/alebihan/CMSSW_2_1_9/src
@@ -35,7 +35,7 @@ trap "rm -f $lockFile" exit
 
 
 ##########################
-# copy file from castor
+# run over copied files
 ##########################
 
   if ls $onDiskDir | grep '.root' > /dev/null; then
@@ -53,10 +53,8 @@ trap "rm -f $lockFile" exit
   fi
 
 
+#########################
 
-#########################
-# run over copied files 
-#########################
 
 cd $baseDir
 
