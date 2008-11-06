@@ -1,27 +1,19 @@
 #!/bin/bash 
 #
 
-
-if [ ! $1 ] ;
-    then echo "Please specify the castor path to the file you would like to process : "
-    echo "./fillDB_HDQM_shift.sh /castor/cern.ch/cms/store/unmerged/dqm/DQMHarvest-DQM-OfflineDQM-1219283753/DQMHarvest-DQM-OfflineDQM-1219283753-57539"
-    exit 1
-fi
-
-
 ################
 # settings ...
 ################
 
 castorDir=$1
-onDiskDir=/afs/cern.ch/user/a/alebihan/scratch0
+onDiskDir=/afs/cern.ch/user/a/alebihan/HDQM
 
 tag=historicFromT0_shift
 sqliteFile=historicDQM.db
 
-connectString="oracle://devdb10/CMS_COND_STRIP"
+#connectString="oracle://devdb10/CMS_COND_STRIP"
 #connectString="oracle://cms_orcoff_int2r/CMS_COND_STRIP"
-#connectString="sqlite_file:$sqliteFile"
+connectString="sqlite_file:$sqliteFile"
 logDB=sqlite_file:log.db
 
 baseDir=/afs/cern.ch/user/a/alebihan/CMSSW_2_1_9/src
@@ -46,26 +38,10 @@ trap "rm -f $lockFile" exit
 # copy file from castor
 ##########################
 
-echo -e "\n=============================================================="
-echo -e " Copy DQM file from CASTOR "
-echo -e "=============================================================="
-
-
-  if nsls $castorDir | grep '.root' > /dev/null; then
+  if ls $onDiskDir | grep '.root' > /dev/null; then
        
-    #
-    # checking the date ...
-    #
-    rootFileDate=`nsls -l $castorDir| awk '{print $6 $7}'`
-    rootFileDate2=`date -d "$rootFileDate" "+%Y%m%d"`
-    daysAgo=`date --date '2 days ago' "+%Y%m%d"`
     
-    # [ "$rootFileDate2" -lt "$daysAgo" ] && continue
-    
-    #
-    # rootFile infos ...
-    #
-    rootFile=`nsls $castorDir`
+    rootFile=`ls $onDiskDir`
     RunNb=`echo ${rootFile} | awk -F "R00" '{print $2}' | awk -F"_" '{print int($onDiskDir)}'`
  
     #
@@ -76,8 +52,6 @@ echo -e "=============================================================="
 
   fi
 
-
-rfcp $castorDir/$rootFile $onDiskDir/$rootFile
 
 
 #########################
