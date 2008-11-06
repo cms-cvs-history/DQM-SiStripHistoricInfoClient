@@ -30,6 +30,8 @@ echo " Extract the infos from the DB & do the trend plots for the last $1 runs  
 echo "=========================================================================="
 
 cat $baseDir/DQM/SiStripHistoricInfoClient/test/TrendsWithIOVIterator/template_historicInspectorSelection_lastRuns.cc | sed -e "s@nRuns@$1@g" > $baseDir/testHistoricInspectorSelection_lastRuns.cc
+cp  $baseDir/DQM/SiStripHistoricInfoClient/test/TrendsWithIOVIterator/rootlogon.C $baseDir/.
+root -l -b -q $baseDir/rootlogon.C
 
 root -l -b -q $baseDir/testHistoricInspectorSelection_lastRuns.cc
 

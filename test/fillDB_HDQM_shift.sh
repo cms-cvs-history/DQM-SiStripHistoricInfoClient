@@ -16,7 +16,7 @@ fi
 castorDir=$1
 onDiskDir=/afs/cern.ch/user/a/alebihan/scratch0
 
-tag=historicFromT0_test1
+tag=historicFromT0_shift
 sqliteFile=historicDQM.db
 
 connectString="oracle://devdb10/CMS_COND_STRIP"
