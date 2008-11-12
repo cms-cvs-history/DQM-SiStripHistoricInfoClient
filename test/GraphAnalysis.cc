@@ -106,9 +106,9 @@ void GraphAnalysis::plotGraphAnalysis(std::string& ListItems)
    
    
    float max_graph = 0.;
-   max_graph = (*max)+((*max)-(*min))/10.;
+   max_graph = (*max)+((*max)-(*min))/5.;
    float min_graph = 0.;
-   min_graph = (*min)-((*max)-(*min))/10.;
+   min_graph = (*min)-((*max)-(*min))/5.;
    
    vGraph.at(0)->SetMaximum(max_graph);
    vGraph.at(0)->SetMinimum(min_graph);
@@ -117,7 +117,10 @@ void GraphAnalysis::plotGraphAnalysis(std::string& ListItems)
    
    for (size_t i=1; i<vGraph.size(); i++) vGraph.at(i)->Draw("lp");
    legendE->Draw();
-   C->SaveAs(CanvasName.c_str()); }
+   C->SaveAs(CanvasName.c_str()); 
+   C->SaveAs(CanvasName.replace(CanvasName.find("."),CanvasName.size()-CanvasName.find("."),".C").c_str()); 
+ 
+   }
   
     
 }

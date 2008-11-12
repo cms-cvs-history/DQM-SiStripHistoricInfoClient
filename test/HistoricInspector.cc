@@ -148,8 +148,10 @@ bool HistoricInspector::setRange(unsigned int& firstRun, unsigned int& lastRun){
   }
 
   iter=std::lower_bound(iovList.begin(),iovList.end(),lastRun);
-  if (iter!=iovList.end())
-    last=*iter;
+  if (iter!=iovList.end()){
+    if (*iter>lastRun) last = *(iter-1);
+    else last=*iter;
+  }
   else{
     last=iovList.back();
   }
@@ -211,7 +213,7 @@ void HistoricInspector::createTrend(std::string ListItems, std::string CanvasNam
 
     if(vDetIdItemListCut.size()){
       for(size_t ij=0;ij!=vDetIdItemListCut.size();++ij){
-	vDetIdItemListCut[ij].values=reference->getSummaryObj(vDetIdItemListCut[ij].detid, vDetIdItemListCut[ij].items);
+   	vDetIdItemListCut[ij].values=reference->getSummaryObj(vDetIdItemListCut[ij].detid, vDetIdItemListCut[ij].items);
       }
 
       if(!ApplyConditions(Conditions,vDetIdItemListCut))
@@ -228,7 +230,7 @@ void HistoricInspector::createTrend(std::string ListItems, std::string CanvasNam
 	std::cout << ListItems  << " run " << vRun.back() << " values \n" ;
 	DetIdItemList detiditemlist=vDetIdItemList[ij];
 	for(size_t i=0;i<detiditemlist.items.size();++i)
-	  std::cout << "\t" << detiditemlist.items[i] << " " << detiditemlist.values[i] << " \n";
+	  std::cout << "\t" << detiditemlist.items[i] << " " << detiditemlist.values[i] <<" " << i << " \n";
 	std::cout << "\n" << std::endl;
       }
     }
@@ -325,10 +327,13 @@ void HistoricInspector::plot(std::vector<unsigned int>& vRun, std::vector<float>
       X[j]=vRun[j];
       EX[j]=0;
       Y[j]=vSummary[index];
-      if(Y[j]==-10 || Y[j]==-9999)
-	Y[j]=0;
- 
-    
+      if (Y[j]==-10 || Y[j]==-9999 || Y[j] ==-99) {EY[j] = 0; Y[j] = 0;}
+       
+      // -9999 : existing SiStripSummary object in DB but part of the information not uploaded
+      // -99   : SiStripSummary object not existing for this detId, informations are missing for all quantities 
+      // -10 bad fit ?
+      
+     
       if(vlistItems[i].find("mean")!=std::string::npos){
 	//if the quantity requested is mean, the error is evaluated as the error on the mean=rms/sqrt(entries)
 	EY[j]=vSummary[index+2]>0?vSummary[index+1]/sqrt(vSummary[index+2]):0;
