@@ -4,7 +4,7 @@ gROOT->Reset();
 
 
 HistoricInspector A;
-A.setDB("oracle://devdb10/CMS_COND_STRIP", "historicFromT0_shift","cms_cond_strip","QG89MCVZ","COND/Services/TBufferBlobStreamingService");
+A.setDB("oracle://devdb10/CMS_COND_STRIP", "historicFromT0_shift","cms_cond_strip","","COND/Services/TBufferBlobStreamingService");
 //A.setDB("sqlite_file:historicDQM.db", "SiStripSummary_test2","cms_cond_strip","w3807dev","");
 
 A.setDebug(1);
