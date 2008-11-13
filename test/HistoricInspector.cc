@@ -314,7 +314,7 @@ void HistoricInspector::plot(std::vector<unsigned int>& vRun, std::vector<float>
     else if ( vdetId[i] == 313) ss << "TID_Side1_Layer3" << vlistItems[i];
     else if ( vdetId[i] == 321) ss << "TID_Side2_Layer1" << vlistItems[i];
     else if ( vdetId[i] == 322) ss << "TID_Side2_Layer2" << vlistItems[i];
-    else if ( vdetId[i] == 323) ss << "TIB_Side2_Layer3" << vlistItems[i];
+    else if ( vdetId[i] == 323) ss << "TID_Side2_Layer3" << vlistItems[i];
     
     else ss << "Id " << vdetId[i]<< " " << vlistItems[i];
     
@@ -345,6 +345,9 @@ void HistoricInspector::plot(std::vector<unsigned int>& vRun, std::vector<float>
       else if (vlistItems[i].find("gaussMean")!=std::string::npos){
 	EY[j]=vSummary[index+1];
 	addShift=1;
+      }
+      else if (vlistItems[i].find("gaussMean")!=std::string::npos){
+        EY[j]= 0.;
       }
       else{
 	EY[j]=sqrt(Y[j]);
