@@ -4,7 +4,7 @@ lockFile=$baseDir/lockFile
 
 if [ ! $1 ] ;
     then echo "please provide the number of runs you would like to consider..."
-         echo "./readDM_lastRuns_HDQM_CRON.sh 10 "
+         echo "./readDB_lastRuns_HDQM_CRON.sh 10 "
     exit 1
 fi	
 
@@ -38,12 +38,12 @@ echo " Extract the infos from the DB & do the trend plots for the last $1 runs  
 echo "=========================================================================="
 
 pwd
-cat
-$baseDir/DQM/SiStripHistoricInfoClient/test/TrendsWithIOVIterator/template_historicInspectorSelection_intervalOfRuns.cc | sed -e "s@nRuns@$1@g" > $baseDir/testHistoricInspectorSelection_intervalOfRuns.cc
-cp $baseDir/DQM/SiStripHistoricInfoClient/test/TrendsWithIOVIterator/rootlogon.C $baseDir/.
+cat $baseDir/DQM/SiStripHistoricInfoClient/test/TrendsWithIOVIterator/template_historicInspectorSelection_lastRuns.cc | sed -e "s@nRuns@$1@g" > $baseDir/testHistoricInspectorSelection_lastRuns.cc
 
+cp $baseDir/DQM/SiStripHistoricInfoClient/test/TrendsWithIOVIterator/rootlogon.C $baseDir/.
 root -l -b -q $baseDir/rootlogon.C
-root -l -b -q $baseDir/testHistoricInspectorSelection_intervalOfRuns.cc
+
+root -l -b -q $baseDir/testHistoricInspectorSelection_lastRuns.cc
 
 if [ `ls historicDQM.root` ]; then
 root -l -b -q DQM/SiStripHistoricInfoClient/test/TrendsWithIOVIterator/testGraphAnalysis.cc
