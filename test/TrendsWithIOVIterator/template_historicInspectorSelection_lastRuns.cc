@@ -1,4 +1,6 @@
 {
+#include <stdio.h>
+#include <time.h>
 
 gROOT->Reset();
 
@@ -17,6 +19,7 @@ A.setBlackList("64741,64742,64747,68286,69269");
 //64741,64742,64747 : MW41
 //64741,64742,64747,66706,66720,67033,67085,66692,66703,66714,66733,66739,66740,66878,66955,66985,66989,66993,66711,66716,66722,66746,66748,66756,66709,66783,66887,66893,66904,66910,66987
 //: MW41 + DQM runs w/o cluster histograms
+
 
 //
 A.createTrendLastRuns("0@Chi2_CKFTk@entries", "number_of_tracks.gif",1,"0@NumberOfTracks_CKFTk@entries>10000&&0@NumberOfRecHitsPerTrack_CosmicTk@entries>0",nRuns);
@@ -39,10 +42,9 @@ A.createTrendLastRuns("2@Summary_TotalNumberOfClusters_OffTrack@mean,2@Summary_C
 A.createTrendLastRuns("3@Summary_TotalNumberOfClusters_OffTrack@mean,3@Summary_ClusterCharge_OffTrack@mean,3@Summary_ClusterNoise_OffTrack@gaussMean,3@Summary_ClusterNoise_OffTrack@gaussChi2NDF,3@Summary_ClusterStoN_OffTrack@mean,3@Summary_ClusterWidth_OffTrack@mean","OffTrackClusters_3.gif",0,"0@NumberOfTracks_CKFTk@entries>10000&&0@NumberOfRecHitsPerTrack_CosmicTk@entries>0",nRuns);
 A.createTrendLastRuns("4@Summary_TotalNumberOfClusters_OffTrack@mean,4@Summary_ClusterCharge_OffTrack@mean,4@Summary_ClusterNoise_OffTrack@gaussMean,4@Summary_ClusterNoise_OffTrack@gaussChi2NDF,4@Summary_ClusterStoN_OffTrack@mean,4@Summary_ClusterWidth_OffTrack@mean","OffTrackClusters_4.gif",0,"0@NumberOfTracks_CKFTk@entries>10000&&0@NumberOfRecHitsPerTrack_CosmicTk@entries>0",nRuns);
 
-
+/*
 // Clusters On track Layer levels
-
-A.createTrendLastRuns("11@Summary_ClusterChargeCorr__OnTrack@landauPeak,11@Summary_ClusterChargeCorr__OnTrack@landauChi2NDF,11@Summary_ClusterChargeCorr__OnTrack@mean,11@Summary_ClusterNoise__OnTrack@gaussMean,11@Summary_ClusterNoise__OnTrack@gaussChi2NDF,11@Summary_ClusterStoNCorr__OnTrack@landauPeak,11@Summary_ClusterStoNCorr__OnTrack@landauChi2NDF,11@Summary_ClusterStoNCorr__OnTrack@mean,11@Summary_ClusterWidth__OnTrack@mean","OnTrackClusters_11.gif",0,"0@NumberOfRecHitsPerTrack_CosmicTk@entries>10000",nRuns);
+A.createTrendLastRuns("11@Summary_ClusterChargeCorr__OnTrack@landauPeak,11@Summary_ClusterChargeCorr__OnTrack@landauChi2NDF,11@Summary_ClusterChargeCorr__OnTrack@mean,11@Summary_ClusterNoise__OnTrack@gaussMean,11@Summary_ClusterNoise__OnTrack@gaussChi2NDF,11@Summary_ClusterStoNCorr__OnTrack@landauPeak,12@Summary_ClusterStoNCorr__OnTrack@landauChi2NDF,12@Summary_ClusterStoNCorr__OnTrack@mean,11@Summary_ClusterWidth__OnTrack@mean","OnTrackClusters_11.gif",0,"0@NumberOfRecHitsPerTrack_CosmicTk@entries>10000",nRuns);
 A.createTrendLastRuns("12@Summary_ClusterChargeCorr__OnTrack@landauPeak,12@Summary_ClusterChargeCorr__OnTrack@landauChi2NDF,12@Summary_ClusterChargeCorr__OnTrack@mean,12@Summary_ClusterNoise__OnTrack@gaussMean,12@Summary_ClusterNoise__OnTrack@gaussChi2NDF,12@Summary_ClusterStoNCorr__OnTrack@landauPeak,12@Summary_ClusterStoNCorr__OnTrack@landauChi2NDF,12@Summary_ClusterStoNCorr__OnTrack@mean,12@Summary_ClusterWidth__OnTrack@mean","OnTrackClusters_12.gif",0,"0@NumberOfRecHitsPerTrack_CosmicTk@entries>10000",nRuns);
 A.createTrendLastRuns("13@Summary_ClusterChargeCorr__OnTrack@landauPeak,13@Summary_ClusterChargeCorr__OnTrack@landauChi2NDF,13@Summary_ClusterChargeCorr__OnTrack@mean,13@Summary_ClusterNoise__OnTrack@gaussMean,13@Summary_ClusterNoise__OnTrack@gaussChi2NDF,13@Summary_ClusterStoNCorr__OnTrack@landauPeak,13@Summary_ClusterStoNCorr__OnTrack@landauChi2NDF,13@Summary_ClusterStoNCorr__OnTrack@mean,13@Summary_ClusterWidth__OnTrack@mean","OnTrackClusters_13.gif",0,"0@NumberOfRecHitsPerTrack_CosmicTk@entries>10000",nRuns);
 A.createTrendLastRuns("14@Summary_ClusterChargeCorr__OnTrack@landauPeak,14@Summary_ClusterChargeCorr__OnTrack@landauChi2NDF,14@Summary_ClusterChargeCorr__OnTrack@mean,14@Summary_ClusterNoise__OnTrack@gaussMean,14@Summary_ClusterNoise__OnTrack@gaussChi2NDF,14@Summary_ClusterStoNCorr__OnTrack@landauPeak,14@Summary_ClusterStoNCorr__OnTrack@landauChi2NDF,14@Summary_ClusterStoNCorr__OnTrack@mean,14@Summary_ClusterWidth__OnTrack@mean","OnTrackClusters_14.gif",0,"0@NumberOfRecHitsPerTrack_CosmicTk@entries>10000",nRuns);
@@ -83,6 +85,5 @@ A.createTrendLastRuns("313@Summary_ClusterCharge__OffTrack@mean,313@Summary_Clus
 A.createTrendLastRuns("321@Summary_ClusterCharge__OffTrack@mean,321@Summary_ClusterNoise__OffTrack@gaussMean,321@Summary_ClusterNoise__OffTrack@gaussChi2NDF,321@Summary_ClusterStoN__OffTrack@mean,321@Summary_ClusterWidth__OffTrack@mean","OffTrackClusters_321.gif",0,"0@NumberOfRecHitsPerTrack_CosmicTk@entries>10000",nRuns);
 A.createTrendLastRuns("322@Summary_ClusterCharge__OffTrack@mean,322@Summary_ClusterNoise__OffTrack@gaussMean,322@Summary_ClusterNoise__OffTrack@gaussChi2NDF,322@Summary_ClusterStoN__OffTrack@mean,322@Summary_ClusterWidth__OffTrack@mean","OffTrackClusters_322.gif",0,"0@NumberOfRecHitsPerTrack_CosmicTk@entries>10000",nRuns);
 A.createTrendLastRuns("323@Summary_ClusterCharge__OffTrack@mean,323@Summary_ClusterNoise__OffTrack@gaussMean,323@Summary_ClusterNoise__OffTrack@gaussChi2NDF,323@Summary_ClusterStoN__OffTrack@mean,323@Summary_ClusterWidth__OffTrack@mean","OffTrackClusters_323.gif",0,"0@NumberOfRecHitsPerTrack_CosmicTk@entries>10000",nRuns);
-
-
+*/
 }

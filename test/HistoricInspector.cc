@@ -346,7 +346,7 @@ void HistoricInspector::plot(std::vector<unsigned int>& vRun, std::vector<float>
 	EY[j]=vSummary[index+1];
 	addShift=1;
       }
-      else if (vlistItems[i].find("gaussMean")!=std::string::npos){
+      else if (vlistItems[i].find("Chi2NDF")!=std::string::npos){
         EY[j]= 0.;
       }
       else{
