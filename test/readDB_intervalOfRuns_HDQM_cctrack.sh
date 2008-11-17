@@ -5,8 +5,8 @@ lockFile=$baseDir/lockFile
 
 if [ ! $1 ] ;
     then echo "please provide the number of the week you are considering, the first run number, the last run number"
-         echo "./readDB_intervalOfRuns_HDQM_cctrack.sh 42 65941 66746 "
-       # echo "./readDB_intervalOfRuns_HDQM_cctrack.sh 43 66748 67647 "
+         echo "./readDB_intervalOfRuns_HDQM.sh 42 65941 66746 "
+       # echo "./readDB_intervalOfRuns_HDQM.sh 43 66748 67647 "
     exit 1
 fi	
 
@@ -39,9 +39,24 @@ if [ `ls historicDQM.root` ]; then
 root -l -b -q DQM/SiStripHistoricInfoClient/test/TrendsWithIOVIterator/testGraphAnalysis.cc
 fi
 
+cp $baseDir/DQM/SiStripHistoricInfoClient/test/diow.pl .
+./diow.pl
+
 rm -rf week_$1_CRAFT
+
 mkdir week_$1_CRAFT
 mkdir week_$1_CRAFT/details
+mkdir week_$1_CRAFT/trends_by_layer_TIB
+mkdir week_$1_CRAFT/trends_by_layer_TOB
+mkdir week_$1_CRAFT/trends_by_layer_TID_Side1
+mkdir week_$1_CRAFT/trends_by_layer_TID_Side2
+mkdir week_$1_CRAFT/trends_by_layer_TEC
+
+mv *TIB* week_$1_CRAFT/trends_by_layer_TIB
+mv *TOB* week_$1_CRAFT/trends_by_layer_TOB
+mv *TID_Side1* week_$1_CRAFT/trends_by_layer_TID_Side1
+mv *TID_Side2* week_$1_CRAFT/trends_by_layer_TID_Side2
+mv *TEC* week_$1_CRAFT/trends_by_layer_TEC
 mv *gif week_$1_CRAFT/details/
 mv week_$1_CRAFT/details/*superimposed* week_$1_CRAFT/
 mv week_$1_CRAFT/details/number_of*gif week_$1_CRAFT/
@@ -50,13 +65,8 @@ mv week_$1_CRAFT/details/*integrated*gif week_$1_CRAFT/
 mv *.C week_$1_CRAFT/details/.
 mv historicDQM.root week_$1_CRAFT/details/.
 
+cp $baseDir/DQM/SiStripHistoricInfoClient/test/index.html week_$1_CRAFT/.
 
-cp $baseDir/DQM/SiStripHistoricInfoClient/test/diow.pl week_$1_CRAFT/.
-cd week_$1_CRAFT
-./diow.pl
-cp $baseDir/DQM/SiStripHistoricInfoClient/test/index.html .
-
-cd ..
 
 rm -f testHistoricInspectorSelection_intervalOfRuns.cc
 rm -f $lockFile

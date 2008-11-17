@@ -3,7 +3,7 @@ lockFile=$baseDir/lockFile
 
 
 
-if [ ! $1 ] ;
+if [ ! $1 || ! $2 || ! $3] ;
     then echo "please provide the number of the week you are considering, the first run number, the last run number"
          echo "./readDB_intervalOfRuns_HDQM.sh 42 65941 66746 "
        # echo "./readDB_intervalOfRuns_HDQM.sh 43 66748 67647 "

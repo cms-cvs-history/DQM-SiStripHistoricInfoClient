@@ -1,4 +1,4 @@
-baseDir=/afs/cern.ch/user/a/alebihan/CMSSW_2_1_9/src
+baseDir=/afs/cern.ch/user/c/cctrack/historicDQM/CMSSW_2_1_9/src/
 lockFile=$baseDir/lockFile
 
 
