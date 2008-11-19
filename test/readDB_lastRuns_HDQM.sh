@@ -54,11 +54,12 @@ mv *TIB* CRAFT_last_$1_runs/trends_by_layer_TIB
 mv *TOB* CRAFT_last_$1_runs/trends_by_layer_TOB
 mv *TID_Side1* CRAFT_last_$1_runs/trends_by_layer_TID_Side1
 mv *TID_Side2* CRAFT_last_$1_runs/trends_by_layer_TID_Side2
+mv *TIDLayers* CRAFT_last_$1_runs/trends_by_layer_TID_Side1
 mv *TEC* CRAFT_last_$1_runs/trends_by_layer_TEC
 mv *gif CRAFT_last_$1_runs/details/
 mv CRAFT_last_$1_runs/details/*superimposed* CRAFT_last_$1_runs/
 mv CRAFT_last_$1_runs/details/number_of*gif CRAFT_last_$1_runs/
-mv CRAFT_last_$1_runs/details/mean_number_of_tracks_per_event.gif CRAFT_last_$1_runs/
+mv CRAFT_last_$1_runs/details/mean_number_of_tracks_per_event*.gif CRAFT_last_$1_runs/
 mv CRAFT_last_$1_runs/details/*integrated*gif CRAFT_last_$1_runs/
 mv *.C CRAFT_last_$1_runs/details/.
 mv historicDQM.root CRAFT_last_$1_runs/details/.

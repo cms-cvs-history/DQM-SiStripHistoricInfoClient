@@ -70,8 +70,19 @@ void GraphAnalysis::plotGraphAnalysis(std::string& ListItems)
      if (g!=0) {
         vGraph.push_back(g);
         vGraph.back()->SetMarkerColor(2+i); 
-        legendE->AddEntry(vGraph.back(),(vString.at(i)).c_str(),"P");
-	vGraph.back()->SetTitle(_quantity.c_str());
+	if (_reverse_order && vString.at(i).find("_mean"))
+	{
+	  std::string vString2 = vString.at(i);
+	  vString2.replace(vString2.find("_mean"),vString2.size()-vString2.find("_mean"),"");
+	  std::string  _quantity2 = _quantity;
+	  _quantity2.append("_mean");
+	  legendE->AddEntry(vGraph.back(),vString2.c_str(),"P");
+	  vGraph.back()->SetTitle(_quantity2.c_str());
+	} 
+	else 
+	{
+          legendE->AddEntry(vGraph.back(),(vString.at(i)).c_str(),"P");
+	  vGraph.back()->SetTitle(_quantity.c_str());}
 	}
      else {
         if (!_reverse_order) std::cout << "No graph found called " << vString.at(i)<<"_"<<_quantity << std::endl;

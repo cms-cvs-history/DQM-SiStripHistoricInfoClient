@@ -239,11 +239,14 @@ C38.plotGraphAnalysis("TID_Side2_Layer1,TID_Side2_Layer2,TID_Side2_Layer3");
 //
 
 
-GraphAnalysis B1("Chi2",true,"");
+GraphAnalysis B1("Chi2",true,"_mean");
 B1.plotGraphAnalysis("CKFTk_mean,CosmicTk_mean,RSTk_mean");
 
-GraphAnalysis B2("NumberOfRecHitsPerTrack",true,"");
+GraphAnalysis B2("NumberOfRecHitsPerTrack",true,"_mean");
 B2.plotGraphAnalysis("CKFTk_mean,CosmicTk_mean,RSTk_mean");
+
+GraphAnalysis B3("NumberOfTracks",true,"_mean");
+B3.plotGraphAnalysis("CKFTk_mean,CosmicTk_mean,RSTk_mean");
 
 
 
