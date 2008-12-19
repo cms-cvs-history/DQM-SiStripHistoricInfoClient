@@ -59,7 +59,7 @@ trap "rm -f $lockFile" exit
 cd $baseDir
 
 echo -e "\n=============================================================="
-echo -e " Run readFromFile.cfg over root files located in :"  
+echo -e " Run readFromFile_cfg.py over root files located in :"  
 dirname `echo $onDiskDir | awk '{print $onDiskDir}'`  
 echo -e "==============================================================\n"
 
@@ -97,9 +97,9 @@ while [ "$k" -lt "$ListSize" ]
      destinationFile=readFromFile_${runNumberList[$k]}.log
      echo -e "\n\n\nprocessing " $rootFile " for runNr " ${runNumberList[$k]} "\n\n"
      
-     cat $CMSSW_BASE/src/DQM/SiStripHistoricInfoClient/test/template_HistoricDQMService.cfg | sed -e "s@theRunNr@${runNumberList[$k]}@g" -e "s@theFileName@$onDiskDir/$rootFile@g" -e "s@destinationFile@$destinationFile@g" -e "s@connectString@$connectString@" -e "s@insertTag@$tag@" -e "s@insertLogDB@$logDB@" > log/readFromFile_${runNumberList[$k]}.cfg
+     cat $CMSSW_BASE/src/DQM/SiStripHistoricInfoClient/test/template_HistoricDQMService_cfg.py | sed -e "s@theRunNr@${runNumberList[$k]}@g" -e "s@theFileName@$onDiskDir/$rootFile@g" -e "s@destinationFile@$destinationFile@g" -e "s@connectString@$connectString@" -e "s@insertTag@$tag@" -e "s@insertLogDB@$logDB@" > log/readFromFile_${runNumberList[$k]}_cfg.py
      
-     cmsRun log/readFromFile_${runNumberList[$k]}.cfg
+     cmsRun log/readFromFile_${runNumberList[$k]}_cfg.py
      status=$?
      
      [ "$status" != "0" ] && echo -e "Problem found in the processing. please have a look at \nlog/readFromFile_${runNumberList[$k]}.log" && exit
