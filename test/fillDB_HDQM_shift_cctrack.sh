@@ -94,7 +94,7 @@ while [ "$k" -lt "$ListSize" ]
   do
      rootFile=${rootFileList[$k]}
      runNumberList[$k]=`echo ${rootFile} | awk -F "R00" '{print $2}' | awk -F"_" '{print int($onDiskDir)}'` 
-     destinationFile=readFromFile_${runNumberList[$k]}.log
+     destinationFile=readFromFile_${runNumberList[$k]}_log
      echo -e "\n\n\nprocessing " $rootFile " for runNr " ${runNumberList[$k]} "\n\n"
      
      cat $CMSSW_BASE/src/DQM/SiStripHistoricInfoClient/test/template_HistoricDQMService_cfg.py | sed -e "s@theRunNr@${runNumberList[$k]}@g" -e "s@theFileName@$onDiskDir/$rootFile@g" -e "s@destinationFile@$destinationFile@g" -e "s@connectString@$connectString@" -e "s@insertTag@$tag@" -e "s@insertLogDB@$logDB@" > log/readFromFile_${runNumberList[$k]}_cfg.py
@@ -102,7 +102,7 @@ while [ "$k" -lt "$ListSize" ]
      cmsRun log/readFromFile_${runNumberList[$k]}_cfg.py
      status=$?
      
-     [ "$status" != "0" ] && echo -e "Problem found in the processing. please have a look at \nlog/readFromFile_${runNumberList[$k]}.log" && exit
+     [ "$status" != "0" ] && echo -e "Problem found in the processing. please have a look at \nlog/readFromFile_${runNumberList[$k]}_log" && exit
      [ "$status" == "0" ] && echo  ${runNumberList[$k]} "DONE" >> $logDir/WhiteList.txt
      
      let "k+=1"
