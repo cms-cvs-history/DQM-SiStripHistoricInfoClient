@@ -22,7 +22,7 @@ class GraphAnalysis {
 public:   
   
    GraphAnalysis():_quantity("",false){};
-   GraphAnalysis(TString quantity, bool reverse_order, TString canvas_flag){ _quantity = quantity; _reverse_order = reverse_order; _canvas_flag = canvas_flag;};
+   GraphAnalysis(TString quantity, bool reverse_order, TString canvas_flag, float min, float max){ _quantity = quantity; _reverse_order = reverse_order; _canvas_flag = canvas_flag; _max = max; _min = min;};
    ~GraphAnalysis(){};
    void plotGraphAnalysis(std::string& ListItems);
   
@@ -33,6 +33,8 @@ private:
    std::string _canvas_flag;
    double findGraphMax(TGraphErrors* g);
    double findGraphMin(TGraphErrors* g);
+   float _max;
+   float _min;
 
 };
 #endif //DQM_SiStripHistoricInfoClient_GraphAnalysis

@@ -115,14 +115,18 @@ void GraphAnalysis::plotGraphAnalysis(std::string& ListItems)
    TCanvas *C = new TCanvas("","");
    std::string CanvasName = _quantity+_canvas_flag+"_superimposed.gif";
    
-   
+    
    float max_graph = 0.;
    max_graph = (*max)+((*max)-(*min))/5.;
    float min_graph = 0.;
    min_graph = (*min)-((*max)-(*min))/5.;
    
-   vGraph.at(0)->SetMaximum(max_graph);
-   vGraph.at(0)->SetMinimum(min_graph);
+   if (_max == 99.) vGraph.at(0)->SetMaximum(max_graph);
+   else            vGraph.at(0)->SetMaximum(_max);
+   
+   if (_min == 99.) vGraph.at(0)->SetMinimum(min_graph);
+   else 	    vGraph.at(0)->SetMinimum(_min);
+   
    vGraph.at(0)->Draw("alp");
    
    
