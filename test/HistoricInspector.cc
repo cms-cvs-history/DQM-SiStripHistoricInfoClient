@@ -37,8 +37,8 @@ void HistoricInspector::style(){
   theStyle->SetCanvasBorderMode(0);
   theStyle->SetPadBorderMode(0);
   theStyle->SetPadColor(0);
-  theStyle->SetLineWidth(.5);
-  theStyle->SetLineStyle(2.);
+  theStyle->SetLineWidth(1);
+  theStyle->SetLineStyle(2);
   theStyle->SetPalette(1);
   theStyle->SetMarkerStyle(20);
   theStyle->SetMarkerColor(2);
@@ -73,6 +73,7 @@ void HistoricInspector::setDB(std::string DBName, std::string DBTag, std::string
   accessDB();
   
   TFile *target = new TFile( "historicDQM.root","RECREATE" );
+  target->cd();
 }
 
 void HistoricInspector::accessDB(){

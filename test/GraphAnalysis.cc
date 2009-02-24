@@ -29,8 +29,8 @@ void GraphAnalysis::plotGraphAnalysis(std::string& ListItems)
   theStyle->SetPadBorderMode(0);
   theStyle->SetPadColor(0);
   theStyle->SetFillColor(0);
-  theStyle->SetLineWidth(.5);
-  theStyle->SetLineStyle(2.);
+  theStyle->SetLineWidth(1);
+  theStyle->SetLineStyle(2);
   theStyle->SetPalette(1);
   theStyle->cd();
 
@@ -58,7 +58,6 @@ void GraphAnalysis::plotGraphAnalysis(std::string& ListItems)
  
  
  
- 
   //
   //  Find the graphs in historicDQM.root
   //
@@ -69,16 +68,24 @@ void GraphAnalysis::plotGraphAnalysis(std::string& ListItems)
      else                 g = (TGraphErrors*)f->Get((_quantity+"_"+vString.at(i)).c_str());
      if (g!=0) {
         vGraph.push_back(g);
-        vGraph.back()->SetMarkerColor(2+i); 
-	if (_reverse_order && vString.at(i).find("_mean"))
+        vGraph.back()->SetMarkerColor(2+i);
+	if (_reverse_order)
 	{
 	  std::string vString2 = vString.at(i);
-	  vString2.replace(vString2.find("_mean"),vString2.size()-vString2.find("_mean"),"");
 	  std::string  _quantity2 = _quantity;
-	  _quantity2.append("_mean");
+	  
+	  if (vString.at(i).find("_mean")!=std::string::npos)
+	  {	 
+	    vString2.replace(vString2.find("_mean"),vString2.size()-vString2.find("_mean"),"");
+	    _quantity2.append("_mean");}
+	  else if (vString.at(i).find("_rms")!=std::string::npos)
+	  {
+	    vString2.replace(vString2.find("_rms"),vString2.size()-vString2.find("_rms"),"");	  
+	    _quantity2.append("_rms");} 
+	  
 	  legendE->AddEntry(vGraph.back(),vString2.c_str(),"P");
-	  vGraph.back()->SetTitle(_quantity2.c_str());
-	} 
+	  vGraph.back()->SetTitle(_quantity2.c_str());}
+	  
 	else 
 	{
           legendE->AddEntry(vGraph.back(),(vString.at(i)).c_str(),"P");
@@ -89,7 +96,7 @@ void GraphAnalysis::plotGraphAnalysis(std::string& ListItems)
         else std::cout << "No graph found called " << _quantity <<"_"<< vString.at(i)<< std::endl;}
      }
     
-     
+      
   //
   // Find maximum, minimum of all the graph
   //
@@ -105,7 +112,8 @@ void GraphAnalysis::plotGraphAnalysis(std::string& ListItems)
  
     max = std::max_element(graphMin.begin(), graphMin.end());
     min = std::min_element(graphMax.begin(), graphMax.end());}
-
+    
+ 
 
   //
   // Superimpose the graphs
@@ -122,7 +130,7 @@ void GraphAnalysis::plotGraphAnalysis(std::string& ListItems)
    min_graph = (*min)-((*max)-(*min))/5.;
    
    if (_max == 99.) vGraph.at(0)->SetMaximum(max_graph);
-   else            vGraph.at(0)->SetMaximum(_max);
+   else             vGraph.at(0)->SetMaximum(_max);
    
    if (_min == 99.) vGraph.at(0)->SetMinimum(min_graph);
    else 	    vGraph.at(0)->SetMinimum(_min);
@@ -139,8 +147,6 @@ void GraphAnalysis::plotGraphAnalysis(std::string& ListItems)
   
     
 }
-
-
 
 
 double GraphAnalysis::findGraphMax(TGraphErrors* g)

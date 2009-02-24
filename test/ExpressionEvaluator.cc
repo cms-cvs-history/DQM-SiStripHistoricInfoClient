@@ -115,7 +115,7 @@ namespace ExpressionEvaluator
   // The index can be used to get the operator's precedence value.
   int isOperator(string op)
   {
-    int i = 0, oplen = 0;
+    unsigned int i = 0, oplen = 0;
     string s = operators[0].op;
     // scan as long as it is a valid operator
     // an operator might  have not just one symbol to represent it
@@ -148,7 +148,7 @@ namespace ExpressionEvaluator
   // scans as long as the current value is an alphanumeric or a decimal seperator
   int getToken(string str)
   {
-    int i=0, tokenLen = 0;
+    unsigned int i=0, tokenLen = 0;
     while ( (i<str.length()) && (isalnum(str[i]) || (str[i]=='.')))
     {
       tokenLen++;
@@ -167,7 +167,7 @@ namespace ExpressionEvaluator
 
     rpn = "";
 
-    for (int i=0; i<exp.length();i++)
+    for (unsigned int i=0; i<exp.length();i++)
     {
       token1 = exp[i];
 
@@ -288,7 +288,7 @@ namespace ExpressionEvaluator
     T r, op1, op2;
     int idx, tokenLen;
 
-    for (int i=0;i<rpn.length();i++)
+    for (unsigned int i=0;i<rpn.length();i++)
     {
       token1 = rpn[i];
       if (isspace(token1))
@@ -305,7 +305,7 @@ namespace ExpressionEvaluator
         double d = strtod(token.c_str(), &errstr);
         if (*errstr)
           return eval_invalidoperand;
-        r = d;
+        r = (T) d;
         st.push(r);
         i += tokenLen - 1;
         continue;

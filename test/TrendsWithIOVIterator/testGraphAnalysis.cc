@@ -248,6 +248,33 @@ B2.plotGraphAnalysis("CKFTk_mean,CosmicTk_mean,RSTk_mean");
 GraphAnalysis B3("NumberOfTracks",true,"_mean",0.,0.16);
 B3.plotGraphAnalysis("CKFTk_mean,CosmicTk_mean,RSTk_mean");
 
+GraphAnalysis B4("TrackPt",true,"_mean",99.,99.);
+B4.plotGraphAnalysis("CKFTk_mean,CosmicTk_mean,RSTk_mean");
+
+GraphAnalysis B5("TrackPz",true,"_mean",99.,99.);
+B5.plotGraphAnalysis("CKFTk_mean,CosmicTk_mean,RSTk_mean");
+
+GraphAnalysis B6("TrackPx",true,"_mean",99.,99.);
+B6.plotGraphAnalysis("CKFTk_mean,CosmicTk_mean,RSTk_mean");
+
+GraphAnalysis B7("TrackPy",true,"_mean",99.,99.);
+B7.plotGraphAnalysis("CKFTk_mean,CosmicTk_mean,RSTk_mean");
+
+GraphAnalysis B8("TrackPhi",true,"_mean",99.,99.);
+B8.plotGraphAnalysis("CKFTk_mean,CosmicTk_mean,RSTk_mean");
+
+GraphAnalysis B9("TrackEta",true,"_mean",99.,99.);
+B9.plotGraphAnalysis("CKFTk_mean,CosmicTk_mean,RSTk_mean");
+
+GraphAnalysis B10("TrackTheta",true,"_mean",99.,99.);
+B10.plotGraphAnalysis("CKFTk_mean,CosmicTk_mean,RSTk_mean");
+
+GraphAnalysis B11("DistanceOfClosestApproach",true,"_mean",99.,99.);
+B11.plotGraphAnalysis("CKFTk_mean,CosmicTk_mean,RSTk_mean");
+
+GraphAnalysis B12("DistanceOfClosestApproach",true,"_rms",99.,99.);
+B12.plotGraphAnalysis("CKFTk_rms,CosmicTk_rms,RSTk_rms");
+
 
 
 }

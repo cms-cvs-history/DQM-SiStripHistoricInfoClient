@@ -28,9 +28,14 @@ class TwoDTrends {
 public:  
   TwoDTrends():iDebug(0){};
   ~TwoDTrends(){};
-  void plot(std::vector<unsigned int> vRun, std::vector<float> vSummary,
+  
+  void twoDplot(std::vector<unsigned int> vRun, std::vector<float> vSummary,
   std::vector<unsigned int> vdetId, std::vector<std::string> vlistItems,
   std::vector<unsigned int> tagInfos, std::string CanvasName, int logy, int nPads);
+  
+  void oneDplot(unsigned int run, std::vector<float> vSummary,
+  std::vector<unsigned int> vdetId, std::vector<std::string> vlistItems,
+  unsigned int tagInfos, std::string CanvasName, int logy, int nPads);
  
   
 private:

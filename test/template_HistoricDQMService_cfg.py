@@ -88,7 +88,24 @@ process.SiStripHistoricDQMService = cms.Service("SiStripHistoricDQMService",
    cms.PSet( keyName = cms.untracked.string("Chi2_CosmicTk"), quantitiesToExtract = cms.untracked.vstring("stat"))
    ,
    cms.PSet( keyName = cms.untracked.string("NumberOfRecHitsPerTrack_CosmicTk"), quantitiesToExtract = cms.untracked.vstring("stat"))
-     
+   ,
+   cms.PSet( keyName = cms.untracked.string("TrackPt_CosmicTk"), quantitiesToExtract = cms.untracked.vstring("stat"))
+   ,
+   cms.PSet( keyName = cms.untracked.string("TrackPz_CosmicTk"), quantitiesToExtract = cms.untracked.vstring("stat"))
+   ,
+   cms.PSet( keyName = cms.untracked.string("TrackPx_CosmicTk"), quantitiesToExtract = cms.untracked.vstring("stat"))
+   ,
+   cms.PSet( keyName = cms.untracked.string("TrackPy_CosmicTk"), quantitiesToExtract = cms.untracked.vstring("stat"))
+   ,
+   cms.PSet( keyName = cms.untracked.string("TrackPhi_CosmicTk"), quantitiesToExtract = cms.untracked.vstring("stat"))
+   ,
+   cms.PSet( keyName = cms.untracked.string("TrackEta_CosmicTk"), quantitiesToExtract = cms.untracked.vstring("stat"))
+   ,
+   cms.PSet( keyName = cms.untracked.string("TrackTheta_CosmicTk"), quantitiesToExtract = cms.untracked.vstring("stat"))
+   ,
+   cms.PSet( keyName = cms.untracked.string("DistanceOfClosestApproach_CosmicTk"), quantitiesToExtract = cms.untracked.vstring("stat"))
+   
+	   
    # CKFTk
    ,
    cms.PSet( keyName = cms.untracked.string("Chi2_CKFTk"), quantitiesToExtract = cms.untracked.vstring("stat"))
@@ -96,7 +113,24 @@ process.SiStripHistoricDQMService = cms.Service("SiStripHistoricDQMService",
    cms.PSet( keyName = cms.untracked.string("NumberOfTracks_CKFTk"), quantitiesToExtract = cms.untracked.vstring("stat"))
    ,
    cms.PSet( keyName = cms.untracked.string("NumberOfRecHitsPerTrack_CKFTk"), quantitiesToExtract = cms.untracked.vstring("stat"))
-   
+    ,
+   cms.PSet( keyName = cms.untracked.string("TrackPt_CKFTk"), quantitiesToExtract = cms.untracked.vstring("stat"))
+   ,
+   cms.PSet( keyName = cms.untracked.string("TrackPz_CKFTk"), quantitiesToExtract = cms.untracked.vstring("stat"))
+   ,
+   cms.PSet( keyName = cms.untracked.string("TrackPx_CKFTk"), quantitiesToExtract = cms.untracked.vstring("stat"))
+   ,
+   cms.PSet( keyName = cms.untracked.string("TrackPy_CKFTk"), quantitiesToExtract = cms.untracked.vstring("stat"))
+   ,
+   cms.PSet( keyName = cms.untracked.string("TrackPhi_CKFTk"), quantitiesToExtract = cms.untracked.vstring("stat"))
+   ,
+   cms.PSet( keyName = cms.untracked.string("TrackEta_CKFTk"), quantitiesToExtract = cms.untracked.vstring("stat"))
+   ,
+   cms.PSet( keyName = cms.untracked.string("TrackTheta_CKFTk"), quantitiesToExtract = cms.untracked.vstring("stat"))
+   ,
+   cms.PSet( keyName = cms.untracked.string("DistanceOfClosestApproach_CKFTk"), quantitiesToExtract = cms.untracked.vstring("stat"))
+ 
+      
    # RSTk
    ,
    cms.PSet( keyName = cms.untracked.string("Chi2_RSTk"), quantitiesToExtract = cms.untracked.vstring("stat"))
@@ -104,7 +138,23 @@ process.SiStripHistoricDQMService = cms.Service("SiStripHistoricDQMService",
    cms.PSet( keyName = cms.untracked.string("NumberOfTracks_RSTk"), quantitiesToExtract = cms.untracked.vstring("stat"))
    ,
    cms.PSet( keyName = cms.untracked.string("NumberOfRecHitsPerTrack_RSTk"), quantitiesToExtract = cms.untracked.vstring("stat"))
-   
+    ,
+   cms.PSet( keyName = cms.untracked.string("TrackPt_RSTk"), quantitiesToExtract = cms.untracked.vstring("stat"))
+   ,
+   cms.PSet( keyName = cms.untracked.string("TrackPz_RSTk"), quantitiesToExtract = cms.untracked.vstring("stat"))
+   ,
+   cms.PSet( keyName = cms.untracked.string("TrackPx_RSTk"), quantitiesToExtract = cms.untracked.vstring("stat"))
+   ,
+   cms.PSet( keyName = cms.untracked.string("TrackPy_RSTk"), quantitiesToExtract = cms.untracked.vstring("stat"))
+   ,
+   cms.PSet( keyName = cms.untracked.string("TrackPhi_RSTk"), quantitiesToExtract = cms.untracked.vstring("stat"))
+   ,
+   cms.PSet( keyName = cms.untracked.string("TrackEta_RSTk"), quantitiesToExtract = cms.untracked.vstring("stat"))
+   ,
+   cms.PSet( keyName = cms.untracked.string("TrackTheta_RSTk"), quantitiesToExtract = cms.untracked.vstring("stat"))
+   ,
+   cms.PSet( keyName = cms.untracked.string("DistanceOfClosestApproach_RSTk"), quantitiesToExtract = cms.untracked.vstring("stat"))
+ 
 
    # Summary Cluster Properties
    ,

@@ -7,7 +7,7 @@ gROOT->Reset();
 
 HistoricInspector A;
 A.setDB("oracle://devdb10/CMS_COND_STRIP", "historicFromT0_expert","cms_cond_strip","","COND/Services/TBufferBlobStreamingService");
-//A.setDB("sqlite_file:historicDQM.db", "historicFromT0_shift","cms_cond_strip","w3807dev","");
+//A.setDB("sqlite_file:historicDQM.db", "historicFromT0_pixel_test","cms_cond_strip","w3807dev","");
 
 A.setDebug(1);
 A.setDoStat(1);
@@ -26,9 +26,20 @@ A.createTrendLastRuns("0@NumberOfTracks_CKFTk@entries", "number_of_events.gif",1
 A.createTrendLastRuns("0@NumberOfTracks_CKFTk@mean","mean_number_of_tracks_per_event.gif",0,"0@NumberOfTracks_CKFTk@entries>10000&&0@NumberOfRecHitsPerTrack_CosmicTk@entries>0",nRuns);
 
 //Tracks
-A.createTrendLastRuns("0@NumberOfTracks_CKFTk@entries,0@NumberOfTracks_CKFTk@mean,0@NumberOfRecHitsPerTrack_CKFTk@mean,0@Chi2_CKFTk@mean,0@Chi2_CKFTk@entries", "CKFTk_trends.gif",0,"0@NumberOfTracks_CKFTk@entries>10000&&0@NumberOfRecHitsPerTrack_CosmicTk@entries>0",nRuns);
-A.createTrendLastRuns("0@NumberOfTracks_RSTk@entries,0@NumberOfTracks_RSTk@mean,0@NumberOfRecHitsPerTrack_RSTk@mean,0@Chi2_RSTk@mean,0@Chi2_RSTk@entries", "RSTk_trends.gif",0,"0@NumberOfTracks_CKFTk@entries>10000&&0@NumberOfRecHitsPerTrack_CosmicTk@entries>0",nRuns);
-A.createTrendLastRuns("0@NumberOfTracks_CosmicTk@entries,0@NumberOfTracks_CosmicTk@mean,0@NumberOfRecHitsPerTrack_CosmicTk@mean,0@Chi2_CosmicTk@mean,0@Chi2_CosmicTk@entries", "CosmicTk_trends.gif",0,"0@NumberOfTracks_CKFTk@entries>10000&&0@NumberOfRecHitsPerTrack_CosmicTk@entries>0",nRuns);
+A.createTrendLastRuns("0@NumberOfTracks_CKFTk@entries,0@NumberOfTracks_CKFTk@mean,0@NumberOfRecHitsPerTrack_CKFTk@mean,0@Chi2_CKFTk@mean,0@Chi2_CKFTk@entries,
+0@TrackPt_CKFTk@mean,0@TrackPx_CKFTk@mean,0@TrackPy_CKFTk@mean,0@TrackPz_CKFTk@mean,
+0@TrackPhi_CKFTk@mean,0@TrackEta_CKFTk@mean,0@TrackTheta_CKFTk@mean,0@DistanceOfClosestApproach_CKFTk@mean,0@DistanceOfClosestApproach_CKFTk@rms", 
+"CKFTk_trends.gif",0,"0@NumberOfTracks_CKFTk@entries>10000&&0@NumberOfRecHitsPerTrack_CosmicTk@entries>0",nRuns);
+
+A.createTrendLastRuns("0@NumberOfTracks_RSTk@entries,0@NumberOfTracks_RSTk@mean,0@NumberOfRecHitsPerTrack_RSTk@mean,0@Chi2_RSTk@mean,0@Chi2_RSTk@entries,
+0@TrackPt_RSTk@mean,0@TrackPx_RSTk@mean,0@TrackPy_RSTk@mean,0@TrackPz_RSTk@mean,
+0@TrackPhi_RSTk@mean,0@TrackEta_RSTk@mean,0@TrackTheta_RSTk@mean,0@DistanceOfClosestApproach_RSTk@mean,0@DistanceOfClosestApproach_RSTk@rms",
+"RSTk_trends.gif",0,"0@NumberOfTracks_CKFTk@entries>10000&&0@NumberOfRecHitsPerTrack_CosmicTk@entries>0",nRuns);
+
+A.createTrendLastRuns("0@NumberOfTracks_CosmicTk@entries,0@NumberOfTracks_CosmicTk@mean,0@NumberOfRecHitsPerTrack_CosmicTk@mean,0@Chi2_CosmicTk@mean,0@Chi2_CosmicTk@entries,
+0@TrackPt_CosmicTk@mean,0@TrackPx_CosmicTk@mean,0@TrackPy_CosmicTk@mean,0@TrackPz_CosmicTk@mean,
+0@TrackPhi_CosmicTk@mean,0@TrackEta_CosmicTk@mean,0@TrackTheta_CosmicTk@mean,0@DistanceOfClosestApproach_CosmicTk@mean,0@DistanceOfClosestApproach_CosmicTk@rms",
+"CosmicTk_trends.gif",0,"0@NumberOfTracks_CKFTk@entries>10000&&0@NumberOfRecHitsPerTrack_CosmicTk@entries>0",nRuns);
 
 
 // Clusters TIB, TOB, TEC, TID
