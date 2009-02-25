@@ -351,7 +351,7 @@ void HistoricInspector::plot(size_t& nPads, std::string CanvasName, int logy){
 	EY[j]=vSummary_[index+1];
 	addShift=1;
       }
-      else if (vlistItems_[i].find("Chi2NDF")!=std::string::npos){
+      else if (vlistItems_[i].find("Chi2NDF")!=std::string::npos || vlistItems_[i].find("rms")!=std::string::npos){
         EY[j]= 0.;
       }
       else{

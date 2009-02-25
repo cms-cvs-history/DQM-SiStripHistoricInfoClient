@@ -156,7 +156,8 @@ std::vector<unsigned int> tagInfos, std::string CanvasName, int logy, int nPads)
 	EZ[j]=vSummary[index+1];
 	addShift=1;
       }
-      else if (vlistItems[i].find("Chi2NDF")!=std::string::npos){
+      else if (vlistItems[i].find("Chi2NDF")!=std::string::npos ||
+               vlistItems[i].find("rms")!=std::string::npos){
         EZ[j]= 0.;
       }
       else{
@@ -284,7 +285,7 @@ unsigned int nTag, std::string CanvasName, int logy, int nPads)
          EY[j]=vSummary[index+1];
          addShift=1;
        }
-       else if (vlistItems[i].find("Chi2NDF")!=std::string::npos){
+       else if (vlistItems[i].find("Chi2NDF")!=std::string::npos || vlistItems[i].find("rms")!=std::string::npos){
          EY[j]= 0.;
        }
        else{

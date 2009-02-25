@@ -6,7 +6,7 @@ gROOT->Reset();
 
 
 HistoricInspector A;
-A.setDB("oracle://devdb10/CMS_COND_STRIP", "historicFromT0_expert","cms_cond_strip","","COND/Services/TBufferBlobStreamingService");
+A.setDB("oracle://devdb10/CMS_COND_STRIP", "historicFromT0_V9_ReReco","cms_cond_strip","","COND/Services/TBufferBlobStreamingService");
 //A.setDB("sqlite_file:historicDQM.db", "historicFromT0_pixel_test","cms_cond_strip","w3807dev","");
 
 A.setDebug(1);
@@ -15,9 +15,6 @@ A.setDoStat(1);
 //A.setBlackList("66706,66720,67033,67085,66692,66703,66714,66733,66739,66740,66878,66955,66985,66989,66993,66711,66716,66722,66746,66748,66756,66709,66783,66887,66893,66904,66910,66987,68286");
 A.setBlackList("68286");
 
-
-//66706,66720,67033,67085,66692,66703,66714,66733,66739,66740,66878,66955,66985,66989,66993,66711,66716,66722,66746,66748,66756,66709,66783,66887,66893,66904,66910,66987
-//: DQM runs w/o cluster histograms
 
 
 //

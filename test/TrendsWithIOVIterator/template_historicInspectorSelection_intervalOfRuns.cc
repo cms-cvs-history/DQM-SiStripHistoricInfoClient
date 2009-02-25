@@ -4,21 +4,27 @@ gROOT->Reset();
 
 
 HistoricInspector A;
-A.setDB("oracle://devdb10/CMS_COND_STRIP", "historicFromT0_expert","cms_cond_strip","","COND/Services/TBufferBlobStreamingService");
+A.setDB("oracle://devdb10/CMS_COND_STRIP", "historicFromT0_V9_ReReco","cms_cond_strip","","COND/Services/TBufferBlobStreamingService");
 //A.setDB("sqlite_file:historicDQM.db", "historicFromT0_pixel_test","cms_cond_strip","w3807dev","");
 
 A.setDebug(1);
 A.setDoStat(1);
 
 //A.setBlackList("66706,66720,67033,67085,66692,66703,66714,66733,66739,66740,66878,66955,66985,66989,66993,66711,66716,66722,66746,66748,66756,66709,66783,66887,66893,66904,66910,66987,68286,69269,68286");
-A.setBlackList("68286");
+//A.setBlackList("68286");
 
-//week 42 65941 66746 : 65941, 65945, 65947, 65948, 65956, 66470, 66471, 66475, 66480, 66533, 66569,66604, 66615, 66637, 66644, 66676, 66692, 66703, 66706, 66709, 66711 ,66714, 66716, 66720, 66722, 66733, 66739, 66740, 66746 
+// bad run list
+//A.setBlackList("65941,65943,65945,65947,65948,65956,66480,67033,67038,67039,67049,67085,67114,68286,69253,69256,69351,69365,69522,69573,69788,69797,69800,69850,69874,69892");
 
-//week 43 66748 67647 : 66748, 66887 ,66893, 66904, 66910, 66987, 66989 ,66993 ,67033 ,67038 ,67039, 67043 ,67049 ,67085 ,67114 ,67122 ,67124 ,67126 ,67128 ,67139 ,67141 ,67147,67173, 67225,67534,67539,67541,67544,67548,67557,67573, 67645 ,67647 
+// ./readDB_intervalOfRuns_HDQM.sh 42 65941 66746 : 65941, 65945, 65947, 65948, 65956, 66470, 66471, 66475, 66480, 66533, 66569,66604, 66615, 66637, 66644, 66676, 66692, 66703, 66706, 66709, 66711 ,66714, 66716, 66720, 66722, 66733, 66739, 66740, 66746 
 
-//week 44 67810 68665 : 67810, 67818, 67838, 68100, 68124, 68129, 68141, 68264, 68273, 68276, 68279, 68286, 68288, 68483, 68665
-// 68286 (BAD)
+// ./readDB_intervalOfRuns_HDQM.sh 43 66748 67647 : 66748, 66887 ,66893, 66904, 66910, 66987, 66989 ,66993 ,67033 ,67038 ,67039, 67043 ,67049 ,67085 ,67114 ,67122 ,67124 ,67126 ,67128 ,67139 ,67141 ,67147,67173, 67225,67534,67539,67541,67544,67548,67557,67573, 67645 ,67647 
+
+// ./readDB_intervalOfRuns_HDQM.sh 44 67810 68949 : 67810, 67818, 67838, 68100, 68124, 68129, 68141, 68264, 68273, 68276, 68279, 68286, 68288, 68483, 68665
+ 
+// ./readDB_intervalOfRuns_HDQM.sh 45 68958 70195
+
+// ./readDB_intervalOfRuns_HDQM.sh 46 70410 70675
 
 
 A.createTrend("0@Chi2_CKFTk@entries", "number_of_tracks.gif",1,"0@NumberOfTracks_CKFTk@entries>10000&&0@NumberOfRecHitsPerTrack_CosmicTk@entries>0",firstRun,lastRun);
@@ -26,17 +32,17 @@ A.createTrend("0@NumberOfTracks_CKFTk@entries", "number_of_events.gif",1,"0@Numb
 A.createTrend("0@NumberOfTracks_CKFTk@mean","mean_number_of_tracks_per_event.gif",0,"0@NumberOfTracks_CKFTk@entries>10000&&0@NumberOfRecHitsPerTrack_CosmicTk@entries>0",firstRun,lastRun);
 
 //Tracks
-A.createTrendLastRuns("0@NumberOfTracks_CKFTk@entries,0@NumberOfTracks_CKFTk@mean,0@NumberOfRecHitsPerTrack_CKFTk@mean,0@Chi2_CKFTk@mean,0@Chi2_CKFTk@entries,
+A.createTrend("0@NumberOfTracks_CKFTk@entries,0@NumberOfTracks_CKFTk@mean,0@NumberOfRecHitsPerTrack_CKFTk@mean,0@Chi2_CKFTk@mean,0@Chi2_CKFTk@entries,
 0@TrackPt_CKFTk@mean,0@TrackPx_CKFTk@mean,0@TrackPy_CKFTk@mean,0@TrackPz_CKFTk@mean,
 0@TrackPhi_CKFTk@mean,0@TrackEta_CKFTk@mean,0@TrackTheta_CKFTk@mean,0@DistanceOfClosestApproach_CKFTk@mean,0@DistanceOfClosestApproach_CKFTk@rms", 
 "CKFTk_trends.gif",0,"0@NumberOfTracks_CKFTk@entries>10000&&0@NumberOfRecHitsPerTrack_CosmicTk@entries>0",firstRun,lastRun);
 
-A.createTrendLastRuns("0@NumberOfTracks_RSTk@entries,0@NumberOfTracks_RSTk@mean,0@NumberOfRecHitsPerTrack_RSTk@mean,0@Chi2_RSTk@mean,0@Chi2_RSTk@entries,
+A.createTrend("0@NumberOfTracks_RSTk@entries,0@NumberOfTracks_RSTk@mean,0@NumberOfRecHitsPerTrack_RSTk@mean,0@Chi2_RSTk@mean,0@Chi2_RSTk@entries,
 0@TrackPt_RSTk@mean,0@TrackPx_RSTk@mean,0@TrackPy_RSTk@mean,0@TrackPz_RSTk@mean,
 0@TrackPhi_RSTk@mean,0@TrackEta_RSTk@mean,0@TrackTheta_RSTk@mean,0@DistanceOfClosestApproach_RSTk@mean,0@DistanceOfClosestApproach_RSTk@rms",
 "RSTk_trends.gif",0,"0@NumberOfTracks_CKFTk@entries>10000&&0@NumberOfRecHitsPerTrack_CosmicTk@entries>0",firstRun,lastRun);
 
-A.createTrendLastRuns("0@NumberOfTracks_CosmicTk@entries,0@NumberOfTracks_CosmicTk@mean,0@NumberOfRecHitsPerTrack_CosmicTk@mean,0@Chi2_CosmicTk@mean,0@Chi2_CosmicTk@entries,
+A.createTrend("0@NumberOfTracks_CosmicTk@entries,0@NumberOfTracks_CosmicTk@mean,0@NumberOfRecHitsPerTrack_CosmicTk@mean,0@Chi2_CosmicTk@mean,0@Chi2_CosmicTk@entries,
 0@TrackPt_CosmicTk@mean,0@TrackPx_CosmicTk@mean,0@TrackPy_CosmicTk@mean,0@TrackPz_CosmicTk@mean,
 0@TrackPhi_CosmicTk@mean,0@TrackEta_CosmicTk@mean,0@TrackTheta_CosmicTk@mean,0@DistanceOfClosestApproach_CosmicTk@mean,0@DistanceOfClosestApproach_CosmicTk@rms",
 "CosmicTk_trends.gif",0,"0@NumberOfTracks_CKFTk@entries>10000&&0@NumberOfRecHitsPerTrack_CosmicTk@entries>0",firstRun,lastRun);
