@@ -11,6 +11,14 @@ process.MessageLogger = cms.Service("MessageLogger",
    destinationFile = cms.untracked.PSet( threshold = cms.untracked.string('INFO'))
 )
 
+#########################
+# DQMStore service
+######################### 
+
+process.DQMStore = cms.Service("DQMStore",
+    referenceFileName = cms.untracked.string(''),
+    verbose = cms.untracked.int32(0)
+)
 
 #########################
 # maxEvents ...
@@ -43,9 +51,9 @@ process.PoolDBOutputService = cms.Service("PoolDBOutputService",
    DBParameters = cms.PSet(
       authenticationPath = cms.untracked.string("/afs/cern.ch/cms/DB/conddb"),
       messageLevel = cms.untracked.int32(4)),
-   toPut = cms.VPSet(
+   toPut = cms.VPSet(cms.PSet(
       record = cms.string("SiStripSummaryRcd"),
-      tag = cms.string("SiStripSummary_test1")),
+      tag = cms.string("SiStripSummary_test1"))),
    logconnect = cms.untracked.string("insertLogDB") 
 )
 
@@ -53,7 +61,7 @@ process.PoolDBOutputService = cms.Service("PoolDBOutputService",
 ########################
 # POPCON Application
 ########################
-process.siStripPopConHistoricDQM = cms.OutputModule("SiStripPopConHistoricDQM",
+process.siStripPopConHistoricDQM = cms.EDAnalyzer("SiStripPopConHistoricDQM",
    record = cms.string("SiStripSummaryRcd"),
    loggingOn = cms.untracked.bool(True),
    SinceAppendMode = cms.bool(True),
