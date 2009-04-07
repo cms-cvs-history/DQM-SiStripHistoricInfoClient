@@ -15,7 +15,7 @@ sqliteFile=HDQM.db
 connectString="sqlite_file:$sqliteFile"
 logDB=sqlite_file:log.db
 
-baseDir=/home/cmstacuser/historicDQM/CMSSW_Releases/CMSSW_3_1_X_2009-03-31-0100/src
+baseDir=/home/cmstacuser/historicDQM/CMSSW_Releases/CMSSW_3_1_X_2009-04-07-0600/src
 logDir=$baseDir/log
 lockFile=$baseDir/lockFile
 

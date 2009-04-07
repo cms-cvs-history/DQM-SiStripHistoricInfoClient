@@ -8,7 +8,7 @@ process = cms.Process("PWRITE")
 
 process.MessageLogger = cms.Service("MessageLogger",
                                     destinations = cms.untracked.vstring('cout'),
-                                    readFromFile_57620 = cms.untracked.PSet(threshold = cms.untracked.string('DEBUG')),
+                                    readFromFile_69572 = cms.untracked.PSet(threshold = cms.untracked.string('DEBUG')),
                                     debugModules = cms.untracked.vstring('*')
                                     )
 
@@ -48,7 +48,7 @@ process.PoolDBOutputService = cms.Service("PoolDBOutputService",
                                           connect = cms.string('sqlite_file:dbfile.db'),
                                           toPut = cms.VPSet(cms.PSet(
     record = cms.string("HDQMSummary"),
-    tag = cms.string("SiStripBadFiber_Ideal_31X")
+    tag = cms.string("HDQM_test")
     )),
                                           logconnect = cms.untracked.string("sqlite_file:log.db") 
                                           )
@@ -60,7 +60,7 @@ process.siStripDQMHistoryPopCon = cms.EDAnalyzer("SiStripDQMHistoryPopCon",
                                                  record = cms.string("HDQMSummary"),
                                                  loggingOn = cms.untracked.bool(True),
                                                  SinceAppendMode = cms.bool(True),
-                                                 Source = cms.PSet(since = cms.untracked.uint32(69743),debug = cms.untracked.bool(False))
+                                                 Source = cms.PSet(since = cms.untracked.uint32(69572),debug = cms.untracked.bool(False))
                                                  ) 
 
 
@@ -69,10 +69,10 @@ process.siStripDQMHistoryPopCon = cms.EDAnalyzer("SiStripDQMHistoryPopCon",
 ########################
 
 process.SiStripHistoryDQMService = cms.Service("SiStripHistoryDQMService",
-                                                   RunNb = cms.uint32(69559),
+                                                   RunNb = cms.uint32(69572),
                                                    accessDQMFile = cms.bool(True),
-                                                   FILE_NAME = cms.untracked.string("/storage/data1/SiStrip/SiStripHistoricDQM/DQM_V0001_R000069559__Cosmics__Commissioning08-PromptReco-v2__RECO.root"),
-                                                   ME_DIR = cms.untracked.string("Run 69559"),
+                                                   FILE_NAME = cms.untracked.string("/storage/data1/SiStrip/SiStripHistoricDQM/DQM_V0001_R000069572__Cosmics__Commissioning08-PromptReco-v2__RECO.root"),
+                                                   ME_DIR = cms.untracked.string("Run 69572"),
                                                    histoList = cms.VPSet(
 
     # quantities are 'stat', 'landau', 'gauss'
@@ -94,7 +94,7 @@ process.SiStripHistoryDQMService = cms.Service("SiStripHistoryDQMService",
     ,
     cms.PSet( keyName = cms.untracked.string("Summary_TotalNumberOfClusters_OnTrack"),  quantitiesToExtract = cms.untracked.vstring("stat"))
     ,
-    cms.PSet( keyName = cms.untracked.string("Summary_ClusterChargeCorr_OnTrack"),	    quantitiesToExtract = cms.untracked.vstring("stat","landau","user"))
+    cms.PSet( keyName = cms.untracked.string("Summary_ClusterChargeCorr_OnTrack"), quantitiesToExtract = cms.untracked.vstring("stat","landau","user"))
 
     # Summary Cluster properties @ layer level
     ,
