@@ -1,21 +1,29 @@
 #!/bin/bash 
 #
+# This script loops over all DQM root files located in $onDiskDir and fills 
+# an sqlite DB.
+#
+# Please modify $baseDir to your working area and create a $baseDir/log directory before to launch the
+# script, containing an empty WhiteList.txt file.
+# 
+# ./fillDB_SiStripHistoryDQMService.h 
+#
+
+
 
 ################
 # settings ...
 ################
 
 onDiskDir=/storage/data1/SiStrip/SiStripHistoricDQM/
+baseDir=/home/cmstacuser/historicDQM/CMSSW_Releases/CMSSW_3_1_X_2009-04-07-0600/src
 
 tag=HDQM_test
-sqliteFile=HDQM.db
+sqliteFile=dbfile.db
 
-#connectString="oracle://devdb10/CMS_COND_STRIP"
-#connectString="oracle://cms_orcoff_int2r/CMS_COND_STRIP"
 connectString="sqlite_file:$sqliteFile"
 logDB=sqlite_file:log.db
 
-baseDir=/home/cmstacuser/historicDQM/CMSSW_Releases/CMSSW_3_1_X_2009-04-07-0600/src
 logDir=$baseDir/log
 lockFile=$baseDir/lockFile
 

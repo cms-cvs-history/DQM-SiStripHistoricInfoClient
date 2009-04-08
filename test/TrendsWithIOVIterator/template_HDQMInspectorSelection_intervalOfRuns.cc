@@ -2,6 +2,14 @@
 #include <stdio.h>
 #include <time.h>
 
+
+/* 
+   Extraction of the summary informations using 
+   DQMServices/Diagnostic/test/HDQMInspector.
+   The sqlite database should have been filled using the new SiStripHistoryDQMService.   
+   
+   */
+   
 gROOT->Reset();
 
 
@@ -15,10 +23,10 @@ A.setDoStat(1);
 
 
 //
-A.createTrendLastRuns("268435456@Chi2_CKFTk@entries", "number_of_tracks.gif",1,"268435456@NumberOfTracks_CKFTk@entries>10000&&268435456@NumberOfRecHitsPerTrack_CKFTk@entries>0",firstRun,lastRun);
+A.createTrend("268435456@Chi2_CKFTk@entries", "number_of_tracks.gif",1,"268435456@NumberOfTracks_CKFTk@entries>10000&&268435456@NumberOfRecHitsPerTrack_CKFTk@entries>0",firstRun,lastRun);
 
 // 
-A.createTrendLastRuns("
+A.createTrend("
 369098752@Summary_TotalNumberOfClusters_OnTrack@mean,369098752@Summary_ClusterChargeCorr_OnTrack@landauPeak,
 436207616@Summary_TotalNumberOfClusters_OnTrack@mean,436207616@Summary_ClusterChargeCorr_OnTrack@landauPeak,
 402653184@Summary_TotalNumberOfClusters_OnTrack@mean,402653184@Summary_ClusterChargeCorr_OnTrack@landauPeak,

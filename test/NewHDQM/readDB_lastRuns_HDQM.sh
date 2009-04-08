@@ -1,3 +1,19 @@
+#!/bin/bash 
+#
+# This script extracts the summary informations of the last xx runs from 
+# the database and creates trend charts.
+#
+# ./readDB_lastRuns_HDQM.sh xx
+#
+# modify $baseDir according to your working area
+#
+# The database parameters and summary informations to extract
+# are specified in $baseDir/DQM/SiStripHistoricInfoClient/test/TrendsWithIOVIterator/template_HDQMInspectorSelection_lastRuns.cc
+#
+# The trend charts are stored in $baseDir/CRAFT_last_$1_runs
+#
+
+
 baseDir=/home/cmstacuser/historicDQM/CMSSW_Releases/CMSSW_3_1_X_2009-04-07-0600/src
 lockFile=$baseDir/lockFile
 

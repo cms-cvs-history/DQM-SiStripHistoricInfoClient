@@ -2,6 +2,13 @@
 #include <stdio.h>
 #include <time.h>
 
+/* 
+   Extraction of the summary informations using 
+   DQMServices/Diagnostic/test/HDQMInspector.
+   The sqlite database should have been filled using the new SiStripHistoryDQMService.   
+  
+   */
+
 gROOT->Reset();
 
 

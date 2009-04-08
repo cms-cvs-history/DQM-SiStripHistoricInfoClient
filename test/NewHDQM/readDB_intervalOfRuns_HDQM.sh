@@ -1,3 +1,21 @@
+#!/bin/bash 
+#
+#
+# This script extracts from the database the summary informations of the runs which are in the
+# interval "firstRun" "lastRun" and creates trend charts.
+#
+# ./readDB_intervalOfRuns_HDQM.sh xx firstRun lastRun
+# (xx to be chosen by the user to designate for instance a week number)
+#
+# Please modify $baseDir according to your working area
+#
+# The database parameters and summary informations to extract
+# are specified in $baseDir/DQM/SiStripHistoricInfoClient/test/TrendsWithIOVIterator/template_HDQMInspectorSelection_intervalOfRuns.cc
+#
+# The trend charts are stored in $baseDir/week_$1_CRAFT
+#
+
+
 baseDir=/home/cmstacuser/historicDQM/CMSSW_Releases/CMSSW_3_1_X_2009-04-07-0600/src
 lockFile=$baseDir/lockFile
 
