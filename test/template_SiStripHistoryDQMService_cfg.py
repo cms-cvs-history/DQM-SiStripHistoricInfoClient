@@ -40,6 +40,7 @@ process.load("DQMServices.Core.DQM_cfg")
 
 process.PoolDBOutputService = cms.Service("PoolDBOutputService",
                                           BlobStreamerName = cms.untracked.string('TBufferBlobStreamingService'),
+					  outOfOrder = cms.untracked.bool(True),
                                           DBParameters = cms.PSet(
     messageLevel = cms.untracked.int32(2),
     authenticationPath = cms.untracked.string('/afs/cern.ch/cms/DB/conddb')
