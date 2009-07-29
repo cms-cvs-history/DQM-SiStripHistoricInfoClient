@@ -5,5 +5,6 @@
   <class name="HistoricInspector"/>
   <class name="GraphAnalysis"/>
   <class name="TwoDTrends"/>
+  <class name="HDQMInspectorConfigSiStrip"/>
 
 </lcgdict>   

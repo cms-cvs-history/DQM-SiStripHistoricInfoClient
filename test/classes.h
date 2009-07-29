@@ -9,6 +9,7 @@
 #include "DQM/SiStripHistoricInfoClient/test/GraphAnalysis.h"
 
 #include "DQM/SiStripHistoricInfoClient/test/TwoDTrends.h"
+#include "DQM/SiStripHistoricInfoClient/test/HDQMInspectorConfigSiStrip.h"
 
 
 namespace { 
@@ -18,5 +19,6 @@ namespace {
   HistoricInspector dummy1;
   GraphAnalysis dummy2;
   TwoDTrends dummy3;
+  HDQMInspectorConfigSiStrip dummy4;
 }
 
