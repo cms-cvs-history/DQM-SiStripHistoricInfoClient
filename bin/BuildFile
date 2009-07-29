@@ -1,0 +1,12 @@
+<bin name=SiStripHDQMInspector file=SiStripHDQMInspector.cc>
+  <use name=FWCore/Framework>
+  <use name=CondCore/DBCommon>
+  <lib name=testDQMServicesDiagnostic>
+  <lib name=testSiStripHistoricDQM>
+</bin>
+
+
+
+
+
+
