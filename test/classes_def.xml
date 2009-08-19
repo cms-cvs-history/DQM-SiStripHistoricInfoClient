@@ -1,10 +1,7 @@
  <lcgdict>
 <!-- the class you need -->
  
-  <class name="CondCachedIter<SiStripSummary>"/>
-  <class name="HistoricInspector"/>
-  <class name="GraphAnalysis"/>
-  <class name="TwoDTrends"/>
   <class name="HDQMInspectorConfigSiStrip"/>
+  <class name="HDQMInspectorConfigTracking"/>
 
 </lcgdict>   

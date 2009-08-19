@@ -1,24 +1,11 @@
-//---- Add the Class you need 
+//---- Add the Class you need
 
-#include "CondFormats/SiStripObjects/interface/SiStripSummary.h"
-
-#include "CondCore/Utilities/interface/CondCachedIter.h"
-
-#include "DQM/SiStripHistoricInfoClient/test/HistoricInspector.h"
-
-#include "DQM/SiStripHistoricInfoClient/test/GraphAnalysis.h"
-
-#include "DQM/SiStripHistoricInfoClient/test/TwoDTrends.h"
 #include "DQM/SiStripHistoricInfoClient/test/HDQMInspectorConfigSiStrip.h"
+#include "DQM/SiStripHistoricInfoClient/test/HDQMInspectorConfigTracking.h"
 
-
-namespace { 
-
-  CondCachedIter<SiStripSummary> dummy13;
-
-  HistoricInspector dummy1;
-  GraphAnalysis dummy2;
-  TwoDTrends dummy3;
-  HDQMInspectorConfigSiStrip dummy4;
+namespace
+{
+  HDQMInspectorConfigSiStrip dummy1;
+  HDQMInspectorConfigTracking dummy2;
 }
 
