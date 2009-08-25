@@ -3,7 +3,7 @@
   <use name=CondCore/DBCommon>
   <use name=DQM/SiStripCommon>
   <lib name=DQMServicesDiagnostic>
-  <lib name=testSiStripHistoricDQM>
+  <lib name=DQMSiStripHistoricInfoClient>
 </bin>
 
 <bin name=TrackingHDQMInspector file=TrackingHDQMInspector.cc>
@@ -11,7 +11,7 @@
   <use name=CondCore/DBCommon>
   <use name=DQM/SiStripCommon>
   <lib name=DQMServicesDiagnostic>
-  <lib name=testSiStripHistoricDQM>
+  <lib name=DQMSiStripHistoricInfoClient>
 </bin>
 
 

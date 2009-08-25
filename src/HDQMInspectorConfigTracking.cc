@@ -1,4 +1,4 @@
-#include "DQM/SiStripHistoricInfoClient/test/HDQMInspectorConfigTracking.h"
+#include "DQM/SiStripHistoricInfoClient/interface/HDQMInspectorConfigTracking.h"
 
 #include "DQM/SiStripCommon/interface/SiStripFolderOrganizer.h"
 #include "DataFormats/SiStripDetId/interface/SiStripDetId.h"
