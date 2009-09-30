@@ -1,19 +1,9 @@
-<bin name=SiStripHDQMInspector file=SiStripHDQMInspector.cc>
-  <use name=FWCore/Framework>
-  <use name=CondCore/DBCommon>
-  <use name=DQM/SiStripCommon>
-  <lib name=DQMServicesDiagnostic>
-  <lib name=DQMSiStripHistoricInfoClient>
+<bin name="TrackingHDQMInspector" file="TrackingHDQMInspector.cc">
+ <use name="DQM/SiStripHistoricInfoClient">
+ <use name="DQMServices/Diagnostic">
 </bin>
-
-<bin name=TrackingHDQMInspector file=TrackingHDQMInspector.cc>
-  <use name=FWCore/Framework>
-  <use name=CondCore/DBCommon>
-  <use name=DQM/SiStripCommon>
-  <lib name=DQMServicesDiagnostic>
-  <lib name=DQMSiStripHistoricInfoClient>
+<bin name="SiStripHDQMInspector" file="SiStripHDQMInspector.cc">
+ <use name="DQM/SiStripHistoricInfoClient">
+ <use name="DQMServices/Diagnostic">
+ <use name="FWCore/MessageLogger">
 </bin>
-
-
-
-
